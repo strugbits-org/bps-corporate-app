@@ -7,11 +7,12 @@ import Wrapper from "@/components/common/Wrapper";
 import Cookies from "@/components/common/Cookies";
 import Loading from "@/components/common/Loading";
 import Navbar from "@/components/header/Navbar";
-import { getMarketsSectionData, getSearchSectionDetails, getStudiosSectionData } from "@/services/home/index.js";
+import { fetchInstaFeed, getMarketsSectionData, getSearchSectionDetails, getSocialSectionBlogs, getSocialSectionDetails, getStudiosSectionData } from "@/services/home/index.js";
 import { getContactData, getFooterData, getFooterNavigationMenu, getSocialLinks } from "@/services/footer";
 import { getContactUsContent } from "@/services/contact";
 import { getAboutUsIntroSection, getAboutUsSectionDetails } from "@/services/about";
 import Footer from "@/components/footer/Footer";
+import SocialSection from "@/components/commonComponents/SocialSection";
 
 export const metadata = {
   title: "Blueprint Studios",
@@ -27,7 +28,10 @@ export default async function RootLayout({ children }) {
     footerData,
     contactData,
     socialLinks,
-    navigationMenu
+    navigationMenu,
+    socialSectionDetails,
+    socialSectionBlogs,
+    instaFeed
   ] = await Promise.all([
     getStudiosSectionData(true),
     getMarketsSectionData(true),
@@ -36,6 +40,9 @@ export default async function RootLayout({ children }) {
     getContactData(true),
     getSocialLinks(true),
     getFooterNavigationMenu(),
+    getSocialSectionDetails(),
+    getSocialSectionBlogs(),
+    fetchInstaFeed(),
   ]);
 
   return (
@@ -53,7 +60,8 @@ export default async function RootLayout({ children }) {
               {/* <Analytics /> */}
               {/* <SpeedInsights /> */}
             </main>
-              <Footer menu={navigationMenu} footerData={footerData} contactData={contactData} socialLinks={socialLinks} />
+            <SocialSection data={socialSectionDetails} posts={socialSectionBlogs} insta_feed={instaFeed} />
+            <Footer menu={navigationMenu} footerData={footerData} contactData={contactData} socialLinks={socialLinks} />
           </Wrapper>
         </body>
       </html>
