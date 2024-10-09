@@ -8,12 +8,12 @@ import GetTouchSection from '@/components/homePageSections/GetTouchSection';
 import HeroSection from '@/components/homePageSections/HeroSection';
 import OurProjectSection from '@/components/homePageSections/OurProjectSection';
 import RentalStoreSection from '@/components/homePageSections/RentalStoreSection';
-import { fetchInstaFeed, getDreamBigData, getHeroSectionData, getHomeSectionDetails, getMarketsSectionData, getPeopleReviewSliderData, getPortfolioCollection, getRentalStoreData, getRentalStoreFancyTitle, getSocialSectionBlogs, getSocialSectionDetails, getStudiosSectionData, getTouchSectionData } from '@/services/home';
+import { getDreamBigData, getHeroSectionData, getHomeSectionDetails, getMarketsSectionData, getPeopleReviewSliderData, getPortfolioCollection, getRentalStoreData, getRentalStoreFancyTitle, getStudiosSectionData, getTouchSectionData } from '@/services/home';
 import React from 'react'
 
 export default async function Page() {
   
-  const [homeSectionDetails, heroSectionData, getInTouchData, studiosSectionData, portfolioCollection, peopleReviewSliderData, marketsSectionData, rentalStoreData, rentalStoreFancyTitle, dreamBigData, socialSectionDetails, socialSectionBlogs, instaFeed] = await Promise.all([
+  const [homeSectionDetails, heroSectionData, getInTouchData, studiosSectionData, portfolioCollection, peopleReviewSliderData, marketsSectionData, rentalStoreData, rentalStoreFancyTitle, dreamBigData] = await Promise.all([
     getHomeSectionDetails(),
     getHeroSectionData(),
     getTouchSectionData(),
@@ -23,10 +23,7 @@ export default async function Page() {
     getMarketsSectionData(),
     getRentalStoreData(),
     getRentalStoreFancyTitle(),
-    getDreamBigData(),
-    getSocialSectionDetails(),
-    getSocialSectionBlogs(),
-    fetchInstaFeed(),
+    getDreamBigData()
   ]);
 
   return (
@@ -40,7 +37,6 @@ export default async function Page() {
       <MarketSection data={marketsSectionData} homeSectionDetails={homeSectionDetails} />
       <RentalStoreSection data={rentalStoreData} homeSectionDetails={homeSectionDetails} rentalStoreSubtitle={rentalStoreFancyTitle} />
       <DreamBigSection data={dreamBigData} />
-      <SocialSection data={socialSectionDetails} posts={socialSectionBlogs} insta_feed={instaFeed} />
     </>
   )
 }
