@@ -18,6 +18,9 @@ import MarketsVideoModal from "@/components/Lightbox/modalComponents/MarketsVide
 import { getContactUsContent } from "@/services/contact";
 import { getAboutUsIntroSection, getAboutUsSectionDetails } from "@/services/about";
 import DreamBigSection from "@/components/commonComponents/DreamBigSection";
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Blueprint Studios",
@@ -73,12 +76,14 @@ export default async function RootLayout({ children }) {
           <AboutUsMagazineModal data={aboutUsSectionDetails} />
           <MarketsVideoModal />
 
-          <Navbar studios={studios} markets={markets} searchContent={searchContent} />
+          <Suspense>
+            <Navbar studios={studios} markets={markets} searchContent={searchContent} />
+          </Suspense>
           <Wrapper>
             <main>
               {children}
-              {/* <Analytics /> */}
-              {/* <SpeedInsights /> */}
+              <Analytics />
+              <SpeedInsights />
             </main>
             <DreamBigSection data={dreamBigData} />
             <SocialSection data={socialSectionDetails} posts={socialSectionBlogs} insta_feed={instaFeed} />
