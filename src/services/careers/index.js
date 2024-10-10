@@ -12,7 +12,7 @@ export const getCareersPageContent = async () => {
             "limit": null
         }
         const response = await fetchCollection(data);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -30,7 +30,7 @@ export const getCareersIntroSection = async () => {
             "limit": null
         }
         const response = await fetchCollection(data);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }

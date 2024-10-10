@@ -1,5 +1,5 @@
 import { generateImageUrl2 } from "@/common/functions/imageURL";
-import SocialVerticalBar from "../blogDetailPageSections/SocialVerticalBar";
+import SocialVerticalBar from "../article/SocialVerticalBar";
 import ContentComponent from "../common/ContentComponent ";
 
 const PortfolioIntoSection = ({ data }) => {

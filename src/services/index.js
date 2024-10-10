@@ -1,41 +1,4 @@
-// import cache from 'node-cache';
-
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-
-// const apiCache = new cache();
-// const ttl = 300;
-
-// apiCache.on("flush", function () {
-//   console.log("All Data Flushed");
-// });
-// apiCache.flushAll();
-
-export const _fetchCollection = async (payload, cacheKey = null) => {
-  try {
-    if (cacheKey) {
-      const cachedData = apiCache.get(cacheKey);
-      if (cachedData) return cachedData;
-    }
-
-    const response = await fetch(`${base_url}/corporate/query-data-items`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-    const data = await response.json();
-    if (cacheKey) apiCache.set(cacheKey, data.data.data, ttl);
-    return data.data.data;
-  } catch (error) {
-    console.error('Error fetching collection:', error);
-    throw new Error('An error occurred while fetching data');
-  }
-};
 
 export const fetchCollection = async (payload) => {
   try {
@@ -141,7 +104,7 @@ export const getPageMetaData = async (path) => {
       "limit": null
     }
     const response = await fetchCollection(data, `PageSeoConfigurationDataCache_${path}`);
-    return response._items.map((x) => x.data)[0];
+    return response._items[0].data;
   } catch (error) {
     throw new Error(error.message);
   }

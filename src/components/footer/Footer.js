@@ -3,11 +3,14 @@ import { generateImageURL } from "@/common/functions/imageURL";
 import DelayedLink from "@/components/common/DelayedLink";
 import Newsletter from "@/components/common/Newsletter";
 import { DynamicLink } from "@/components/commonComponents/DynamicLink";
+import { usePathname } from "next/navigation";
 
 const Footer = ({ menu, footerData, contactData, socialLinks }) => {
+  const pathname = usePathname();
+  const disabledPages = ["/contact"];
 
   return (
-    <footer id="footer" data-cursor-style="off">
+    <footer id="footer" className={`${disabledPages.includes(pathname) ? "d-none" : ""}`} data-cursor-style="off">
       <div className="container-fluid">
         <div className="row row-1">
           <div className="col-lg-7 column-1">

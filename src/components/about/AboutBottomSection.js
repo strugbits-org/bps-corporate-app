@@ -1,3 +1,4 @@
+"use client"
 import { generateImageURL } from "@/common/functions/imageURL";
 import { refreshMagazineIframe } from "@/utils/utilityFunctions";
 

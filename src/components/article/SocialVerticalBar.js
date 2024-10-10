@@ -1,12 +1,13 @@
+"use client"
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 const SocialVerticalBar = ({ title }) => {
   const [copied, setCopied] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const url = typeof window !== 'undefined' ? window.location.origin + router.asPath : router.asPath;
+  const url = typeof window !== 'undefined' ? window.location.origin + pathname : pathname;
   const copyURLToClipboard = (e) => {
     navigator.clipboard
       .writeText(url)

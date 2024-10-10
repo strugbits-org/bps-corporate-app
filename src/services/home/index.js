@@ -13,7 +13,7 @@ export const getHeroSectionData = async () => {
             "limit": null
         }
         const response = await fetchCollection(options);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -30,7 +30,7 @@ export const getTouchSectionData = async () => {
             "limit": null
         }
         const response = await fetchCollection(options);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -64,7 +64,7 @@ export const getHomeSectionDetails = async () => {
             "limit": null
         }
         const response = await fetchCollection(data);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -185,7 +185,7 @@ export const getSocialSectionDetails = async () => {
             "limit": null
         }
         const response = await fetchCollection(data);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
@@ -213,7 +213,7 @@ export const getSearchSectionDetails = async (enableCache) => {
             limit: null,
         };
         const response = await fetchCollection(data, enableCache ? "SearchSectionDetailsDataCache" : null);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
