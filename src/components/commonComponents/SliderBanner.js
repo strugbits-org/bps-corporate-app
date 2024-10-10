@@ -1,5 +1,6 @@
+"use client"
 import { generateImageUrl2 } from "@/common/functions/imageURL";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import DelayedLink from "../common/DelayedLink";
 
 const SliderBanner = ({ data, type, sectionDetails }) => {

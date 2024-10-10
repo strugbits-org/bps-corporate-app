@@ -1,3 +1,4 @@
+"use client"
 import formatDate from "@/common/functions/dateFormat";
 import {
   blogGalleryImageURL,

@@ -1,10 +1,15 @@
+"use client"
 import { generateImageUrl2 } from "@/common/functions/imageURL";
 import Link from "next/link";
 import DelayedLink from "../common/DelayedLink";
+import { usePathname } from "next/navigation";
 
 const SocialSection = ({ data, posts, insta_feed }) => {
+  const pathname = usePathname();
+  const disabledPages = ["/contact"];
+
   return (
-    <section className="section-lets-get-social z-5 pt-lg-195 pt-tablet-105 pt-phone-155 pb-lg-130 pb-tablet-105 pb-phone-140 mt-lg-240">
+    <section className={`section-lets-get-social z-5 pt-lg-195 pt-tablet-105 pt-phone-155 pb-lg-130 pb-tablet-105 pb-phone-140 mt-lg-240 ${disabledPages.includes(pathname) ? "d-none" : ""}`}>
       <div
         className="bg"
         data-parallax

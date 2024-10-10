@@ -1,12 +1,13 @@
+"use client"
 import React from "react";
 import { ModalWrapper } from "../ModalWrapper";
 import getFullVideoURL from "@/common/functions/videoURL";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const AboutUsVideoModal = ({ data }) => {
-  const router = useRouter();
-  const pathname = router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
-  const page_name = pathname.split("/")[0].trim();
+  const pathname = usePathname();
+  const cleanPath = pathname.trim() === "/" ? "home" : pathname.substring(1);
+  const page_name = cleanPath.split("/")[0].trim();
   if (page_name !== "about") return;
 
   return (

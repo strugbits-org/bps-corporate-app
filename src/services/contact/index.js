@@ -12,7 +12,7 @@ export const getContactUsContent = async (enableCache) => {
             "limit": null
         }
         const response = await fetchCollection(data, enableCache ? "ContactUsContentDataCache" : null);
-        return response._items.map((x) => x.data)[0];
+        return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }

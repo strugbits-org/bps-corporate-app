@@ -1,7 +1,8 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import contactFormSchema from "@/utils/scehma/contact";
+import contactFormSchema from "@/utils/schema/contact";
 import { postForm } from "@/services";
 
 const ContactForm = ({ data }) => {

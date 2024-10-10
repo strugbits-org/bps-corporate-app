@@ -4,9 +4,7 @@ import DelayedLink from "../common/DelayedLink";
 const StudioSection = ({ studioData, homeSectionDetails }) => {
   return (
 
-    <section
-      className={`section-studios ${studioData.length === 0 ? "hidden" : ""}`}
-    >
+    <section className={`section-studios ${studioData.length === 0 ? "hidden" : ""}`} >
       <div className="container-fluid">
         <div className="row row-1">
           <div className="col-lg-2 col-md-6">

@@ -1,3 +1,4 @@
+"use client"
 import { generateImageUrl2 } from "@/common/functions/imageURL";
 import DelayedLink from "../common/DelayedLink";
 import React from "react";
