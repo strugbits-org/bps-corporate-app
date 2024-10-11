@@ -1,5 +1,5 @@
-import { generateImageURL } from "@/common/functions/imageURL";
-import DelayedLink from "../common/DelayedLink";
+import { generateImageURL } from "@/utils/generateWixURL";
+import DelayedLink from "./DelayedLink";
 
 const MarketSection = ({ data, homeSectionDetails }) => {
   let data_delay = 0;

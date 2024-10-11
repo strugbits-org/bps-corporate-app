@@ -1,13 +1,13 @@
 "use client"
-import formatDate from "@/common/functions/dateFormat";
 import {
   blogGalleryImageURL,
   generateImageURL,
-} from "@/common/functions/imageURL";
+} from "@/utils/generateWixURL";
 import { useEffect, useState } from "react";
-import ProductCartSlider from "../commonComponents/ProductCartSlider";
+import ProductCartSlider from "../common/ProductCartSlider";
 import SocialVerticalBar from "./SocialVerticalBar";
 import ReactPlayer from "react-player";
+import { formatDate } from "@/utils/utilityFunctions";
 
 const PostDetails = ({ data, blogSectionDetails, tags }) => {
   const [singleData, setSingleData] = useState([]);

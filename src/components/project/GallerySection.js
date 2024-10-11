@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import ProductCartSlider from "../commonComponents/ProductCartSlider";
-import { generateImageURL } from "../../common/functions/imageURL";
+import ProductCartSlider from "../common/ProductCartSlider";
+import { generateImageURL } from "../../utils/generateWixURL";
 
 const GallerySection = ({ data, portfolioSectionDetails }) => {
   const [gallery, setGallery] = useState([]);

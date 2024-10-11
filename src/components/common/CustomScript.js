@@ -1,18 +1,14 @@
 "use client";
 
-import { markPageLoaded } from "@/utils/utilityFunctions";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import React from "react";
 
 export const CustomScripts = () => {
     const pathname = usePathname();
-    const baseUrl = process.env.BASE_URL;
-    const canonicalUrl = `${baseUrl}${pathname}`;
+    const BASE_URL = process.env.BASE_URL;
+    const canonicalUrl = `${BASE_URL}${pathname}`;
 
-    setTimeout(() => {
-        markPageLoaded();
-    }, 1000);
     return (
         <>
             <link rel="canonical" href={canonicalUrl} />

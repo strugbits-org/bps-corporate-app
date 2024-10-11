@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import { DefaultButton } from "./DefaultButton";
 
 const PeopleReviewSLider = ({ data, homeSectionDetails, actionButton = true }) => {

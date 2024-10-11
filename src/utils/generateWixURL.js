@@ -78,4 +78,13 @@ export const productImageURLForQuote = (url) => {
     return newUrl;
 };
 
+export const getFullVideoURL = (videoSRC) => {
+    if (videoSRC && videoSRC.startsWith("wix:video://v1/")) {
+        const videoID = videoSRC.replace('wix:video://v1/', '').split('/')[0];
+        return `https://video.wixstatic.com/video/${videoID}/file`;
+    } else {
+        return videoSRC;
+    }
+}
+
 export const blogGalleryImageURL = ({ wix_url, fit = "fill", q = "90", h = "1080", w = "1920" }) => `https://static.wixstatic.com/media/${wix_url}/v1/${fit}/w_${w},h_${h},al_c,q_${q},usm_0.66_1.00_0.01,enc_auto/compress.webp`;

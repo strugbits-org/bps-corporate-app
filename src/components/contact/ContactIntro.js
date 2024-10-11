@@ -1,4 +1,4 @@
-import getFullVideoURL from "@/common/functions/videoURL";
+import { getFullVideoURL } from "@/utils/generateWixURL";
 
 const ContactIntro = ({ data }) => {
     return (

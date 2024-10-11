@@ -1,6 +1,6 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
-import DelayedLink from "../common/DelayedLink";
+import DelayedLink from "./DelayedLink";
 const StudioSection = ({ studioData, homeSectionDetails }) => {
   return (
 

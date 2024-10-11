@@ -1,5 +1,16 @@
 import parse from 'html-react-parser';
 
+const isDebugMode = process.env.DEBUG_LOGS === "1";
+
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "2-digit",
+  });
+};
+
 export const convertToHTML = ({ content = "", class_p = "", class_ul = "", data_aos_p = "" }) => {
   if (typeof content === 'string') return content;
   let html = "";
@@ -302,4 +313,8 @@ export const renderNode = (node) => {
     default:
       return null;
   }
+};
+
+export const logError = (...args) => {
+    if (isDebugMode) console.error(...args);
 };

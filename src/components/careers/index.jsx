@@ -1,7 +1,7 @@
 import { getAboutUsCardsSection } from "@/services/about";
 import { getCareersIntroSection, getCareersPageContent, getWhoWorksSection } from "@/services/careers";
 import { IntroSection } from "./IntroSection";
-import PeopleReviewSLider from "../commonComponents/PeopleReviewSlider";
+import PeopleReviewSLider from "../common/PeopleReviewSlider";
 import AboutCardsSection from "../about/AboutCardsSection";
 import { JobsSection } from "./JobsSection";
 

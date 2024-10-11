@@ -1,6 +1,6 @@
 "use client"
 
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import { DefaultButton } from "./DefaultButton";
 import { usePathname } from "next/navigation";
 

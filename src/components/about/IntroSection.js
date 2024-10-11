@@ -1,6 +1,6 @@
 import React from "react";
-import { DefaultButton } from "../commonComponents/DefaultButton";
-import { generateImageURL } from "@/common/functions/imageURL";
+import { DefaultButton } from "../common/DefaultButton";
+import { generateImageURL } from "@/utils/generateWixURL";
 
 
 const IntroSection = ({data}) => {

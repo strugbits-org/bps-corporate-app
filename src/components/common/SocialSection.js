@@ -1,7 +1,7 @@
 "use client"
-import { generateImageUrl2 } from "@/common/functions/imageURL";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
 import Link from "next/link";
-import DelayedLink from "../common/DelayedLink";
+import DelayedLink from "./DelayedLink";
 import { usePathname } from "next/navigation";
 
 const SocialSection = ({ data, posts, insta_feed }) => {

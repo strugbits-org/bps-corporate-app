@@ -1,7 +1,7 @@
 import React from "react";
 import { ModalWrapper } from "../ModalWrapper";
 import ContactForm from "@/components/common/ContactForm";
-import ContactDetails from "@/components/commonComponents/ContactDetails";
+import ContactDetails from "@/components/common/ContactDetails";
 
 const ContactUsModal = ({ contactUsContent, contactData, socialLinks }) => {
   return (

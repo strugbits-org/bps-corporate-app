@@ -1,10 +1,10 @@
-import PeopleReviewSLider from '@/components/commonComponents/PeopleReviewSlider';
-import StudioSection from '@/components/commonComponents/StudioSection';
+import PeopleReviewSLider from '@/components/common/PeopleReviewSlider';
+import StudioSection from '@/components/common/StudioSection';
 import { getHomeSectionDetails, getPeopleReviewSliderData, getStudiosSectionData } from '@/services/home';
 import { getServicesSectionDetails } from '@/services/services-page';
 import ServiceIntro from './ServiceIntro';
 import { SubSectionServices } from './SubSectionServices';
-import SliderBanner from '../commonComponents/SliderBanner';
+import SliderBanner from '../common/SliderBanner';
 
 export default async function Services({ serviceData, servicesSlider }) {
 

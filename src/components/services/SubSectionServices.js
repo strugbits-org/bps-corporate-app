@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 
 export const SubSectionServices = ({ data }) => {
 

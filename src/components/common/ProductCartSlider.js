@@ -1,5 +1,5 @@
-import { generateImageURL } from "@/common/functions/imageURL";
-import DelayedLink from "../common/DelayedLink";
+import { generateImageURL } from "@/utils/generateWixURL";
+import DelayedLink from "./DelayedLink";
 import React from "react";
 
 const ProductCartSlider = ({ data }) => {

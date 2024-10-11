@@ -1,6 +1,5 @@
 import React from 'react';
-import getFullVideoURL from '@/common/functions/videoURL';
-import { generateImageURL } from '@/common/functions/imageURL';
+import { generateImageURL, getFullVideoURL } from '@/utils/generateWixURL';
 
 const HeroSection = ({data}) => {
     return (

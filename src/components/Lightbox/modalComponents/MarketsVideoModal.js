@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { ModalWrapper } from "../ModalWrapper";
 import { getMarketSection } from "@/services/market";
-import getFullVideoURL from "@/common/functions/videoURL";
+import { getFullVideoURL } from "@/utils/generateWixURL";
 import { usePathname } from "next/navigation";
 
 const MarketsVideoModal = () => {
