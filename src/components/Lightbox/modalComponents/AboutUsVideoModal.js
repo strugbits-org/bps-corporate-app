@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import { ModalWrapper } from "../ModalWrapper";
-import getFullVideoURL from "@/common/functions/videoURL";
+import { getFullVideoURL } from "@/utils/generateWixURL";
 import { usePathname } from "next/navigation";
 
 const AboutUsVideoModal = ({ data }) => {

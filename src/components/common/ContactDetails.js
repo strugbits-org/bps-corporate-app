@@ -1,5 +1,5 @@
 import React from "react";
-import DelayedLink from "../common/DelayedLink";
+import DelayedLink from "./DelayedLink";
 
 const ContactDetails = ({ contactData, contactusData, socialLinks }) => {
 

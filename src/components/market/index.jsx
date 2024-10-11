@@ -1,6 +1,6 @@
-import MarketSection from '@/components/commonComponents/MarketSection';
-import PeopleReviewSLider from '@/components/commonComponents/PeopleReviewSlider';
-import StudioSection from '@/components/commonComponents/StudioSection';
+import MarketSection from '@/components/common/MarketSection';
+import PeopleReviewSLider from '@/components/common/PeopleReviewSlider';
+import StudioSection from '@/components/common/StudioSection';
 import { getHomeSectionDetails, getMarketsSectionData, getPeopleReviewSliderData, getStudiosSectionData } from '@/services/home';
 import MarketTopSection from './MarketTopSection';
 import HowWeDoSection from './HowWeDoSection';

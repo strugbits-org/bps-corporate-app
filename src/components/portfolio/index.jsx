@@ -2,7 +2,7 @@
 import { listPortfolios } from "@/services/listing";
 import { useEffect, useState } from "react";
 import PortfolioListing from "./PortfolioListing";
-import MarketSection from "../commonComponents/MarketSection";
+import MarketSection from "../common/MarketSection";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/utilityFunctions";
 
 export default function Portfolio({

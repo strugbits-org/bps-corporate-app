@@ -1,8 +1,8 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import React, { useState } from "react";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import DelayedLink from "../common/DelayedLink";
-import formatDate from "@/common/functions/dateFormat";
+import { formatDate } from "@/utils/utilityFunctions";
 
 const BlogListing = ({ data, seeMore, applyFilters, loading }) => {
     const [selectedStudios, setSelectedStudios] = useState([]);

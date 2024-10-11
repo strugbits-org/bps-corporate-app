@@ -1,5 +1,6 @@
+import { AnimationLoaded } from "@/components/common/AnimationLoaded";
 import Project from "@/components/project";
-import { getPortfolio, getPortfolioSectionDetails, getSinglePortfolio, listAllPortfolios } from "@/services/portfolio";
+import { getSinglePortfolio, listAllPortfolios } from "@/services/portfolio";
 import { notFound } from "next/navigation";
 
 export const generateStaticParams = async () => {
@@ -18,7 +19,10 @@ export default async function Page({ params }) {
         const singlePortfolio = await getSinglePortfolio(slug);
 
         return (
-            <Project slug={slug} singlePortfolio={singlePortfolio} />
+            <>
+                <Project slug={slug} singlePortfolio={singlePortfolio} />
+                <AnimationLoaded />
+            </>
         );
     } catch (error) {
         notFound();

@@ -1,7 +1,7 @@
 "use client"
-import { generateImageUrl2 } from "@/common/functions/imageURL";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
 import { useRouter } from "next/navigation";
-import DelayedLink from "../common/DelayedLink";
+import DelayedLink from "./DelayedLink";
 
 const SliderBanner = ({ data, type, sectionDetails }) => {
   const router = useRouter();

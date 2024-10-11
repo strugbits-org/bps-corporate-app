@@ -1,6 +1,6 @@
-import { generateImageUrl2 } from "@/common/functions/imageURL";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
 import DelayedLink from "../common/DelayedLink";
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { DefaultButton } from "../common/DefaultButton";
 
 const OurProjectSection = ({ portfolioCollection, homeSectionDetails }) => {
   return (

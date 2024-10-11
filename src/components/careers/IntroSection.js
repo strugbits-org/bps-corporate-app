@@ -1,7 +1,6 @@
-import { getFullSvgURL } from "@/common/functions/imageURL";
-import getFullVideoURL from "@/common/functions/videoURL";
 import { convertToHTML } from "@/utils/utilityFunctions";
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { DefaultButton } from "../common/DefaultButton";
+import { getFullVideoURL } from "@/utils/generateWixURL";
 
 export const IntroSection = ({ data }) => {
     return (

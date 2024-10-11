@@ -1,4 +1,4 @@
-import { generateImageUrl2 } from "@/common/functions/imageURL";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
 import SocialVerticalBar from "../article/SocialVerticalBar";
 import ContentComponent from "../common/ContentComponent ";
 

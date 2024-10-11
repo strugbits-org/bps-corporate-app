@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import { convertToHTML } from "@/utils/utilityFunctions";
 
 const HowWeDoSection = ({data,marketSectionDetails}) => {

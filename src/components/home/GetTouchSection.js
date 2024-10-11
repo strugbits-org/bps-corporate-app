@@ -1,5 +1,5 @@
 import React from "react";
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { DefaultButton } from "../common/DefaultButton";
 
 const GetTouchSection = ({data}) => {
   // const data = useSelector((state) => state.home.getTouchData);

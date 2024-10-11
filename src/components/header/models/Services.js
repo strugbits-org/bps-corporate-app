@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "@/components/common/DelayedLink";
 
 const Services = ({data}) => {

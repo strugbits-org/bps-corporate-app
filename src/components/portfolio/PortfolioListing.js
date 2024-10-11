@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import DelayedLink from "../common/DelayedLink";
-import { generateImageUrl2 } from "@/common/functions/imageURL";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
 
 const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
   const [selectedStudios, setSelectedStudios] = useState([]);

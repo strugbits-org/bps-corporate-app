@@ -1,5 +1,5 @@
 import ContactForm from "../common/ContactForm"
-import ContactDetails from "../commonComponents/ContactDetails"
+import ContactDetails from "../common/ContactDetails"
 
 const ContactFooter = ({data, contactData, socialLinks}) => {
   return (

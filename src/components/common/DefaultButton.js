@@ -1,4 +1,4 @@
-import DelayedLink from "../common/DelayedLink";
+import DelayedLink from "./DelayedLink";
 
 export const DefaultButton = ({ data, customClasses = "", attributes, showArrow = true }) => {
 

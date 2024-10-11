@@ -1,8 +1,8 @@
 "use client"
-import { generateImageUrl2 } from "@/common/functions/imageURL";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
 import DelayedLink from "../common/DelayedLink";
 import React from "react";
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { DefaultButton } from "../common/DefaultButton";
 
 const ExploreProjectsSection = ({
   portfolioSectionDetails,

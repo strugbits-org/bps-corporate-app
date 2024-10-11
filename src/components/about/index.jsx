@@ -3,7 +3,7 @@ import AboutCardsSection from '@/components/about/AboutCardsSection';
 import IntroSection from '@/components/about/IntroSection';
 import OurDream from '@/components/about/OurDream';
 import OurFamily from '@/components/about/OurFamily';
-import SliderBanner from '@/components/commonComponents/SliderBanner';
+import SliderBanner from '@/components/common/SliderBanner';
 import { getAboutSlider, getAboutUsCardsSection, getAboutUsDreamTeamSection, getAboutUsIntroSection, getAboutUsRestOfFamily, getAboutUsSectionDetails } from '@/services/about';
 
 export default async function About() {

@@ -1,3 +1,4 @@
+import { AnimationLoaded } from "@/components/common/AnimationLoaded";
 import Services from "@/components/services";
 import { getStudiosSectionData } from "@/services/home";
 import { getServiceData, getServicesSlider } from "@/services/services-page";
@@ -20,7 +21,10 @@ export default async function Page({ params }) {
         const servicesSlider = await getServicesSlider(serviceData._id);
 
         return (
-            <Services serviceData={serviceData} servicesSlider={servicesSlider} />
+            <>
+                <Services serviceData={serviceData} servicesSlider={servicesSlider} />
+                <AnimationLoaded />
+            </>
         );
     } catch (error) {
         notFound();

@@ -1,5 +1,5 @@
 "use client"
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import { refreshMagazineIframe } from "@/utils/utilityFunctions";
 
 const AboutBottomSection = ({ sectionDetails }) => {

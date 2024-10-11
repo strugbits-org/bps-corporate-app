@@ -10,21 +10,20 @@ import Navbar from "@/components/header/Navbar";
 import { fetchInstaFeed, getDreamBigData, getMarketsSectionData, getSearchSectionDetails, getSocialSectionBlogs, getSocialSectionDetails, getStudiosSectionData } from "@/services/home/index.js";
 import { getContactData, getFooterData, getFooterNavigationMenu, getSocialLinks } from "@/services/footer";
 import Footer from "@/components/footer/Footer";
-import SocialSection from "@/components/commonComponents/SocialSection";
+import SocialSection from "@/components/common/SocialSection";
 import ContactUsModal from "@/components/Lightbox/modalComponents/ContactUsModal";
 import AboutUsVideoModal from "@/components/Lightbox/modalComponents/AboutUsVideoModal";
 import AboutUsMagazineModal from "@/components/Lightbox/modalComponents/AboutUsMagazineModal";
 import MarketsVideoModal from "@/components/Lightbox/modalComponents/MarketsVideoModal";
 import { getContactUsContent } from "@/services/contact";
 import { getAboutUsIntroSection, getAboutUsSectionDetails } from "@/services/about";
-import DreamBigSection from "@/components/commonComponents/DreamBigSection";
+import DreamBigSection from "@/components/common/DreamBigSection";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from "react";
 
 export const metadata = {
   title: "Blueprint Studios",
-  description: "",
   robots: process.env.NEXT_PUBLIC_ENVIRONMENT !== "PRODUCTION" ? "noindex,nofollow" : null,
 };
 

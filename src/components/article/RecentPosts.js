@@ -1,8 +1,8 @@
 import React from "react";
 import DelayedLink from "../common/DelayedLink";
-import { generateImageUrl2 } from "@/common/functions/imageURL";
-import formatDate from "@/common/functions/dateFormat";
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { generateImageUrl2 } from "@/utils/generateWixURL";
+import { DefaultButton } from "../common/DefaultButton";
+import { formatDate } from "@/utils/utilityFunctions";
 
 const RecentPosts = ({ posts, blogSectionDetails }) => {
   return (

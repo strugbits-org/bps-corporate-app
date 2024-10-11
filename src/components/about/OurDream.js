@@ -1,6 +1,6 @@
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { DefaultButton } from "../common/DefaultButton";
 
 const OurDream = ({data,sectionDetails}) => {
   // const loading = useSelector((state) => state.aboutus.OurDreamLoading);

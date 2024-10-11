@@ -1,8 +1,8 @@
 "use client"
-import { generateImageURL } from "@/common/functions/imageURL";
+import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "@/components/common/DelayedLink";
 import Newsletter from "@/components/common/Newsletter";
-import { DynamicLink } from "@/components/commonComponents/DynamicLink";
+import { DynamicLink } from "@/components/common/DynamicLink";
 import { usePathname } from "next/navigation";
 
 const Footer = ({ menu, footerData, contactData, socialLinks }) => {

@@ -1,4 +1,4 @@
-import { DefaultButton } from "../commonComponents/DefaultButton";
+import { DefaultButton } from "../common/DefaultButton";
 
 export const JobsSection = ({ jobslist, content }) => {
     return (

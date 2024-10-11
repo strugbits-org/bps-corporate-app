@@ -17,6 +17,8 @@ export default async function Page() {
     ]);
 
     return (
-        <Blog {...{ blogs, blogSectionDetails, marketsSectionData, studios }} />
+        <>
+            <Blog {...{ blogs, blogSectionDetails, marketsSectionData, studios }} />
+        </>
     )
 }
