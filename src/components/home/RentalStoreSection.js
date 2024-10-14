@@ -6,9 +6,6 @@ import { DefaultButton } from "../common/DefaultButton";
 const RentalStoreSection = ({ data, homeSectionDetails, rentalStoreSubtitle }) => {
   let transition = -35;
 
-  // const loading = useSelector((state) => state.home.rentalLoading);
-  // const error = useSelector((state) => state.home.error);
-
   return (
     <section className={`home-rental-store pt-lg-145 pt-tablet-105 pt-phone-145 pb-lg-120 pb-tablet-100 pb-phone-145 ${data.length === 0 ? "hidden" : ""}`}>
       <div

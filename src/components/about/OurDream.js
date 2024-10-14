@@ -3,8 +3,6 @@ import React from "react";
 import { DefaultButton } from "../common/DefaultButton";
 
 const OurDream = ({data,sectionDetails}) => {
-  // const loading = useSelector((state) => state.aboutus.OurDreamLoading);
-  // const error = useSelector((state) => state.aboutus.error);
 
   return (
     <section className="about-dream-team pt-lg-195">

@@ -1,4 +1,5 @@
 "use client"
+import { logError } from "@/utils/utilityFunctions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -18,7 +19,7 @@ const SocialVerticalBar = ({ title }) => {
         }, 2000);
       })
       .catch((error) => {
-        console.error("Failed to copy URL to clipboard:", error);
+        logError("Failed to copy URL to clipboard:", error);
       });
     e.preventDefault();
   };

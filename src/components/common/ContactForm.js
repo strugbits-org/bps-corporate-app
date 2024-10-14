@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import contactFormSchema from "@/utils/schema/contact";
 import { postForm } from "@/services";
+import { logError } from "@/utils/utilityFunctions";
 
 const ContactForm = ({ data }) => {
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const ContactForm = ({ data }) => {
       await postForm("contact", formData);
       setFeedback("success");
     } catch (error) {
-      console.error("Error submitting form:", error);
+      logError("Error submitting form:", error);
       setFeedback("error");
     } finally {
       setLoading(false);

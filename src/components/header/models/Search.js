@@ -3,7 +3,7 @@ import debounce from "lodash/debounce";
 import DelayedLink from "@/components/common/DelayedLink";
 import { generateImageURL, generateImageUrl2 } from "@/utils/generateWixURL";
 import { listBlogs, listPortfolios, listProducts, searchAllPages } from "@/services/listing";
-import { formatDate } from "@/utils/utilityFunctions";
+import { formatDate, logError } from "@/utils/utilityFunctions";
 
 const Search = ({ studios, markets, searchContent }) => {
 
@@ -90,7 +90,7 @@ const Search = ({ studios, markets, searchContent }) => {
       setBlogCollection(blog._items.filter(item => item.data.blogRef._id !== undefined).map(item => item.data));
       setOtherPagesResults(otherPages);
     } catch (error) {
-      console.log("error", error);
+      logError("Error in search: ", error);
     } finally {
       setSelectedStudios([]);
       setSelectedMarkets([]);

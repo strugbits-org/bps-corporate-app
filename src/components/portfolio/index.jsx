@@ -3,7 +3,7 @@ import { listPortfolios } from "@/services/listing";
 import { useEffect, useState } from "react";
 import PortfolioListing from "./PortfolioListing";
 import MarketSection from "../common/MarketSection";
-import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/utilityFunctions";
+import { logError, markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/utilityFunctions";
 
 export default function Portfolio({
     portfolios,
@@ -36,7 +36,7 @@ export default function Portfolio({
             setLoadingData(false);
         } catch (error) {
             setLoadingData(false);
-            console.error(error);
+            logError(error);
         }
     }
 
@@ -52,7 +52,7 @@ export default function Portfolio({
             setLoadingData(false);
         } catch (error) {
             setLoadingData(false);
-            console.error(error);
+            logError(error);
         }
     }
 
