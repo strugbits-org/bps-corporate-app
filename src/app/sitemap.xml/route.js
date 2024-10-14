@@ -1,5 +1,5 @@
 export async function GET() {
-  const baseUrl = process.env.BASE_URL || 'https://blueprintstudios.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://blueprintstudios.com';
 
   const sitemaps = [
     { loc: `${baseUrl}/pages-sitemap.xml`, lastmod: new Date().toISOString() },

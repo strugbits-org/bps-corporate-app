@@ -6,9 +6,10 @@ import MarketTopSection from './MarketTopSection';
 import HowWeDoSection from './HowWeDoSection';
 import ExplorePortfolio from './ExplorePortfolio';
 import { getMarketsPostPageSectionDetails } from '@/services/market';
+import { logError } from '@/utils/utilityFunctions';
 
 export default async function Market({ slug, marketSection, portfolioData }) {
-
+try {
     const [
         marketsPostPageSectionDetails,
         homeSectionDetails,
@@ -49,4 +50,7 @@ export default async function Market({ slug, marketSection, portfolioData }) {
             />
         </>
     )
+} catch (error) {
+    logError("Error fetching Market page data: ", error);
+}
 }

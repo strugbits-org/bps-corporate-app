@@ -6,7 +6,7 @@ import React from "react";
 
 export const CustomScripts = () => {
     const pathname = usePathname();
-    const BASE_URL = process.env.BASE_URL;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const canonicalUrl = `${BASE_URL}${pathname}`;
 
     return (

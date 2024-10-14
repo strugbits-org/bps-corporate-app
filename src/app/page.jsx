@@ -6,7 +6,7 @@ import { logError } from '@/utils/utilityFunctions';
 export async function generateMetadata() {
   try {
     const metaData = await getPageMetaData("home");
-    const { title,description, noFollowTag } = metaData;
+    const { title, description, noFollowTag } = metaData;
     const metadata = {
       title,
       description
@@ -23,15 +23,10 @@ export async function generateMetadata() {
 }
 
 export default async function Page() {
-  try {
-
-    return (
-      <>
-        <Home />
-        <AnimationLoaded />
-      </>
-    )
-  } catch (error) {
-    logError("Error fetching home page data:", error);
-  }
+  return (
+    <>
+      <Home />
+      <AnimationLoaded />
+    </>
+  )
 }
