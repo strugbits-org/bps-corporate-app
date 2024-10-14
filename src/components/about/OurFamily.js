@@ -1,8 +1,9 @@
 import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
-const OurFamily = ({data,sectionDetails}) => {
+const OurFamily = ({ data, sectionDetails }) => {
 
   return (
     <section className="about-meet-the-rest-of-the-family pt-lg-245 pt-mobile-205">
@@ -23,27 +24,13 @@ const OurFamily = ({data,sectionDetails}) => {
                   <li key={index} className="list-item item-01">
                     <div className="content">
                       <div className="container-img logo-img">
-                        <img
-                          src={generateImageURL({ wix_url: data.logo, w: "320", h: "84", fit:"fit", q: "95" })}
-                          data-preload
-                          className="media"
-                          data-aos="scaleOut
-                                .8s ease-out-cubic .2s, d:loop"
-                          alt=""
-                        />
+                        <ImageWrapper url={data.logo} defaultDimensions={{ width: 320, height: 84 }} customClasses={"media"} attributes={{ "data-aos": "scaleOut .8s ease-out-cubic .2s, d:loop" }} />
                       </div>
                       <div
                         className="container-img bg-img"
                         data-aos="scaleOut .8s ease-out-cubic 0s, d:loop"
                       >
-                        <img
-                          src={generateImageURL({ wix_url: data.image, w: "680", h: "1180", q: "95" })}
-                          data-preload
-                          className="media"
-                          data-parallax
-                          data-scale-from="1.2"
-                          alt=""
-                        />
+                        <ImageWrapper url={data.image} defaultDimensions={{ width: 680, height: 1180 }} customClasses={"media"} attributes={{ "data-parallax": "", "data-scale-from": "1.2" }} />
                       </div>
                       <div className="container-text">
                         <p>{data.paragraph1}</p>

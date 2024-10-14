@@ -1,6 +1,7 @@
 import { convertToHTML } from "@/utils/utilityFunctions";
 import { DefaultButton } from "../common/DefaultButton";
 import { getFullVideoURL } from "@/utils/generateWixURL";
+// import { ImageWrapper } from "../common/ImageWrapper";
 
 export const IntroSection = ({ data }) => {
     return (
@@ -25,10 +26,10 @@ export const IntroSection = ({ data }) => {
                 <div className="row row-2 mt-lg-125 mt-mobile-70">
                     <div className="col-lg-10 offset-lg-1 mb-lg-55 mb-mobile-30 column-1">
                         <div className="container-video">
-                            {/* <div className="container-img play-img"><img src={getFullSvgURL(data.videoPlayButton)} data-preload
-                                className=" media" />
-                            </div> */}
-                            {/* <div className="main-video" data-aos="d:loop">
+                            {/* <div className="container-img play-img">
+                                <ImageWrapper url={data.videoPlayButton} type={"svg"} customClasses={"media"} attributes={{ "data-preload": "" }} />
+                            </div>
+                            <div className="main-video" data-aos="d:loop">
                                 <video data-src={getFullVideoURL(data.mainVideo)} src={getFullVideoURL(data.mainVideo)}
                                     data-preload className="player-video careers-video media" muted loop playsInline></video>
                             </div> */}

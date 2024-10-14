@@ -3,6 +3,7 @@ import DelayedLink from "../common/DelayedLink";
 import { generateImageUrl2 } from "@/utils/generateWixURL";
 import { DefaultButton } from "../common/DefaultButton";
 import { formatDate } from "@/utils/utilityFunctions";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const RecentPosts = ({ posts, blogSectionDetails }) => {
   return (
@@ -40,18 +41,7 @@ const RecentPosts = ({ posts, blogSectionDetails }) => {
                             data-cursor-style="view"
                           >
                             <div className="wrapper-img">
-                              <img
-                                src={generateImageUrl2({
-                                  wix_url: data?.blogRef?.coverImage,
-                                  w: "480",
-                                  h: "320",
-                                  fit: "fit",
-                                  q: "80",
-                                })}
-                                data-preload
-                                className="media"
-                                alt=""
-                              />
+                              <ImageWrapper url={data?.blogRef?.coverImage} defaultDimensions={{ width: 480, height: 320 }} customClasses="media" fit={"fit"} q={"80"} attributes={{"data-preload":""}} />
                             </div>
                           </div>
                           <div className="container-text">

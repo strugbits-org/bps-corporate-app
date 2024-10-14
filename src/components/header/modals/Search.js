@@ -4,6 +4,7 @@ import DelayedLink from "@/components/common/DelayedLink";
 import { generateImageURL, generateImageUrl2 } from "@/utils/generateWixURL";
 import { listBlogs, listPortfolios, listProducts, searchAllPages } from "@/services/listing";
 import { formatDate, logError } from "@/utils/utilityFunctions";
+import { ImageWrapper } from "@/components/common/ImageWrapper";
 
 const Search = ({ studios, markets, searchContent }) => {
 
@@ -219,28 +220,25 @@ const Search = ({ studios, markets, searchContent }) => {
                             data-aos
                             data-cursor-style="default"
                           >
-                            {productCollection.slice(0, 3).map((item, index) => {
+                            {productCollection.slice(0, 3).map((data, index) => {
+                              const { product, variantData } = data;
                               return (
                                 <div
                                   key={index}
                                   className="swiper-slide grid-item"
                                 >
                                   <div className="rental-product-link">
-                                    <DelayedLink to={`${EXTERNAL_SITE_URL}/product/${item.product.slug}`}
-                                      // target={"blank"}
-                                      className="product-link">
+                                    <DelayedLink
+                                      to={`/product/${product.slug}`}
+                                      className="product-link"
+                                      data-menu-close
+                                    >
                                       <h3 className="product-name">
-                                        {item.product.name}
+                                        {product.name}
                                       </h3>
-
                                       <div className="wrapper-img">
                                         <div className="container-img">
-                                          <img
-                                            src={generateImageURL({ wix_url: item?.product?.mainMedia, w: "220", h: "220", fit: "fit", q: "95" })}
-                                            data-preload
-                                            className="media"
-                                            alt=""
-                                          />
+                                          <ImageWrapper timeout={0} key={product.mainMedia} defaultDimensions={{ width: 350, height: 350 }} url={product.mainMedia} />
                                         </div>
                                       </div>
                                       <div className="container-bottom">
@@ -251,28 +249,27 @@ const Search = ({ studios, markets, searchContent }) => {
                                           <i className="icon-arrow-diagonal-right"></i>
                                         </div>
                                         <ul className="list-thumb">
-                                          {item.product?.productOptions?.Color?.choices.map((option, index) => (
-                                            <React.Fragment key={index}>
-                                              {index < 4 && (
-                                                <li key={index}>
-                                                  <div className="container-img">
-                                                    <img
-                                                      src={generateImageURL({ wix_url: option.mainMedia ? option.mainMedia : item.product.mainMedia, w: "30", h: "30", fit: "fit", q: "95" })}
-                                                      data-preload
-                                                      className="media"
-                                                      alt=""
-                                                    />
-                                                  </div>
-                                                </li>
-                                              )}
-                                            </React.Fragment>
-                                          ))}
+                                          {variantData.map((item, idx) => {
+                                            const { variant } = item;
+                                            return (
+                                              <React.Fragment key={idx}>
+                                                {idx < 4 && (
+                                                  <li>
+                                                    <div className="container-img">
+                                                      <ImageWrapper timeout={0} key={variant.imageSrc} defaultDimensions={{ width: 40, height: 40 }} url={variant.imageSrc} type="product" />
+                                                    </div>
+                                                  </li>
+                                                )}
+                                              </React.Fragment>
+                                            )
+                                          })}
                                         </ul>
-                                        {item.product?.productOptions?.Color?.choices?.length > 4 ? (
+                                        {variantData.length > 4 && (
                                           <div className="colors-number">
-                                            <span>+{item.product.productOptions.Color.choices.length - 4}</span>
+                                            <span>+{variantData.length - 4}</span>
                                           </div>
-                                        ) : null}
+                                        )}
+
                                       </div>
                                     </DelayedLink>
                                   </div>
@@ -307,14 +304,15 @@ const Search = ({ studios, markets, searchContent }) => {
                             data-aos
                             data-cursor-style="default"
                           >
-                            {filteredPortfolioCollection?.slice(0, 5).map((data) => {
+                            {filteredPortfolioCollection?.slice(0, 5).map((portfolio) => {
+                              const { portfolioRef } = portfolio;
                               return (
                                 <div
-                                  key={data._id}
+                                  key={portfolio._id}
                                   className="swiper-slide grid-item"
                                 >
                                   <DelayedLink
-                                    to={`/project/${data.slug}`}
+                                    to={`/project/${portfolio.slug}`}
                                     className="link-portfolio"
                                   >
                                     <div
@@ -322,17 +320,12 @@ const Search = ({ studios, markets, searchContent }) => {
                                       data-cursor-style="view"
                                     >
                                       <div className="wrapper-img">
-                                        <img
-                                          src={generateImageUrl2({ wix_url: data?.portfolioRef?.coverImage.imageInfo, fit: "fit", w: "220", h: "320", q: "95" })}
-                                          data-preload
-                                          className="media"
-                                          alt=""
-                                        />
+                                        <ImageWrapper timeout={0} key={portfolioRef.coverImage.imageInfo} defaultDimensions={{ width: 220, height: 320 }} q={"100"} min_w={220} fit={"fit"} url={portfolioRef.coverImage.imageInfo} type="2" />
                                       </div>
                                     </div>
                                     <div className="container-text">
                                       <h2 className="title-portfolio">
-                                        {data.portfolioRef.title}
+                                        {portfolioRef.title}
                                       </h2>
                                     </div>
                                   </DelayedLink>
@@ -372,12 +365,7 @@ const Search = ({ studios, markets, searchContent }) => {
                                 data-cursor-style="default"
                               >
                                 {resultMarkets.includes(item._id) && (
-                                  <img
-                                    src={generateImageURL({ wix_url: item?.image, fit: "fit", w: "500", h: "500", q: "95" })}
-                                    data-preload
-                                    className="media"
-                                    alt=""
-                                  />
+                                  <ImageWrapper timeout={0} key={item.image} defaultDimensions={{ width: 500, height: 500 }} url={item.image} customClasses={"media"} min_h={"500"} min_w={"500"} attributes={{ "data-preload": "" }} />
                                 )}
                               </div>
                               <div className="container-text">
@@ -431,13 +419,9 @@ const Search = ({ studios, markets, searchContent }) => {
                                     data-cursor-style="view"
                                   >
                                     <div className="wrapper-img">
-                                      {blog.blogRef.coverImage &&
-                                        <img
-                                          src={generateImageURL({ wix_url: blog?.blogRef?.coverImage, fit: "fit", w: "400", h: "180", q: "95" })}
-                                          data-preload
-                                          className="media"
-                                          alt=""
-                                        />}
+                                      {blog.blogRef.coverImage && (
+                                        <ImageWrapper timeout={0} key={blog.blogRef.coverImage} defaultDimensions={{ width: 400, height: 180 }} url={blog.blogRef.coverImage} min_h={"180"} min_w={"400"} />
+                                      )}
 
                                     </div>
                                   </div>

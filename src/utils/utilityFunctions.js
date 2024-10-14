@@ -316,5 +316,5 @@ export const renderNode = (node) => {
 };
 
 export const logError = (...args) => {
-    if (isDebugMode) console.error(...args);
+  if (isDebugMode) console.error(...args);
 };

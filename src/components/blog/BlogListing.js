@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import DelayedLink from "../common/DelayedLink";
 import { formatDate } from "@/utils/utilityFunctions";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const BlogListing = ({ data, seeMore, applyFilters, loading }) => {
     const [selectedStudios, setSelectedStudios] = useState([]);
@@ -173,12 +174,9 @@ const BlogListing = ({ data, seeMore, applyFilters, loading }) => {
                                         >
                                             <div className="container-img bg-blue" data-cursor-style="view" >
                                                 <div className="wrapper-img">
-                                                    {item.blogRef.coverImage && <img
-                                                        src={generateImageURL({ wix_url: item?.blogRef?.coverImage, w: "440", h: "302", fit: "fit", q: "90" })}
-                                                        data-preload
-                                                        className="media"
-                                                        alt=""
-                                                    />}
+                                                    {item.blogRef.coverImage && (
+                                                        <ImageWrapper url={item.blogRef.coverImage} alt={item.blogRef.title} customClasses={"media"} defaultDimensions={{ width: 440, height: 302 }} min_h={302} min_w={440} fit={"fit"} />
+                                                    )}
                                                 </div>
                                             </div>
                                             <div className="container-text">

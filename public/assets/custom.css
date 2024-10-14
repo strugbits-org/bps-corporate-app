@@ -1379,4 +1379,16 @@ modal-group[name="modal-about-magazine"] iframe body {
     height: 60rem;
 }
 
-/* About changes */
+.container-img.customProfile::before {
+    content: none;
+}
+
+.container-img.customProfile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--blue-1);
+    background: var(--blue-3);
+    height: 34px;
+    width: 34px;
+}
