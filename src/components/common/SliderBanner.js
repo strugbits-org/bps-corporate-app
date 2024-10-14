@@ -1,7 +1,7 @@
 "use client"
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import { useRouter } from "next/navigation";
 import DelayedLink from "./DelayedLink";
+import { ImageWrapper } from "./ImageWrapper";
 
 const SliderBanner = ({ data, type, sectionDetails }) => {
   const router = useRouter();
@@ -31,14 +31,7 @@ const SliderBanner = ({ data, type, sectionDetails }) => {
                       onClick={() => handleNavigate(`/project/${data?.portfolioRef?.slug}`)}
                       className="container-img"
                     >
-                      <img
-                        src={generateImageUrl2({ wix_url: data?.portfolioRef?.coverImage?.imageInfo, w: "1920", h: "1180", q: "95" })}
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-scale-from="1.3"
-                        alt=""
-                      />
+                      <ImageWrapper url={data?.portfolioRef?.coverImage?.imageInfo} type={"2"} defaultDimensions={{ width: 1920, height: 1180 }} customClasses={"media"} attributes={{ "data-parallax": "", "data-scale-from": "1.3" }} />
                     </div>
                     <div className="container-project">
                       <h4 className="project split-words">

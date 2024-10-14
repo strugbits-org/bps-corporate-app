@@ -1,9 +1,8 @@
 import React from "react";
 import { DefaultButton } from "../common/DefaultButton";
-import { generateImageURL } from "@/utils/generateWixURL";
+import { ImageWrapper } from "../common/ImageWrapper";
 
-
-const IntroSection = ({data}) => {
+const IntroSection = ({ data }) => {
 
   return (
     <>
@@ -18,16 +17,11 @@ const IntroSection = ({data}) => {
             data-scale="0.4402"
             data-translate-y="5vh"
           >
-            <img
-              src={generateImageURL({ wix_url: data.backgroundImage, q: "95" })}
-              data-preload
-              className="media"
-              data-parallax-top
-              data-scale-from="1.3"
-              data-end="95% bottom"
-              data-trigger=".about-intro"
-              alt=""
-            />
+            <ImageWrapper
+              url={data.backgroundImage}
+              q={"100"}
+              customClasses={"media"}
+              attributes={{ "data-preload": "", "data-parallax-top": "", "data-scale-from": "1.3", "data-end": "95% bottom", "data-trigger": ".about-intro" }} />
           </div>
         </div>
 

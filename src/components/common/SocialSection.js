@@ -3,6 +3,7 @@ import { generateImageUrl2 } from "@/utils/generateWixURL";
 import Link from "next/link";
 import DelayedLink from "./DelayedLink";
 import { usePathname } from "next/navigation";
+import { ImageWrapper } from "./ImageWrapper";
 
 const SocialSection = ({ data, posts, insta_feed }) => {
   const pathname = usePathname();
@@ -66,17 +67,7 @@ const SocialSection = ({ data, posts, insta_feed }) => {
                               className="container-img"
                               data-cursor-style="view"
                             >
-                              <img
-                                src={generateImageUrl2({
-                                  wix_url: data?.blogRef?.coverImage,
-                                  h: "150",
-                                  w: "150",
-                                  q: "95",
-                                })}
-                                data-preload
-                                className="media"
-                                alt=""
-                              />
+                              <ImageWrapper url={data?.blogRef?.coverImage} type={"2"} defaultDimensions={{ width: 150, height: 150 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                             </div>
                             <div className="container-text">
                               <h4 className="blog-title">
@@ -123,12 +114,7 @@ const SocialSection = ({ data, posts, insta_feed }) => {
                             }}
                           >
                             <div className="container-img">
-                              <img
-                                src={item.image}
-                                data-preload
-                                className="media"
-                                alt=""
-                              />
+                              <ImageWrapper url={item.image} customClasses={"media"} attributes={{ "data-preload": "" }} />
                             </div>
                           </DelayedLink>
                         </li>

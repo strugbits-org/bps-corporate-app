@@ -1,8 +1,8 @@
 "use client"
 import DelayedLink from "@/components/common/DelayedLink";
-import Services from "./models/Services";
-import Market from "./models/Market";
-import Search from "./models/Search";
+import Services from "./modals/Services";
+import Market from "./modals/Market";
+import Search from "./modals/Search";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 

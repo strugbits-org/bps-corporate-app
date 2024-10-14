@@ -1,5 +1,5 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "./DelayedLink";
+import { ImageWrapper } from "./ImageWrapper";
 
 const MarketSection = ({ data, homeSectionDetails }) => {
   let data_delay = 0;
@@ -40,12 +40,7 @@ const MarketSection = ({ data, homeSectionDetails }) => {
                         className="container-img bg-blue"
                         data-cursor-style="view"
                       >
-                        <img
-                          src={generateImageURL({ wix_url: data?.image, h: "600", w: "600", q: "90" })}
-                          data-preload
-                          className="media"
-                          alt=""
-                        />
+                        <ImageWrapper url={data?.image} customClasses={"media"} defaultDimensions={{ width: "600", height: "600" }} attributes={{ "data-preload": "" }} />
                       </div>
                       <div className="container-text">
                         <h3 className="title-project split-words">

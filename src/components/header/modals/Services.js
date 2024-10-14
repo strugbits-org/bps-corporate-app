@@ -1,5 +1,6 @@
 import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "@/components/common/DelayedLink";
+import { ImageWrapper } from "@/components/common/ImageWrapper";
 
 const Services = ({data}) => {
   return (
@@ -20,12 +21,7 @@ const Services = ({data}) => {
               attributes={{ "data-menu-close": "" }}
             >
               <div className="container-img bg-blue">
-                <img
-                  src={generateImageURL({ wix_url: service?.image, fit: "fit", w: index === 0 ? "1280" : "600", h: index === 0 ? "1280" : "600", q: "95" })}
-                  data-preload
-                  className="media"
-                  alt=""
-                />
+                <ImageWrapper url={service?.image} defaultDimensions={{ width: 1280, height: 600 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
               </div>
               <h2 className="service-title split-words">
                 {service.cardName}

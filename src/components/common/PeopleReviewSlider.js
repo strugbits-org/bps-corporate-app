@@ -1,5 +1,5 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import { DefaultButton } from "./DefaultButton";
+import { ImageWrapper } from "./ImageWrapper";
 
 const PeopleReviewSLider = ({ data, homeSectionDetails, actionButton = true }) => {
 
@@ -27,12 +27,7 @@ const PeopleReviewSLider = ({ data, homeSectionDetails, actionButton = true }) =
                       <div key={index} className="swiper-slide">
                         <div className="wrapper-content">
                           <div className="container-img">
-                            <img
-                              src={generateImageURL({ wix_url: data?.image, fit: "fit", w: "600", h: "600", q: "95" })}
-                              data-preload
-                              className="media"
-                              alt=""
-                            />
+                            <ImageWrapper url={data?.image} defaultDimensions={{ width: 600, height: 600 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                           </div>
                           <div className="container-text">
                             <p className="testimony">{data.description}</p>

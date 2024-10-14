@@ -1,8 +1,7 @@
 "use client"
-
-import { generateImageURL } from "@/utils/generateWixURL";
 import { DefaultButton } from "./DefaultButton";
 import { usePathname } from "next/navigation";
+import { ImageWrapper } from "./ImageWrapper";
 
 const DreamBigSection = ({ data }) => {
   const pathname = usePathname();
@@ -17,20 +16,10 @@ const DreamBigSection = ({ data }) => {
         <div className="row">
           <div className="col-lg-4 offset-lg-4 column-1">
             <div className="container-img no-phone">
-              <img
-                src={generateImageURL({ wix_url: data?.desktopBackgroundImage, fit: "fit", q: "90" })}
-                data-preload
-                className="media"
-                alt=""
-              />
+            <ImageWrapper defaultDimensions={{ width: 1356, height: 953 }} url={data.desktopBackgroundImage} min_w={"1356"} min_h={"953"} customClasses={"media"} attributes={{ "data-preload": "" }} />
             </div>
             <div className="container-img no-desktop no-tablet">
-              <img
-                src={generateImageURL({ wix_url: data?.mobileBackgroundImage, fit: "fit", q: "90" })}
-                data-preload
-                className="media"
-                alt=""
-              />
+            <ImageWrapper defaultDimensions={{ width: 434, height: 773 }} url={data.mobileBackgroundImage} min_w={"434"} min_h={"773"} customClasses={"media"} attributes={{ "data-preload": "" }} />
             </div>
             <div
               data-parallax

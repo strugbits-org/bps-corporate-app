@@ -1,6 +1,6 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
 import DelayedLink from "./DelayedLink";
+import { ImageWrapper } from "./ImageWrapper";
 const StudioSection = ({ studioData, homeSectionDetails }) => {
   return (
 
@@ -28,24 +28,22 @@ const StudioSection = ({ studioData, homeSectionDetails }) => {
           <div className="col-lg-12">
             <ul className="accordion-list-studios" data-aos="d:loop">
               {studioData.map((data, index) => {
+                const { cardName, slug, cardDescription, image } = data;
                 return (
                   <li key={index} className="accordion-item">
                     <div className="accordion-header">
-                      <h3 className="accordion-title split-words" data-aos="d:loop">{data?.cardName}</h3>
+                      <h3 className="accordion-title split-words" data-aos="d:loop">{cardName}</h3>
                     </div>
                     <div className="accordion-content">
                       <div className="container-img bg-blue">
-                        <img
-                          src={generateImageURL({ wix_url: data?.image, h: "900", fit: "fit", q: "95" })}
-                          data-preload className=" media"
-                          alt="" />
+                        <ImageWrapper key={image} defaultDimensions={{ width: 1337, height: 620 }} url={image} min_h={"620"} />
                       </div>
                       <div className="container-accordion-text">
                         <p className="accordion-text">
-                          {data?.cardDescription}
+                          {cardDescription}
                         </p>
                         <DelayedLink
-                          to={`/services/${data.slug}`}
+                          to={`/services/${slug}`}
                           className="btn-border-blue">
                           <span>See more</span>
                           <i className="icon-arrow-right"></i>

@@ -1,6 +1,7 @@
 import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "./DelayedLink";
 import React from "react";
+import { ImageWrapper } from "./ImageWrapper";
 
 const ProductCartSlider = ({ data }) => {
   const EXTERNAL_SITE_URL = process.env.NEXT_PUBLIC_RENTALS_URL;
@@ -29,18 +30,7 @@ const ProductCartSlider = ({ data }) => {
 
                     <div className="wrapper-img">
                       <div className="container-img">
-                        <img
-                          src={generateImageURL({
-                            wix_url: item.mainMedia,
-                            w: "200",
-                            h: "200",
-                            fit: "fit",
-                            q: "95",
-                          })}
-                          data-preload
-                          className="media"
-                          alt=""
-                        />
+                        <ImageWrapper url={item.mainMedia} fit={"fit"} defaultDimensions={{ width: 200, height: 200 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                       </div>
                     </div>
                     <div className="container-bottom">
@@ -58,20 +48,7 @@ const ProductCartSlider = ({ data }) => {
                                 {index < 4 && (
                                   <li key={index}>
                                     <div className="container-img">
-                                      <img
-                                        src={generateImageURL({
-                                          wix_url: option.mainMedia
-                                            ? option.mainMedia
-                                            : item.mainMedia,
-                                          w: "24",
-                                          h: "24",
-                                          fit: "fit",
-                                          q: "95",
-                                        })}
-                                        data-preload
-                                        className="media"
-                                        alt=""
-                                      />
+                                      <ImageWrapper url={option.mainMedia ? option.mainMedia : item.mainMedia} fit={"fit"} defaultDimensions={{ width: 24, height: 24 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                                     </div>
                                   </li>
                                 )}
@@ -85,20 +62,7 @@ const ProductCartSlider = ({ data }) => {
                                   {index < 4 && (
                                     <li key={index}>
                                       <div className="container-img">
-                                        <img
-                                          src={generateImageURL({
-                                            wix_url: option.mainMedia
-                                              ? option.mainMedia
-                                              : item.mainMedia,
-                                            w: "24",
-                                            h: "24",
-                                            fit: "fit",
-                                            q: "95",
-                                          })}
-                                          data-preload
-                                          className="media"
-                                          alt=""
-                                        />
+                                        <ImageWrapper url={option.mainMedia ? option.mainMedia : item.mainMedia} fit={"fit"} defaultDimensions={{ width: 24, height: 24 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                                       </div>
                                     </li>
                                   )}

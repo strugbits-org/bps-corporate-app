@@ -1,8 +1,9 @@
 import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
-const OurDream = ({data,sectionDetails}) => {
+const OurDreamTeam = ({data,sectionDetails}) => {
 
   return (
     <section className="about-dream-team pt-lg-195">
@@ -21,12 +22,7 @@ const OurDream = ({data,sectionDetails}) => {
                     <li key={index} className="grid-item">
                       <div className="wrapper-profile">
                         <div className="container-img">
-                          <img
-                            src={generateImageURL({ wix_url: data.image, w: "580", h: "720", q: "95" })}
-                            data-preload
-                            className="media"
-                            alt=""
-                          />
+                          <ImageWrapper url={data.image} defaultDimensions={{ width: 580, height: 720 }} customClasses={"media"} />
                         </div>
                         <div className="container-text">
                           <h3 className="name split-words">{data.name}</h3>
@@ -62,4 +58,4 @@ const OurDream = ({data,sectionDetails}) => {
   );
 };
 
-export default OurDream;
+export default OurDreamTeam;

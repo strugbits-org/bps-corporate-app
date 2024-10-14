@@ -1,40 +1,27 @@
 "use client"
-import {
-  blogGalleryImageURL,
-  generateImageURL,
-} from "@/utils/generateWixURL";
 import { useEffect, useState } from "react";
 import ProductCartSlider from "../common/ProductCartSlider";
 import SocialVerticalBar from "./SocialVerticalBar";
 import ReactPlayer from "react-player";
 import { formatDate } from "@/utils/utilityFunctions";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const PostDetails = ({ data, blogSectionDetails, tags }) => {
   const [singleData, setSingleData] = useState([]);
+  const [errorProfilePhoto, setErrorProfilePhoto] = useState(false);
 
   const title = data?.blogRef?.title;
   const date = formatDate(data?.blogRef?.lastPublishedDate?.$date);
-  const profileImage = generateImageURL({
-    wix_url: data?.author?.profilePhoto,
-    w: "35",
-    h: "35",
-    q: "90",
-  });
+  const profileImage = data?.author?.profilePhoto;
   const authorName = data?.author?.nickname;
 
   useEffect(() => {
     const singlePost = async () => {
       let blogData = [];
       if (data?.blogRef?.coverImage) {
-        const image = generateImageURL({
-          wix_url: data?.blogRef?.coverImage,
-          w: "1280",
-          h: "670",
-          q: "90",
-        });
         blogData.push({
           type: "cover",
-          image: image,
+          image: data?.blogRef?.coverImage,
           sq: 0,
         });
       }
@@ -144,15 +131,9 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
           const gallery = [];
           item?.galleryData?.items?.forEach((item) => {
             if (item.image?.media?.src) {
-              const image = blogGalleryImageURL({
-                wix_url: item.image?.media?.src.url,
-                w: "960",
-                h: "540",
-                q: "90",
-              });
               gallery.push({
                 type: "cover",
-                image: image,
+                image: item.image?.media?.src.url,
                 sq: 0,
               });
             }
@@ -163,13 +144,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
             sq: 0,
           });
         } else if (item.type === "IMAGE") {
-          const imageURL = generateImageURL({
-            wix_url: item.imageData.image.src._id,
-            w: "960",
-            h: "540",
-            q: "90",
-          });
-          blogData.push({ type: "image", image: imageURL });
+          blogData.push({ type: "image", image: item.imageData.image.src.id });
         }
       });
 
@@ -190,16 +165,15 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 <div className="author">
-                  <div className="container-img">
-                    {profileImage && (
-                      <img
-                        src={profileImage}
-                        data-preload
-                        className="media"
-                        alt=""
-                      />
-                    )}
-                  </div>
+                  {profileImage && !errorProfilePhoto ? (
+                    <div className="container-img">
+                      <ImageWrapper url={profileImage} onError={() => { setErrorProfilePhoto(true) }} defaultDimensions={{ width: 80, height: 80 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
+                    </div>
+                  ) : (
+                    <div className="container-img customProfile">
+                      {authorName && authorName.split(" ").map((name) => name[0].toUpperCase()).join("")}
+                    </div>
+                  )}
                   <h2 className="author-name">{authorName}</h2>
                 </div>
                 <div className="date">
@@ -221,14 +195,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
               {singleData.length > 0 && singleData[0].type === "cover" && (
                 <div className="article-thumb" data-aos="d:loop">
                   <div className="container-img">
-                    <img
-                      src={singleData[0].image}
-                      data-preload
-                      className="media"
-                      alt="cover"
-                      data-parallax-top
-                      data-translate-y="20%"
-                    />
+                    <ImageWrapper url={singleData[0].image} defaultDimensions={{ width: 1920, height: 1080 }} customClasses={"media"} attributes={{ "data-preload": "", "data-parallax-top": "", "data-translate-y": "20%" }} alt="cover" />
                   </div>
                 </div>
               )}
@@ -277,12 +244,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
                                 return (
                                   <div key={index} className="swiper-slide">
                                     <div className="container-img">
-                                      <img
-                                        src={item.image}
-                                        data-preload
-                                        className="media"
-                                        alt=""
-                                      />
+                                      <ImageWrapper url={item.image} defaultDimensions={{ width: 960, height: 540 }} type={"blogImage"} customClasses={"media"} attributes={{ "data-preload": "" }} />
                                     </div>
                                   </div>
                                 );
@@ -298,7 +260,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
                         </div>
                       );
                     } else if (item?.type === "image") {
-                      return <img key={index} src={item.image} alt="" />;
+                      return <ImageWrapper url={item.image} type={"blogImage"} defaultDimensions={{ width: 960, height: 540 }} key={item.image} />;
                     } else {
                       return null;
                     }
@@ -332,9 +294,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
 
             {data?.storeProducts && data?.storeProducts.length !== 0 && (
               <div
-                className={`container-slider-produtcts mt-lg-padding-fluid mt-tablet-100 mt-phone-105 ${
-                  data?.storeProducts?.length === 0 ? "hidden" : ""
-                }`}
+                className={`container-slider-produtcts mt-lg-padding-fluid mt-tablet-100 mt-phone-105 ${data?.storeProducts?.length === 0 ? "hidden" : ""}`}
               >
                 <h2 className="slider-title">
                   {blogSectionDetails?.featuredProductsTitle}

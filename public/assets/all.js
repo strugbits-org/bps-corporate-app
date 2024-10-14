@@ -16,8 +16,10 @@ const screen = {
   tresholdTablet: 1025,
   isIpadPro: false
 };
-const uA = navigator.userAgent;
-const vendor = navigator.vendor;
+// const uA = navigator.userAgent;
+// const vendor = navigator.vendor;
+const uA = typeof navigator !== "undefined" && navigator.userAgent;
+const vendor = typeof navigator !== "undefined" && navigator.vendor;
 const isIpadPro = () => {
   return /Macintosh/.test(uA) && "ontouchend" in document;
 };

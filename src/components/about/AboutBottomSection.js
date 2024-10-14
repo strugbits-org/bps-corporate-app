@@ -1,6 +1,6 @@
 "use client"
-import { generateImageURL } from "@/utils/generateWixURL";
 import { refreshMagazineIframe } from "@/utils/utilityFunctions";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const AboutBottomSection = ({ sectionDetails }) => {
   return (
@@ -19,13 +19,7 @@ const AboutBottomSection = ({ sectionDetails }) => {
                     group="modal-about-magazine"
                     data-cursor-style="off"
                   >
-                    <img
-                      src={generateImageURL({ wix_url: sectionDetails.magazineCoverImage, w: "310", h: "410", fit: "fit", q: "95" })}
-                      data-preload
-                      className="media"
-                      alt=""
-                      onClick={() => refreshMagazineIframe()}
-                    />
+                    <ImageWrapper onClick={() => refreshMagazineIframe()} url={sectionDetails.magazineCoverImage} defaultDimensions={{ width: 310, height: 410 }} min_w={"310px"} min_h={"410px"} fit={"fit"} attributes={{ "data-preload": "" }} customClasses={"media"} />
                   </btn-modal-open>
                 </div>
 
