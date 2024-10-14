@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/utilityFunctions";
+import { logError, markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/utilityFunctions";
 import { listBlogs } from "@/services/listing";
 import BlogListing from "./BlogListing";
 
@@ -37,7 +37,7 @@ export default function Blog({
             setLoadingData(false);
         } catch (error) {
             setLoadingData(false);
-            console.error(error);
+            logError(error);
         }
     };
 
@@ -53,7 +53,7 @@ export default function Blog({
             setLoadingData(false);
         } catch (error) {
             setLoadingData(false);
-            console.error(error);
+            logError(error);
         }
     };
 

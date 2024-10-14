@@ -1,6 +1,6 @@
 import { getMarketCollection } from "@/services/market";
 
-const BASE_URL = process.env.BASE_URL || 'https://blueprintstudios.com';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://blueprintstudios.com';
 
 export default async function sitemap() {
   const markets = await getMarketCollection();

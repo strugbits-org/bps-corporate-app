@@ -25,9 +25,6 @@ const ContentComponent = ({ content, title, maxWords }) => {
 
     setParagraphs(paragraphsArray);
 
-    // console.log("content", content);
-    // if (words.length > maxWords) console.log("content", content);
-
   }, [content, maxWords]);
 
   return (

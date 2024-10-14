@@ -1,3 +1,4 @@
+import { logError } from "@/utils/utilityFunctions";
 import { fetchCollection } from "..";
 import { listPortfolios } from "../listing";
 
@@ -54,7 +55,7 @@ export const getAboutUsDreamTeamSection = async () => {
         return response._items.map((x) => x.data).sort((a, b) => a.orderNumber - b.orderNumber);
 
     } catch (error) {
-        console.log("error.message", error);
+        logError("error.message", error);
         throw new Error(error.message);
     }
 }

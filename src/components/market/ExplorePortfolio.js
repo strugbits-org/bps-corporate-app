@@ -2,8 +2,8 @@ import { generateImageUrl2 } from "@/utils/generateWixURL";
 import DelayedLink from "../common/DelayedLink";
 import { DefaultButton } from "../common/DefaultButton";
 
-const ExplorePortfolio = ({ marketSectionDetails,portfolioCollection }) => {
-
+const ExplorePortfolio = ({ marketSectionDetails, portfolioCollection }) => {
+  if (!portfolioCollection) return;
   return (
     <section className="market-explore-portfolio overflow-hidden pt-lg-270 pb-lg-220 py-tablet-100 pt-phone-145 pb-phone-190">
       <div className="container-fluid">
@@ -32,7 +32,7 @@ const ExplorePortfolio = ({ marketSectionDetails,portfolioCollection }) => {
                               data-cursor-style="view"
                             >
                               <img
-                                src={generateImageUrl2({ wix_url: item?.portfolioRef?.coverImage?.imageInfo,w: "480", h: "620", q: "90" })}
+                                src={generateImageUrl2({ wix_url: item?.portfolioRef?.coverImage?.imageInfo, w: "480", h: "620", q: "90" })}
                                 data-preload
                                 className="media"
                                 alt=""

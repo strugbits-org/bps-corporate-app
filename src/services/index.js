@@ -1,3 +1,5 @@
+import { logError } from "@/utils/utilityFunctions";
+
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const fetchCollection = async (payload) => {
@@ -16,7 +18,7 @@ export const fetchCollection = async (payload) => {
     const data = await response.json();
     return data.data.data;
   } catch (error) {
-    console.error('Error fetching collection:', error);
+    logError('Error fetching collection:', error);
     throw new Error('An error occurred while fetching data');
   }
 };

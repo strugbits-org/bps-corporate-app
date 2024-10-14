@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/utils/generateWixURL"
+import { generateImageURL, getFullVideoURL } from "@/utils/generateWixURL"
 import { DefaultButton } from "../common/DefaultButton"
 
 const MarketTopSection = ({data}) => {

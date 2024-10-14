@@ -1,3 +1,4 @@
+import { logError } from "@/utils/utilityFunctions";
 import { fetchCollection, getInstaFeed } from "..";
 import { listBlogs, listPortfolios } from "../listing";
 
@@ -168,7 +169,7 @@ export const getSocialSectionBlogs = async () => {
         const response = await listBlogs({ pageSize: 9 });
         return response._items.filter(item => item.data.blogRef._id !== undefined).map(item => item.data);
     } catch (error) {
-        console.error(error, "error occured");
+        logError(error, "error occured");
         return [];
     }
 }
