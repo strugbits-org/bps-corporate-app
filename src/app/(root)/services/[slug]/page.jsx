@@ -2,7 +2,7 @@ import { AnimationLoaded } from "@/components/common/AnimationLoaded";
 import Services from "@/components/services";
 import { getPageMetaData } from "@/services";
 import { getStudiosSectionData } from "@/services/home";
-import { getServiceData, getServicesSlider } from "@/services/services-page";
+import { getServiceData, getPortfolioSliderServices } from "@/services/services-page";
 import { logError } from "@/utils/utilityFunctions";
 import { notFound } from "next/navigation";
 
@@ -55,7 +55,7 @@ export default async function Page({ params }) {
         if (!serviceData) {
             throw new Error("Not found");
         }
-        const servicesSlider = await getServicesSlider(serviceData._id);
+        const servicesSlider = await getPortfolioSliderServices(serviceData._id);
 
         return (
             <>

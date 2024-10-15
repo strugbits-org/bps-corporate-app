@@ -45,16 +45,16 @@ export default async function RootLayout({ children }) {
     socialSectionBlogs,
     instaFeed
   ] = await Promise.all([
-    getStudiosSectionData(true),
-    getMarketsSectionData(true),
-    getSearchSectionDetails(true),
-    getFooterData(true),
+    getStudiosSectionData(),
+    getMarketsSectionData(),
+    getSearchSectionDetails(),
+    getFooterData(),
     getFooterNavigationMenu(),
-    getContactData(true),
-    getSocialLinks(true),
-    getContactUsContent(true),
-    getAboutUsIntroSection(true),
-    getAboutUsSectionDetails(true),
+    getContactData(),
+    getSocialLinks(),
+    getContactUsContent(),
+    getAboutUsIntroSection(),
+    getAboutUsSectionDetails(),
     getDreamBigData(),
     getSocialSectionDetails(),
     getSocialSectionBlogs(),
@@ -73,7 +73,7 @@ export default async function RootLayout({ children }) {
           <ContactUsModal contactUsContent={contactUsContent} contactData={contactData} socialLinks={socialLinks} />
           <AboutUsVideoModal data={aboutUsIntroSection} />
           <AboutUsMagazineModal data={aboutUsSectionDetails} />
-          <MarketsVideoModal />
+          <MarketsVideoModal markets={markets} />
 
           <Suspense>
             <Navbar studios={studios} markets={markets} searchContent={searchContent} />

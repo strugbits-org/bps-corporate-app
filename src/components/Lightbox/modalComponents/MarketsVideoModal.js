@@ -1,21 +1,28 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { ModalWrapper } from "../ModalWrapper";
-import { getMarketSection } from "@/services/market";
 import { getFullVideoURL } from "@/utils/generateWixURL";
 import { usePathname } from "next/navigation";
+import { logError } from "@/utils/utilityFunctions";
 
-const MarketsVideoModal = () => {
+const MarketsVideoModal = ({ markets }) => {
   const [src, setSrc] = useState(null);
   const pathname = usePathname();
   const page_name = pathname.split("/")[1].trim();
 
   useEffect(() => {
     const getData = async () => {
-      const slug = pathname.split("/")[2];
-      if (page_name !== "market") return;
-      const marketSection = await getMarketSection(slug);
-      setSrc(getFullVideoURL(marketSection?.video));
+      try {
+        const slug = pathname.split("/")[2];
+        if (page_name !== "market") return;
+        const marketSection = markets.find((market) => market.slug === slug);
+        if (!marketSection) {
+          throw new Error(`Video Not found for market: ${slug}`);
+        }
+        setSrc(getFullVideoURL(marketSection.video));
+      } catch (error) {
+        logError("Error fetching Market video data(modal): ", error);
+      }
     }
     getData();
   }, [pathname])

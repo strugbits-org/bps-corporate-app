@@ -1,18 +1,20 @@
-import { fetchCollection } from "..";
-import { listPortfolios } from "../listing";
+import queryDataItems from "../queryWixData";
 
 export const getServiceData = async (slug) => {
     try {
-        const data = {
+        const response = await queryDataItems({
             "dataCollectionId": "StudiosSection",
             "includeReferencedItems": ["subServices"],
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": ["slug", slug],
-            "limit": null
+            "eq": [
+                {
+                    "key": "slug",
+                    "value": slug
+                }
+            ],
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for StudiosSection");
         }
-        const response = await fetchCollection(data);
         return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
@@ -20,30 +22,40 @@ export const getServiceData = async (slug) => {
 }
 export const getServicesSectionDetails = async () => {
     try {
-        const data = {
-            "dataCollectionId": "ServicePostSectionDetails",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "ServicePostSectionDetails"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for ServicePostSectionDetails");
         }
-        const response = await fetchCollection(data);
         return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
     }
 }
-export const getServicesSlider = async (id) => {
+export const getPortfolioSliderServices = async (id) => {
     try {
-        const options = {
-            pageSize: 3,
-            studios: [id],
-        };
-
-        const portfolio = await listPortfolios(options);
-        return portfolio._items.map(item => item.data);
+        const response = await queryDataItems({
+            "dataCollectionId": "PortfolioCollection",
+            "includeReferencedItems": ["portfolioRef", "studios", "markets"],
+            "limit": 3,
+            "hasSome": [
+                {
+                    "key": "studios",
+                    "values": [id]
+                }
+            ],
+            "ne": [
+                {
+                    "key": "isHidden",
+                    "value": true
+                }
+            ]
+        });
+        if (!response._items) {
+            throw new Error("No data found for PortfolioCollection");
+        }
+        return response._items.map(item => item.data);
     } catch (error) {
         throw new Error(error.message);
     }

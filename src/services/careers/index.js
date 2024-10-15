@@ -1,17 +1,13 @@
-import { fetchCollection } from "..";
+import queryDataItems from "../queryWixData";
 
 export const getCareersPageContent = async () => {
     try {
-        const data = {
-            "dataCollectionId": "CareersSectionDetails",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "CareersSectionDetails"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for CareersSectionDetails");
         }
-        const response = await fetchCollection(data);
         return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
@@ -20,16 +16,12 @@ export const getCareersPageContent = async () => {
 
 export const getCareersIntroSection = async () => {
     try {
-        const data = {
-            "dataCollectionId": "CareersFirsttwosections",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "CareersFirsttwosections"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for CareersFirsttwosections");
         }
-        const response = await fetchCollection(data);
         return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);
@@ -38,16 +30,12 @@ export const getCareersIntroSection = async () => {
 
 export const getCareersJobsBoard = async () => {
     try {
-        const data = {
-            "dataCollectionId": "JobsBoards",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "JobsBoards"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for JobsBoards");
         }
-        const response = await fetchCollection(data);
         return response._items.map((x) => x.data).sort((a, b) => a.orderNumber - b.orderNumber);
     } catch (error) {
         throw new Error(error.message);
@@ -56,16 +44,12 @@ export const getCareersJobsBoard = async () => {
 
 export const getWhoWorksSection = async () => {
     try {
-        const data = {
-            "dataCollectionId": "WhoWorksSection",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "WhoWorksSection"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for WhoWorksSection");
         }
-        const response = await fetchCollection(data);
         return response._items.map((x) => x.data).sort((a, b) => a.orderNumber - b.orderNumber);
     } catch (error) {
         throw new Error(error.message);
