@@ -1,4 +1,3 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "./DelayedLink";
 import React from "react";
 import { ImageWrapper } from "./ImageWrapper";

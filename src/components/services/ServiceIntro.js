@@ -1,5 +1,5 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const ServiceIntro = ({ data }) => {
 
@@ -48,13 +48,7 @@ const ServiceIntro = ({ data }) => {
           data-translate-y="20rem"
           data-scale="1.2"
         >
-          <img
-            src={generateImageURL({ wix_url: data?.image, q: "90" })}
-            data-preload
-            className="media"
-            alt=""
-            data-aos="scaleOut 1.2s ease-out-cubic 0s, d:loop"
-          />
+          <ImageWrapper url={data?.image} customClasses={"media"} attributes={{ "data-preload": "", "data-aos": "scaleOut 1.2s ease-out-cubic 0s, d:loop" }} />
         </div>
       </section>
 

@@ -5,7 +5,7 @@ import { markPageLoaded } from "@/utils/utilityFunctions";
 
 export const AnimationLoaded = () => {
     useEffect(() => {
-        markPageLoaded();
+        setTimeout(markPageLoaded, 400);
     }, []);
 
     return null;

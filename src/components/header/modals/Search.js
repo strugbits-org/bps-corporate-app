@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import debounce from "lodash/debounce";
 import DelayedLink from "@/components/common/DelayedLink";
-import { generateImageURL, generateImageUrl2 } from "@/utils/generateWixURL";
 import { listBlogs, listPortfolios, listProducts, searchAllPages } from "@/services/listing";
 import { formatDate, logError } from "@/utils/utilityFunctions";
 import { ImageWrapper } from "@/components/common/ImageWrapper";

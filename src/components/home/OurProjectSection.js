@@ -1,6 +1,6 @@
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import DelayedLink from "../common/DelayedLink";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const OurProjectSection = ({ portfolioCollection, homeSectionDetails }) => {
   return (
@@ -34,12 +34,7 @@ const OurProjectSection = ({ portfolioCollection, homeSectionDetails }) => {
                         >
                           <div className="container-img bg-blue">
                             <div className="wrapper-img">
-                              <img
-                                src={generateImageUrl2({ wix_url: item?.portfolioRef?.coverImage?.imageInfo, w: index === 0 ? "1920" : "800", h: "800", fit: "fit", q: "90" })}
-                                data-preload
-                                className="media"
-                                alt=""
-                              />
+                              <ImageWrapper url={item?.portfolioRef?.coverImage?.imageInfo} type={"2"} defaultDimensions={{ width: "800", height: "800" }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                             </div>
                           </div>
                           <div className="container-text">

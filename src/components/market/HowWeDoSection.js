@@ -1,5 +1,5 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import { convertToHTML } from "@/utils/utilityFunctions";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const HowWeDoSection = ({data,marketSectionDetails}) => {
 
@@ -28,14 +28,7 @@ const HowWeDoSection = ({data,marketSectionDetails}) => {
                   <li key={index}>
                     <div className="list-column-img">
                       <div className="container-img" data-aos="d:loop">
-                        <img
-                          src={generateImageURL({ wix_url: item?.image,w: "790", h: "605", q: "90" })}
-                          data-preload
-                          className="media"
-                          alt=""
-                          data-parallax
-                          data-scale-from="1.2"
-                        />
+                        <ImageWrapper url={item?.image} defaultDimensions={{ width: 790, height: 605 }} customClasses={"media"} attributes={{ "data-parallax": "", "data-scale-from": "1.2" }} />
                       </div>
                     </div>
                     <div className="list-column-text">

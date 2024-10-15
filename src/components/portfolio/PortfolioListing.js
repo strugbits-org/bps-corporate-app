@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import DelayedLink from "../common/DelayedLink";
-import { generateImageUrl2 } from "@/utils/generateWixURL";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
   const [selectedStudios, setSelectedStudios] = useState([]);
@@ -181,12 +181,7 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
                         data-cursor-style="view"
                       >
                         <div className="wrapper-img">
-                          <img
-                            src={generateImageUrl2({ wix_url: item.portfolioRef.coverImage.imageInfo, w: "480", h: "620", q: "85" })}
-                            data-preload
-                            className="media"
-                            alt=""
-                          />
+                          <ImageWrapper url={item?.portfolioRef?.coverImage?.imageInfo} type={"2"} customClasses={"media"} attributes={{ "data-preload": "" }} />
                         </div>
                       </div>
                     </DelayedLink>

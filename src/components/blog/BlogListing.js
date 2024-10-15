@@ -1,4 +1,3 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import React, { useState } from "react";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import DelayedLink from "../common/DelayedLink";

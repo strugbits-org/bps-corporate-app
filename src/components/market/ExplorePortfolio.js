@@ -1,6 +1,6 @@
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import DelayedLink from "../common/DelayedLink";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const ExplorePortfolio = ({ marketSectionDetails, portfolioCollection }) => {
   if (!portfolioCollection) return;
@@ -31,12 +31,7 @@ const ExplorePortfolio = ({ marketSectionDetails, portfolioCollection }) => {
                               className="container-img"
                               data-cursor-style="view"
                             >
-                              <img
-                                src={generateImageUrl2({ wix_url: item?.portfolioRef?.coverImage?.imageInfo, w: "480", h: "620", q: "90" })}
-                                data-preload
-                                className="media"
-                                alt=""
-                              />
+                              <ImageWrapper url={item?.portfolioRef?.coverImage?.imageInfo} type={"2"} customClasses={"media"} attributes={{ "data-preload": "" }} />
                             </div>
                           </div>
                           <h3 className="title-portfolio split-words">

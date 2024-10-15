@@ -1,7 +1,8 @@
-import { generateImageURL, getFullVideoURL } from "@/utils/generateWixURL"
+import { getFullVideoURL } from "@/utils/generateWixURL"
 import { DefaultButton } from "../common/DefaultButton"
+import { ImageWrapper } from "../common/ImageWrapper"
 
-const MarketTopSection = ({data}) => {
+const MarketTopSection = ({ data }) => {
 
   return (
     <>
@@ -47,13 +48,7 @@ const MarketTopSection = ({data}) => {
           data-translate-y="20rem"
           data-scale="1.2"
         >
-          <img
-            src={generateImageURL({ wix_url: data?.image, q: "90" })}
-            data-preload
-            className="media"
-            alt=""
-            data-aos="scaleOut 1.2s ease-out-cubic 0s, d:loop"
-          />
+          <ImageWrapper url={data?.image} customClasses={"media"} attributes={{ "data-preload": "", "data-aos": "scaleOut .8s ease-out-cubic .2s, d:loop" }} />
         </div>
       </section>
 

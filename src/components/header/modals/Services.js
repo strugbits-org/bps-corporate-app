@@ -1,4 +1,3 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "@/components/common/DelayedLink";
 import { ImageWrapper } from "@/components/common/ImageWrapper";
 

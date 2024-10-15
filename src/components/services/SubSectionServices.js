@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/utils/generateWixURL";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 export const SubSectionServices = ({ data }) => {
 
@@ -23,12 +23,7 @@ export const SubSectionServices = ({ data }) => {
                   <li key={index} className="grid-item">
                     <div className="content">
                       <div className="container-img">
-                        <img
-                          src={generateImageURL({ wix_url: service?.image, w: "480", h: "302", q: "90" })}
-                          data-preload
-                          className="media"
-                          alt=""
-                        />
+                        <ImageWrapper url={service?.image} defaultDimensions={{ width: 480, height: 302 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                       </div>
                       <div className="container-text">
                         <h3 className="service-name split-words">

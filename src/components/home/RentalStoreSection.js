@@ -1,7 +1,7 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
 import DelayedLink from "../common/DelayedLink";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const RentalStoreSection = ({ data, homeSectionDetails, rentalStoreSubtitle }) => {
   let transition = -35;
@@ -38,12 +38,7 @@ const RentalStoreSection = ({ data, homeSectionDetails, rentalStoreSubtitle }) =
                   {item.text}
                   {item.image &&
                     <span>
-                      <img
-                        src={generateImageURL({ wix_url: item?.image, h: "60", w: "60", fit: "fit", q: "95" })}
-                        data-preload
-                        alt=""
-                        className="img-1 media"
-                      />
+                      <ImageWrapper url={item.image} fit={"fit"} defaultDimensions={{ width: 60, height: 60 }} customClasses={"img-1 media"} attributes={{ "data-preload": "" }} />
                     </span>
                   }
                 </React.Fragment>
@@ -75,12 +70,7 @@ const RentalStoreSection = ({ data, homeSectionDetails, rentalStoreSubtitle }) =
                       }}
                     >
                       <div className="container-img">
-                        <img
-                          src={generateImageURL({ wix_url: item?.image, w: index === 0 || index === (data?.length - 1) ? "1280" : "600", h: index === 0 ? "1080" : "540", fit: "fit", q: "95" })}
-                          data-preload
-                          className="media"
-                          alt=""
-                        />
+                        <ImageWrapper url={item?.image} defaultDimensions={{ width: 1280, height: 600 }} customClasses={"media"} attributes={{ "data-preload": "" }} />
                       </div>
                       {item.newimagetag && (
                         <div className="tag-new no-mobile">

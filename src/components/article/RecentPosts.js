@@ -1,6 +1,5 @@
 import React from "react";
 import DelayedLink from "../common/DelayedLink";
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import { DefaultButton } from "../common/DefaultButton";
 import { formatDate } from "@/utils/utilityFunctions";
 import { ImageWrapper } from "../common/ImageWrapper";

@@ -25,14 +25,14 @@ const isIpadPro = () => {
 };
 const isMobileUserAgent = /iPhone|iPad|iPod|Android/i.test(uA) || isIpadPro();
 screen.isSafariDesktop = /Safari/i.test(uA) && /Apple Computer/.test(vendor) && !/Mobi|Android/i.test(uA);
-screen.isMac = navigator.userAgent.indexOf("Mac OS X") != -1;
-screen.isIphone = navigator.userAgent.match(/iPhone/i);
+screen.isMac = typeof navigator !== "undefined" && navigator.userAgent.indexOf("Mac OS X") != -1;
+screen.isIphone = typeof navigator !== "undefined" && navigator.userAgent.match(/iPhone/i);
 screen.isIpadPro = isIpadPro();
 if (screen.isMac && window.chrome) {
   screen.isMac = false;
   screen.isMacChrome = true;
 }
-screen.isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+screen.isFirefox = typeof navigator !== "undefined" && navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 const size = function() {
   let w = window.innerWidth;
   let h = window.innerHeight;

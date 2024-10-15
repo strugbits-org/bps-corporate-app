@@ -1,5 +1,4 @@
 "use client"
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import Link from "next/link";
 import DelayedLink from "./DelayedLink";
 import { usePathname } from "next/navigation";

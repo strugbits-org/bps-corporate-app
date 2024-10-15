@@ -1,8 +1,8 @@
 "use client"
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import DelayedLink from "../common/DelayedLink";
 import React from "react";
 import { DefaultButton } from "../common/DefaultButton";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const ExploreProjectsSection = ({
   portfolioSectionDetails,
@@ -37,18 +37,7 @@ const ExploreProjectsSection = ({
                           data-cursor-style="view"
                         >
                           <div className="wrapper-img">
-                            <img
-                              src={generateImageUrl2({
-                                wix_url:
-                                  data?.portfolioRef.coverImage.imageInfo,
-                                w: "470",
-                                h: "580",
-                                q: "90",
-                              })}
-                              data-preload
-                              className="media"
-                              alt=""
-                            />
+                            <ImageWrapper url={data?.portfolioRef?.coverImage?.imageInfo} defaultDimensions={{ width: "470", height: "580" }} type={"2"} customClasses={"media"} attributes={{ "data-preload": "" }} />
                           </div>
                         </div>
                         <div className="container-text">
