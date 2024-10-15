@@ -1,17 +1,13 @@
-import { fetchCollection } from "..";
+import queryDataItems from "../queryWixData";
 
-export const getContactUsContent = async (enableCache) => {
+export const getContactUsContent = async () => {
     try {
-        const data = {
-            "dataCollectionId": "ContactUsContent",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "ContactUsContent"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for ContactUsContent");
         }
-        const response = await fetchCollection(data, enableCache ? "ContactUsContentDataCache" : null);
         return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);

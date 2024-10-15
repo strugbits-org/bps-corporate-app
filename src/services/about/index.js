@@ -1,19 +1,13 @@
-import { logError } from "@/utils/utilityFunctions";
-import { fetchCollection } from "..";
-import { listPortfolios } from "../listing";
+import queryDataItems from "../queryWixData";
 
 export const getAboutUsCardsSection = async () => {
     try {
-        const data = {
-            "dataCollectionId": "AboutUsCardsSection",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "AboutUsCardsSection"
+        });
+        if (!response._items) {
+            throw new Error("No data found for AboutUsCardsSection");
         }
-        const response = await fetchCollection(data);
         return response._items.map((x) => x.data);
 
     } catch (error) {
@@ -21,18 +15,14 @@ export const getAboutUsCardsSection = async () => {
     }
 }
 
-export const getAboutUsIntroSection = async (enableCache) => {
+export const getAboutUsIntroSection = async () => {
     try {
-        const data = {
-            "dataCollectionId": "AboutUsIntroSection",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "AboutUsIntroSection"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for AboutUsIntroSection");
         }
-        const response = await fetchCollection(data, enableCache ? "AboutUsIntroSectionDataCache" : null);
         return response._items[0].data;
 
     } catch (error) {
@@ -42,36 +32,27 @@ export const getAboutUsIntroSection = async (enableCache) => {
 
 export const getAboutUsDreamTeamSection = async () => {
     try {
-        const data = {
-            "dataCollectionId": "AboutUsDreamTeamSection",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": 1000
+        const response = await queryDataItems({
+            "dataCollectionId": "AboutUsDreamTeamSection"
+        });
+        if (!response._items) {
+            throw new Error("No data found for AboutUsDreamTeamSection");
         }
-        const response = await fetchCollection(data);
         return response._items.map((x) => x.data).sort((a, b) => a.orderNumber - b.orderNumber);
 
     } catch (error) {
-        logError("error.message", error);
         throw new Error(error.message);
     }
 }
 
 export const getAboutUsRestOfFamily = async () => {
     try {
-        const data = {
-            "dataCollectionId": "AboutUsRestOfFamily",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "AboutUsRestOfFamily"
+        });
+        if (!response._items) {
+            throw new Error("No data found for AboutUsRestOfFamily");
         }
-        const response = await fetchCollection(data);
         return response._items.map((x) => x.data);
 
     } catch (error) {
@@ -79,32 +60,37 @@ export const getAboutUsRestOfFamily = async () => {
     }
 }
 
-export const getAboutSlider = async () => {
+export const getPortfolioSlider = async () => {
     try {
-        const options = {
-            pageSize: 3,
-        };
-
-        const portfolio = await listPortfolios(options);
-        return portfolio._items.map(item => item.data);
+        const response = await queryDataItems({
+            "dataCollectionId": "PortfolioCollection",
+            "includeReferencedItems": ["portfolioRef", "studios", "markets"],
+            "limit": 3,
+            "ne": [
+                {
+                    "key": "isHidden",
+                    "value": true
+                }
+            ]
+        });
+        if (!response._items) {
+            throw new Error("No data found for PortfolioCollection");
+        }
+        return response._items.map(item => item.data);
 
     } catch (error) {
         throw new Error(error.message);
     }
 }
 
-export const getAboutUsSectionDetails = async (enableCache) => {
+export const getAboutUsSectionDetails = async () => {
     try {
-        const data = {
-            "dataCollectionId": "AboutUsSectionDetails",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "AboutUsSectionDetails"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for AboutUsSectionDetails");
         }
-        const response = await fetchCollection(data, enableCache ? "AboutUsSectionDetailsDataCache" : null);
         return response._items[0].data;
     } catch (error) {
         throw new Error(error.message);

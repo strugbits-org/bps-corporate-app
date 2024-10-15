@@ -4,7 +4,7 @@ import IntroSection from '@/components/about/IntroSection';
 import OurDreamTeam from '@/components/about/OurDreamTeam';
 import OurFamily from '@/components/about/OurFamily';
 import SliderBanner from '@/components/common/SliderBanner';
-import { getAboutSlider, getAboutUsCardsSection, getAboutUsDreamTeamSection, getAboutUsIntroSection, getAboutUsRestOfFamily, getAboutUsSectionDetails } from '@/services/about';
+import { getPortfolioSlider, getAboutUsCardsSection, getAboutUsDreamTeamSection, getAboutUsIntroSection, getAboutUsRestOfFamily, getAboutUsSectionDetails } from '@/services/about';
 import { logError } from '@/utils/utilityFunctions';
 
 export default async function About() {
@@ -21,7 +21,7 @@ export default async function About() {
                 getAboutUsIntroSection(),
                 getAboutUsDreamTeamSection(),
                 getAboutUsRestOfFamily(),
-                getAboutSlider(),
+                getPortfolioSlider(),
                 getAboutUsSectionDetails(),
             ]);
     

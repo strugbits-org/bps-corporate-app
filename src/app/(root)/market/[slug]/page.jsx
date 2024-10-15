@@ -2,7 +2,7 @@ import { AnimationLoaded } from "@/components/common/AnimationLoaded";
 import Market from "@/components/market";
 import { getPageMetaData } from "@/services";
 import { getMarketsSectionData } from "@/services/home";
-import { fetchPortfolio, getMarketSection } from "@/services/market";
+import { fetchMarketPortfolios, getMarketSection } from "@/services/market";
 import { logError } from "@/utils/utilityFunctions";
 import { notFound } from "next/navigation";
 
@@ -55,7 +55,7 @@ export default async function Page({ params }) {
         if (!marketSection) {
             throw new Error("Not found");
         }
-        const portfolioData = await fetchPortfolio({ id: marketSection._id });
+        const portfolioData = await fetchMarketPortfolios({ id: marketSection._id });
 
         return (
             <>

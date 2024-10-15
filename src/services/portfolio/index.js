@@ -1,18 +1,19 @@
-import { fetchCollection } from "..";
-import { listPortfolios } from "../listing";
+import queryDataItems from "../queryWixData";
 
 export const listAllPortfolios = async () => {
   try {
-    const data = {
-      dataCollectionId: "PortfolioCollection",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      find: {},
-      contains: null,
-      eq: null,
-      limit: 1000,
-    };
-    const response = await fetchCollection(data);
+    const response = await queryDataItems({
+      "dataCollectionId": "PortfolioCollection",
+      "ne": [
+        {
+          "key": "isHidden",
+          "value": true
+        }
+      ]
+    });
+    if (!response._items) {
+      throw new Error("No data found for PortfolioCollection");
+    }
     return response._items.map((x) => x.data);
   } catch (error) {
     throw new Error(error.message);
@@ -21,16 +22,12 @@ export const listAllPortfolios = async () => {
 
 export const getPortfolioSectionDetails = async () => {
   try {
-    const data = {
-      dataCollectionId: "PortfolioSectionDetails",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      find: {},
-      contains: null,
-      eq: null,
-      limit: null,
-    };
-    const response = await fetchCollection(data);
+    const response = await queryDataItems({
+      "dataCollectionId": "PortfolioSectionDetails",
+    });
+    if (!response._items || !response._items[0]) {
+      throw new Error("No data found for PortfolioSectionDetails");
+    }
     return response._items[0].data;
   } catch (error) {
     throw new Error(error.message);
@@ -39,38 +36,50 @@ export const getPortfolioSectionDetails = async () => {
 
 export const getSinglePortfolio = async (slug) => {
   try {
-    const data = {
-      dataCollectionId: "PortfolioCollection",
-      includeReferencedItems: [
-        "portfolioRef",
-        "locationFilteredVariant",
-        "storeProducts",
-        "studios",
-        "markets",
+    const response = await queryDataItems({
+      "dataCollectionId": "PortfolioCollection",
+      "includeReferencedItems": ["portfolioRef", "locationFilteredVariant", "storeProducts", "studios", "markets"],
+      "eq": [
+        {
+          "key": "slug",
+          "value": slug
+        }
       ],
-      returnTotalCount: null,
-      find: {},
-      contains: null,
-      eq: ["slug", slug],
-      limit: null,
-      filterProducts: true,
-    };
-    const response = await fetchCollection(data);
+      "ne": [
+        {
+          "key": "isHidden",
+          "value": true
+        }
+      ]
+    });
     return response._items[0].data;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-export const getPortfolio = async ({ pageSize, id }) => {
+export const getOtherPortfolios = async (slug) => {
   try {
-    const options = {
-      pageSize: pageSize,
-      slug: id,
-    };
+    const response = await queryDataItems({
+      "dataCollectionId": "PortfolioCollection",
+      "includeReferencedItems": ["portfolioRef", "studios", "markets"],
+      "limit": 4,
+      "ne": [
+        {
+          "key": "slug",
+          "value": slug
+        },
+        {
+          "key": "isHidden",
+          "value": true
+        }
+      ]
+    });
+    if (!response._items) {
+      throw new Error("No data found for PortfolioCollection");
+    }
 
-    const portfolio = await listPortfolios(options);
-    return portfolio._items.map((item) => item.data);
+    return response._items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
   }

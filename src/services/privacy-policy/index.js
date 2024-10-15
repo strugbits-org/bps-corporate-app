@@ -1,18 +1,14 @@
-import { fetchCollection } from "..";
+import queryDataItems from "../queryWixData";
 
 export const getPrivacyPolicyContent = async () => {
     try {
-        const data = {
-            "dataCollectionId": "PrivacyPolicyContent",
-            "includeReferencedItems": null,
-            "returnTotalCount": null,
-            "find": {},
-            "contains": null,
-            "eq": null,
-            "limit": null
+        const response = await queryDataItems({
+            "dataCollectionId": "PrivacyPolicyContent"
+        });
+        if (!response._items || !response._items[0]) {
+            throw new Error("No data found for PrivacyPolicyContent");
         }
-        const response = await fetchCollection(data);
-        return response._items.map((x) => x.data)[0]?.content;
+        return response._items.map((x) => x.data)[0].content;
     } catch (error) {
         throw new Error(error.message);
     }

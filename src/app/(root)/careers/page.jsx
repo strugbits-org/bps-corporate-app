@@ -1,6 +1,7 @@
 import Career from '@/components/careers';
 import { AnimationLoaded } from '@/components/common/AnimationLoaded';
 import { getPageMetaData } from '@/services';
+import { logError } from '@/utils/utilityFunctions';
 
 export async function generateMetadata() {
     try {

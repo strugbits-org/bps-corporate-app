@@ -1,4 +1,5 @@
 import { logError } from "@/utils/utilityFunctions";
+import queryDataItems from "./queryWixData";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -22,7 +23,6 @@ export const fetchCollection = async (payload) => {
     throw new Error('An error occurred while fetching data');
   }
 };
-
 export const fetchCollectionSp = async (payload) => {
   try {
     const response = await fetch(`${base_url}/corporate/query-data-items-excludeditems`, {
@@ -42,7 +42,6 @@ export const fetchCollectionSp = async (payload) => {
     throw new Error(error.message);
   }
 };
-
 export const fetchBlogTags = async (payload) => {
   try {
     const response = await fetch(`${base_url}/corporate/blog-tags`, {
@@ -61,7 +60,6 @@ export const fetchBlogTags = async (payload) => {
     throw new Error(error.message);
   }
 };
-
 export const postForm = async (name, payload) => {
   try {
     const response = await fetch(`${base_url}/corporate/post-data/${name}`, {
@@ -80,32 +78,20 @@ export const postForm = async (name, payload) => {
     throw new Error(error.message);
   }
 };
-
-export const getInstaFeed = async () => {
-  try {
-    const response = await fetch(`${base_url}/corporate/instagram/feeds`);
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-    const data = await response.json();
-    return data.data.data;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
 export const getPageMetaData = async (path) => {
   try {
-    const data = {
+    const response = await queryDataItems({
       "dataCollectionId": "PageSeoConfiguration",
-      "includeReferencedItems": null,
-      "returnTotalCount": null,
-      "find": {},
-      "contains": null,
-      "eq": ["slug", path],
-      "limit": null
+      "eq": [
+        {
+          "key": "slug",
+          "value": path
+        }
+      ]
+    });
+    if (!response._items || !response._items[0]) {
+      throw new Error("No data found for PageSeoConfiguration");
     }
-    const response = await fetchCollection(data, `PageSeoConfigurationDataCache_${path}`);
     return response._items[0].data;
   } catch (error) {
     throw new Error(error.message);
