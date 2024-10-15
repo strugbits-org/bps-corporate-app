@@ -1,13 +1,10 @@
-import { generateImageUrl2 } from "@/utils/generateWixURL";
 import SocialVerticalBar from "../article/SocialVerticalBar";
 import ContentComponent from "../common/ContentComponent ";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const PortfolioIntoSection = ({ data }) => {
   const maxWords = 60;
-  const coverImage = generateImageUrl2({
-    wix_url: data?.portfolioRef?.coverImage?.imageInfo,
-    q: "95",
-  });
+  const coverImage = data?.portfolioRef?.coverImage?.imageInfo;
   const categories = data?.markets?.map((item) => item.cardname);
   const title = data?.portfolioRef?.title;
   const description = data?.portfolioRef?.description;
@@ -29,14 +26,7 @@ const PortfolioIntoSection = ({ data }) => {
       <div className="wrapper-banner-img" data-aos>
         <div className="container-img banner-img">
           {coverImage && (
-            <img
-              src={coverImage}
-              data-preload
-              className="media"
-              alt=""
-              data-parallax-top
-              data-translate-y="50%"
-            />
+            <ImageWrapper url={coverImage} type={"2"} customClasses={"media"} attributes={{ "data-preload": "", "data-parallax-top": "", "data-translate-y": "50%" }} />
           )}
         </div>
       </div>

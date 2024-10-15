@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import ProductCartSlider from "../common/ProductCartSlider";
-import { generateImageURL } from "../../utils/generateWixURL";
+import { ImageWrapper } from "../common/ImageWrapper";
 
 const GallerySection = ({ data, portfolioSectionDetails }) => {
   const [gallery, setGallery] = useState([]);
@@ -47,18 +47,7 @@ const GallerySection = ({ data, portfolioSectionDetails }) => {
                       <div className="module-column" data-aos="d:loop">
                         <div className="container-img bg-blue">
                           <div className="wrapper-img">
-                            <img
-                              src={generateImageURL({
-                                wix_url: item.fullImage,
-                                q: "90",
-                                w: "1920",
-                                h: "1280",
-                                fit: "fit",
-                              })}
-                              data-preload
-                              className="media"
-                              alt="imageasd"
-                            />
+                            <ImageWrapper url={item.fullImage} defaultDimensions={{ width: 1920, height: 1280 }} min_h={"720"} min_w={"780"} fit={"fit"} customClasses={"media"} attributes={{ "data-preload": "" }} />
                           </div>
                         </div>
                       </div>
@@ -80,17 +69,7 @@ const GallerySection = ({ data, portfolioSectionDetails }) => {
                               >
                                 <div className="container-img bg-blue">
                                   <div className="wrapper-img">
-                                    <img
-                                      src={generateImageURL({
-                                        wix_url: imageUrl,
-                                        q: "90",
-                                        w: "780",
-                                        h: "720",
-                                      })}
-                                      data-preload
-                                      className="media"
-                                      alt=""
-                                    />
+                                    <ImageWrapper url={imageUrl} defaultDimensions={{ width: 780, height: 720 }} min_h={"720"} min_w={"780"} customClasses={"media"} attributes={{ "data-preload": "" }} />
                                   </div>
                                 </div>
                               </div>

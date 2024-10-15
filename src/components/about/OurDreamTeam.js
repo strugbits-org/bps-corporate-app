@@ -1,4 +1,3 @@
-import { generateImageURL } from "@/utils/generateWixURL";
 import React from "react";
 import { DefaultButton } from "../common/DefaultButton";
 import { ImageWrapper } from "../common/ImageWrapper";

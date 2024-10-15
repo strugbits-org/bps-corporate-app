@@ -1,5 +1,4 @@
 "use client"
-import { generateImageURL } from "@/utils/generateWixURL";
 import DelayedLink from "@/components/common/DelayedLink";
 import Newsletter from "@/components/common/Newsletter";
 import { DynamicLink } from "@/components/common/DynamicLink";
