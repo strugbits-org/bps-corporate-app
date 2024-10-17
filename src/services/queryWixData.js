@@ -1,4 +1,4 @@
-import { createWixClient } from "@/utils/CreateWixClient";
+import { createWixClient } from "@/utils/createWixClient";
 import { logError } from "@/utils/utilityFunctions";
 
 function delay(ms) {
@@ -79,6 +79,17 @@ const queryDataItems = async (payload) => {
 
   } catch (error) {
     logError("Error in queryDataItems:", payload.dataCollectionId, error);
+    return { error: error.message, status: 500 };
+  }
+};
+
+export const queryBlogsTags = async (ids) => {
+  try {
+    const client = await createWixClient();
+    const data = await client.tags.queryTags().hasSome("_id", ids).find();
+    return data;
+  } catch (error) {
+    logError("Error in queryBlogsTags:", payload.dataCollectionId, error);
     return { error: error.message, status: 500 };
   }
 };

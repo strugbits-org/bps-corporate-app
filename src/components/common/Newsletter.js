@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { postForm } from "@/services";
 import { useEffect, useState } from "react";
+import { logError } from "@/utils/utilityFunctions";
 
 const Newsletter = ({ data }) => {
   const validationSchema = Yup.object().shape({
@@ -26,9 +27,10 @@ const Newsletter = ({ data }) => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await postForm("newsletter", data);
+      await postForm("newsletter", data);      
       setFeedback("success");
     } catch (error) {
+      logError("Error submitting form:", error);
       setFeedback("error");
     } finally {
       setLoading(false);

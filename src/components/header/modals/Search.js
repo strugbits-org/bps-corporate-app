@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import debounce from "lodash/debounce";
 import DelayedLink from "@/components/common/DelayedLink";
-import { listBlogs, listPortfolios, listProducts, searchAllPages } from "@/services/listing";
+import { listPortfolios, listProducts, searchAllPages } from "@/services/listing";
 import { formatDate, logError } from "@/utils/utilityFunctions";
 import { ImageWrapper } from "@/components/common/ImageWrapper";
+import { getAllBlogs } from "@/services/blog";
 
 const Search = ({ studios, markets, searchContent }) => {
 
@@ -81,7 +82,7 @@ const Search = ({ studios, markets, searchContent }) => {
       const [portfolio, products, blog, otherPages] = await Promise.all([
         listPortfolios(options),
         listProducts(options),
-        listBlogs(options),
+        getAllBlogs(),
         searchAllPages(options)
       ]);
 

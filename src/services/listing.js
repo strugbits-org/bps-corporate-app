@@ -1,4 +1,5 @@
-import { fetchCollection, fetchCollectionSp } from ".";
+import { fetchCollectionSp } from ".";
+import queryDataItems from "./queryWixData";
 
 export const listPortfolios = async ({ pageSize = 10, skip = 0, searchTerm = "", studios = [], markets = [], slug = null }) => {
     try {
@@ -23,42 +24,24 @@ export const listPortfolios = async ({ pageSize = 10, skip = 0, searchTerm = "",
     }
 }
 
-export const listBlogs = async ({ pageSize = 10, skip = 0, searchTerm = "", studios = [], markets = [], slug = null }) => {
-
-    try {
-        const data = {
-            "dataCollectionId": "BlogProductData",
-            "includeReferencedItems": ["blogRef", "locationFilteredVariant", "storeProducts", "studios", "markets", "author"],
-            "returnTotalCount": true,
-            "find": {},
-            "contains": ['titleAndDescription', searchTerm],
-            "eq": null,
-            "limit": pageSize,
-            "studios": studios,
-            "markets": markets,
-            "skip": skip,
-            "ne": ["slug", slug],
-            "filterProducts": true,
-        }
-        const response = await fetchCollectionSp(data);
-        return response;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
 export const listProducts = async ({ pageSize = 10, searchTerm = "" }) => {
     try {
-        const data = {
+        const response = await queryDataItems({
             "dataCollectionId": "locationFilteredVariant",
-            "includeReferencedItems": ["product"],
             "returnTotalCount": true,
-            "find": {},
+            "includeReferencedItems": ["product"],
             "contains": ['search', searchTerm],
-            "eq": ["isF1Exclusive", false],
+            "eq": [
+                {
+                    "key": "isF1Exclusive",
+                    "value": false
+                }
+            ],
             "limit": pageSize
+        });
+        if (!response._items) {
+            throw new Error("No products found");
         }
-        const response = await fetchCollection(data);
         return response;
     } catch (error) {
         throw new Error(error.message);
@@ -67,16 +50,19 @@ export const listProducts = async ({ pageSize = 10, searchTerm = "" }) => {
 
 export const searchAllPages = async ({ pageSize = 10, searchTerm = "" }) => {
     try {
-        const data = {
+        const response = await queryDataItems({
             "dataCollectionId": "TextCollectionPages",
-            "includeReferencedItems": null,
-            "returnTotalCount": true,
-            "find": {},
             "contains": ['content', searchTerm],
-            "eq": ["showInSearch", true],
+            "eq": [{
+                "key": "showInSearch",
+                "value": true
+            }],
             "limit": pageSize
+        });
+        if (!response._items) {
+            throw new Error("No data found for TextCollectionPages");
         }
-        const response = await fetchCollection(data);
+
         return response._items.map((x) => x.data);
     } catch (error) {
         throw new Error(error.message);
