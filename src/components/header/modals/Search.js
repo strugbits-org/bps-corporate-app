@@ -1,127 +1,117 @@
-import React, { useEffect, useMemo, useState } from "react";
-import debounce from "lodash/debounce";
+"use client";
+import React, { useEffect, useState } from "react";
+import debounce from 'lodash/debounce';
 import DelayedLink from "@/components/common/DelayedLink";
-import { listPortfolios, listProducts, searchAllPages } from "@/services/listing";
-import { formatDate, logError } from "@/utils/utilityFunctions";
+import { filterSearchData, formatDate, updatedWatched } from "@/utils/utilityFunctions";
 import { ImageWrapper } from "@/components/common/ImageWrapper";
-import { getAllBlogs } from "@/services/blog";
+import { listProducts } from "@/services";
 
-const Search = ({ studios, markets, searchContent }) => {
+const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPagesData }) => {
 
-  const EXTERNAL_SITE_URL = process.env.NEXT_PUBLIC_RENTALS_URL;
+  const RENTALS_URL = process.env.NEXT_PUBLIC_RENTALS_URL;
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchActive, setSearchActive] = useState(false);
+
   const [selectedStudios, setSelectedStudios] = useState([]);
   const [selectedMarkets, setSelectedMarkets] = useState([]);
-
-  const [blogCollection, setBlogCollection] = useState([]);
-  const [portfolioCollection, setPortfolioCollection] = useState([]);
-  const [productCollection, setProductCollection] = useState([]);
-  const [otherPagesResults, setOtherPagesResults] = useState([]);
 
   const [resultStudios, setResultStudios] = useState([]);
   const [resultMarkets, setResultMarkets] = useState([]);
 
-  const [searchActive, setSearchActive] = useState(false);
+  const [BlogsResult, setBlogsResult] = useState([]);
+  const [portfoliosResult, setPortfoliosResult] = useState([]);
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [filteredPortfolios, setFilteredPortfolios] = useState([]);
+  const [filteredPages, setFilteredPages] = useState([]);
+
+  const handleSearchFilter = (value) => {
+    const term = value !== undefined ? value : searchTerm;
+    const filteredPagesData = searchPagesData.filter(page => {
+      const matchedTerm = term === "" || (page.content && page.content.toLowerCase().includes(term));
+      return matchedTerm;
+    });
+    setFilteredPages(filteredPagesData);
+
+    const filteredPortfoliosData = portfolios.filter(portfolio => {
+      const matchedTerm = term === "" || (portfolio.titleAndDescription && portfolio.titleAndDescription.toLowerCase().includes(term));
+      return matchedTerm;
+    });
+    setPortfoliosResult(filteredPortfoliosData);
+
+    const filteredBlogsData = blogs.filter(blog => {
+      const matchedTerm = term === "" || (blog.titleAndDescription && blog.titleAndDescription.toLowerCase().includes(term));
+      return matchedTerm;
+    });
+    setBlogsResult(filteredBlogsData);
+  }
+
+  const handleInputChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSelectedStudios([]);
+    setSelectedMarkets([]);
+    setSearchTerm(value);
+    handleSearchFilter(value);
+  };
+  const handleStudioFilter = (studio) => {
+    if (selectedStudios.includes(studio)) {
+      setSelectedStudios(selectedStudios.filter((el) => el !== studio));
+    } else {
+      setSelectedStudios([...selectedStudios, studio]);
+    }
+  };
+  const handleMarketFilter = (market) => {
+    if (selectedMarkets.includes(market)) {
+      setSelectedMarkets(selectedMarkets.filter((el) => el !== market));
+    } else {
+      setSelectedMarkets([...selectedMarkets, market]);
+    }
+  };
 
   useEffect(() => {
-    const portfolioStudios = portfolioCollection.flatMap(item => item.studios.map(studio => studio._id));
-    const blogStudios = blogCollection.flatMap(item => item.studios.map(studio => studio._id));
-    const portfolioMarkets = portfolioCollection.flatMap(item => item.markets.map(market => market._id));
-    const blogMarkets = blogCollection.flatMap(item => item.markets.map(market => market._id));
+    const filteredPortfolioItems = filterSearchData(portfoliosResult, selectedStudios, selectedMarkets);
+    const filteredBlogItems = filterSearchData(BlogsResult, selectedStudios, selectedMarkets);
+    setFilteredPortfolios(filteredPortfolioItems.slice(0, 5))
+    setFilteredBlogs(filteredBlogItems.slice(0, 5))
+  }, [selectedStudios, selectedMarkets])
+
+  useEffect(() => {
+    const portfolioStudios = portfoliosResult.flatMap(item => item.studios.map(studio => studio._id));
+    const blogStudios = BlogsResult.flatMap(item => item.studios.map(studio => studio._id));
+    const portfolioMarkets = portfoliosResult.flatMap(item => item.markets.map(market => market._id));
+    const blogMarkets = BlogsResult.flatMap(item => item.markets.map(market => market._id));
 
     setResultStudios([...new Set([...portfolioStudios, ...blogStudios])]);
     setResultMarkets([...new Set([...portfolioMarkets, ...blogMarkets])]);
-  }, [portfolioCollection, blogCollection]);
 
-  const filterColection = (collection, selectedStudios, selectedMarkets) => {
-    let data = collection;
-    if (selectedStudios.length > 0 && selectedMarkets.length > 0) {
-      data = data.filter(item =>
-        item.studios.some(studio => selectedStudios.includes(studio._id)) ||
-        item.markets.some(market => selectedMarkets.includes(market._id))
-      );
-    } else if (selectedStudios.length > 0) {
-      data = data.filter(item =>
-        item.studios.some(studio => selectedStudios.includes(studio._id))
-      );
-    } else if (selectedMarkets.length > 0) {
-      data = data.filter(item =>
-        item.markets.some(market => selectedMarkets.includes(market._id))
-      );
-    }
-    return data;
+    setFilteredPortfolios(portfoliosResult.slice(0, 5));
+    setFilteredBlogs(BlogsResult.slice(0, 5));
+  }, [BlogsResult, portfoliosResult]);
+
+  const handleProductsFilter = async (term = "") => {
+    const filteredProductsData = await listProducts(term);
+    setFilteredProducts(filteredProductsData);
+    updatedWatched();
   }
-
-  const filteredPortfolioCollection = useMemo(() => filterColection(portfolioCollection, selectedStudios, selectedMarkets), [selectedStudios, selectedMarkets, portfolioCollection]);
-  const filteredBlogCollection = useMemo(() => filterColection(blogCollection, selectedStudios, selectedMarkets), [selectedStudios, selectedMarkets, blogCollection]);
-
-  const handleStudioFilter = (tag) => {
-    if (selectedStudios.includes(tag)) {
-      setSelectedStudios(selectedStudios.filter((el) => el !== tag));
-    } else {
-      setSelectedStudios([...selectedStudios, tag]);
-    }
-  };
-  const handleMarketFilter = (category) => {
-    if (selectedMarkets.includes(category)) {
-      setSelectedMarkets(selectedMarkets.filter((el) => el !== category));
-    } else {
-      setSelectedMarkets([...selectedMarkets, category]);
-    }
-  };
-
-
-  const searchCollections = async (term = "") => {
-    try {
-      const options = {
-        pageSize: 50,
-        searchTerm: term,
-      };
-
-      const [portfolio, products, blog, otherPages] = await Promise.all([
-        listPortfolios(options),
-        listProducts(options),
-        getAllBlogs(),
-        searchAllPages(options)
-      ]);
-
-      setPortfolioCollection(portfolio._items.filter(item => item.data.portfolioRef._id !== undefined).map(item => item.data));
-      setProductCollection(products._items.filter(item => item.data.product._id !== undefined && !item.data.hidden).map(item => item.data));
-      setBlogCollection(blog._items.filter(item => item.data.blogRef._id !== undefined).map(item => item.data));
-      setOtherPagesResults(otherPages);
-    } catch (error) {
-      logError("Error in search: ", error);
-    } finally {
-      setSelectedStudios([]);
-      setSelectedMarkets([]);
-    }
-  };
-
 
   useEffect(() => {
     if (searchActive) {
-      const delayedSearch = debounce(() => { searchCollections(searchTerm) }, 1000);
+      const delayedSearch = debounce(() => { handleProductsFilter(searchTerm) }, 500);
       delayedSearch();
       return () => delayedSearch.cancel();
     }
   }, [searchActive, searchTerm]);
 
-
-  const handleInputChange = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchTerm(value);
-  };
-
   const handleSubmit = async (e) => {
     if (searchActive) {
-      searchCollections(searchTerm);
+      handleProductsFilter(searchTerm);
     } else {
       setSearchActive(true);
     }
     e.preventDefault();
   };
-
 
   return (
     <section className="menu-search" data-get-submenu="search">
@@ -136,8 +126,12 @@ const Search = ({ studios, markets, searchContent }) => {
                   onSubmit={handleSubmit}
                 >
                   <div className="container-input input-header">
-                    <label className="split-chars" data-aos="d:loop">
-                      Type here
+                    <label
+                      htmlFor="search"
+                      className="split-chars"
+                      data-aos="d:loop"
+                    >
+                      type here
                     </label>
                     <input
                       type="search"
@@ -162,9 +156,8 @@ const Search = ({ studios, markets, searchContent }) => {
                   </div>
                 </form>
               </div>
-
               <div className="container-results">
-                <div className="inner-container-results" data-cursor-style="default">
+                <div className="inner-container-results">
                   <button className="btn-close-results" data-search-remove>
                     X
                   </button>
@@ -177,7 +170,6 @@ const Search = ({ studios, markets, searchContent }) => {
                     <ul
                       className="list-result-all-studios grid-lg-16 grid-tablet-33 grid-phone-50"
                       data-aos
-                      data-cursor-style="default"
                     >
                       {studios?.map((item, index) => {
                         return (
@@ -193,21 +185,16 @@ const Search = ({ studios, markets, searchContent }) => {
                       })}
                     </ul>
                   </div>
-
                   <div className="column-results">
-
-                    <div className={`result-rental ${productCollection.length === 0 ? "hidden" : ""}`}>
+                    <div className={`result-rental ${filteredProducts.length === 0 ? "hidden" : ""}`}>
                       <div className="container-title-results">
                         <h2 className="title-results split-chars" data-aos>
-                          {searchContent?.rentalTitle} <span>{`"${searchTerm}"`}</span>
+                          {searchContent?.rentalTitle} <span>{` "${searchTerm}"`}</span>
                         </h2>
                         <DelayedLink
-                          to={`${EXTERNAL_SITE_URL}/search/${searchTerm}`}
-                          // target="blank"
+                          to={`/search/${searchTerm}`}
+                          data-menu-close
                           className="btn-border-blue"
-                          attributes={{
-                            "data-aos": "",
-                          }}
                         >
                           <span>See more</span>
                           <i className="icon-arrow-right"></i>
@@ -218,9 +205,8 @@ const Search = ({ studios, markets, searchContent }) => {
                           <div
                             className="swiper-wrapper list-result-rental list-slider-phone grid-md-33"
                             data-aos
-                            data-cursor-style="default"
                           >
-                            {productCollection.slice(0, 3).map((data, index) => {
+                            {filteredProducts.map((data, index) => {
                               const { product, variantData } = data;
                               return (
                                 <div
@@ -229,7 +215,7 @@ const Search = ({ studios, markets, searchContent }) => {
                                 >
                                   <div className="rental-product-link">
                                     <DelayedLink
-                                      to={`/product/${product.slug}`}
+                                      to={`${RENTALS_URL}/product/${product.slug}`}
                                       className="product-link"
                                       data-menu-close
                                     >
@@ -280,18 +266,16 @@ const Search = ({ studios, markets, searchContent }) => {
                         </div>
                       </div>
                     </div>
-
-                    <div className={`result-portfolio mt-lg-60 mt-mobile-40 ${filteredPortfolioCollection.length === 0 ? "hidden" : ""}`}>
+                    <div className={`result-portfolio mt-lg-60 mt-mobile-40 ${filteredPortfolios.length === 0 ? "hidden" : ""}`}>
                       <div className="container-title-results">
                         <h2 className="title-results split-chars" data-aos>
-                          {searchContent?.portfolioTitle} <span>{`"${searchTerm}"`}</span>
+                          {searchContent?.portfolioTitle} <span>{` "${searchTerm}"`}</span>
                         </h2>
                         <DelayedLink
                           to={`/portfolio`}
+                          // target={"_blank"}
+                          data-menu-close
                           className="btn-border-blue"
-                          attributes={{
-                            "data-aos": "",
-                          }}
                         >
                           <span>See more</span>
                           <i className="icon-arrow-right"></i>
@@ -302,18 +286,19 @@ const Search = ({ studios, markets, searchContent }) => {
                           <div
                             className="swiper-wrapper list-result-portfolio list-slider-phone grid-md-20"
                             data-aos
-                            data-cursor-style="default"
                           >
-                            {filteredPortfolioCollection?.slice(0, 5).map((portfolio) => {
+                            {filteredPortfolios.map((portfolio, index) => {
                               const { portfolioRef } = portfolio;
                               return (
                                 <div
-                                  key={portfolio._id}
+                                  key={index}
                                   className="swiper-slide grid-item"
                                 >
                                   <DelayedLink
                                     to={`/project/${portfolio.slug}`}
-                                    className="link-portfolio"
+                                    // target={"_blank"}
+                                    className="link-portfolio "
+                                    data-menu-close
                                   >
                                     <div
                                       className="container-img bg-blue"
@@ -336,10 +321,8 @@ const Search = ({ studios, markets, searchContent }) => {
                         </div>
                       </div>
                     </div>
-                    {productCollection.length === 0 && filteredPortfolioCollection.length === 0 && <h6 style={{ width: "100%" }} className="ml-4 mt-3-cs fs--40">No products or projects were found for {searchTerm}</h6>}
+                    {filteredProducts.length === 0 && filteredPortfolios.length === 0 && <h6 style={{ width: "100%" }} className="ml-4 mt-3-cs fs--40">No products or projects were found for {searchTerm}</h6>}
                   </div>
-
-
                   <div className="result-our-markets">
                     <div className="container-title-results">
                       <h2 className="title-results split-chars" data-aos>
@@ -349,14 +332,14 @@ const Search = ({ studios, markets, searchContent }) => {
                     <ul
                       className="list-result-our-markets list-projects font-35 grid-md-50"
                       data-aos
-                      data-cursor-style="default"
                     >
-                      {markets?.map((item, index) => {
+                      {markets.map((item, index) => {
+                        const { _id, image, cardname } = item;
                         return (
-                          <li key={index} className={`grid-item ${selectedMarkets.includes(item._id) ? "active" : ""}`}>
+                          <li key={index} className={`grid-item ${selectedMarkets.includes(_id) ? "active" : ""}`}>
                             <div
-                              onClick={() => { handleMarketFilter(item._id) }}
-                              className={`market-link project-link ${!resultMarkets.includes(item._id) ? "disabled" : ""}`}
+                              onClick={() => { handleMarketFilter(_id) }}
+                              className={`market-link project-link ${!resultMarkets.includes(_id) ? "disabled" : ""}`}
                               data-cursor-style="default"
                               data-menu-close
                             >
@@ -364,80 +347,83 @@ const Search = ({ studios, markets, searchContent }) => {
                                 className="container-img bg-blue"
                                 data-cursor-style="default"
                               >
-                                {resultMarkets.includes(item._id) && (
-                                  <ImageWrapper timeout={0} key={item.image} defaultDimensions={{ width: 500, height: 500 }} url={item.image} customClasses={"media"} min_h={"500"} min_w={"500"} attributes={{ "data-preload": "" }} />
+                                {resultMarkets.includes(_id) && (
+                                  <ImageWrapper timeout={0} key={image} defaultDimensions={{ width: 500, height: 500 }} url={image} customClasses={"media"} min_h={"500"} min_w={"500"} attributes={{ "data-preload": "" }} />
                                 )}
                               </div>
                               <div className="container-text">
                                 <h3 className="title-project split-words">
-                                  {item.cardname}
+                                  {cardname}
                                 </h3>
                               </div>
                             </div>
                           </li>
                         );
                       })}
-
                     </ul>
                   </div>
-
-                  <div className={`result-blog ${filteredBlogCollection.length === 0 ? "hidden" : ""}`}>
+                  <div className={`result-blog ${filteredBlogs.length === 0 ? "hidden" : ""}`}>
                     <div className="container-title-results">
                       <h2 className="title-results split-chars" data-aos>
-                        {searchContent?.blogTitle} <span>{`"${searchTerm}"`}</span>
+                        {searchContent?.blogTitle} <span>{` "${searchTerm}"`}</span>
                       </h2>
                       <DelayedLink
-                        to="/blog"
+                        to={`/blog`}
+                        // target={"_blank"}
+                        data-menu-close
                         className="btn-border-blue"
-                        attributes={{
-                          "data-aos": "",
-                        }}
                       >
                         <span>See more</span>
                         <i className="icon-arrow-right"></i>
                       </DelayedLink>
                     </div>
-
                     <div className="slider-content-search-blog">
                       <div className="swiper-container">
                         <div
                           className="swiper-wrapper list-result-blog list-slider-mobile list-blog grid-lg-20"
                           data-aos
                         >
-                          {filteredBlogCollection?.slice(0, 5).map((blog) => {
+                          {filteredBlogs.map((blog, index) => {
+                            const { blogRef, author } = blog;
                             return (
                               <div
-                                key={blog.blogId}
+                                key={index}
                                 className="swiper-slide grid-item"
                               >
                                 <DelayedLink
                                   to={`/article/${blog.slug}`}
-                                  className="link-blog"
+                                  // target={"_blank"}
+                                  className="link-blog "
+                                  data-menu-close
                                 >
                                   <div
                                     className="container-img bg-blue"
                                     data-cursor-style="view"
                                   >
                                     <div className="wrapper-img">
-                                      {blog.blogRef.coverImage && (
-                                        <ImageWrapper timeout={0} key={blog.blogRef.coverImage} defaultDimensions={{ width: 400, height: 180 }} url={blog.blogRef.coverImage} min_h={"180"} min_w={"400"} />
-                                      )}
-
+                                      <ImageWrapper timeout={0} key={blogRef.coverImage} defaultDimensions={{ width: 400, height: 180 }} url={blogRef.coverImage} min_h={"180"} min_w={"400"} />
                                     </div>
                                   </div>
                                   <div className="container-text">
                                     <div className="container-author-post-info">
                                       <div className="author">
                                         <span className="author-name">
-                                          {blog.author.nickname}
+                                          {author.nickname}
+
                                         </span>
                                       </div>
                                       <div className="date">
-                                        <span>{formatDate(blog.blogRef.lastPublishedDate.$date)}</span>
+                                        <span>
+                                          {formatDate(blogRef.lastPublishedDate.$date)}
+                                        </span>
                                       </div>
                                     </div>
-                                    <h2 className="title-blog">{blog.blogRef.title}</h2>
-                                    <p className="text-blog">{blog.blogRef.excerpt}</p>
+                                    <h2 className="title-blog">
+                                      {blogRef.title}
+                                    </h2>
+                                    <p className="text-blog">
+                                      {blogRef.excerpt}
+                                    </p>
                                   </div>
                                 </DelayedLink>
                               </div>
@@ -447,28 +433,32 @@ const Search = ({ studios, markets, searchContent }) => {
                       </div>
                     </div>
                   </div>
-
-                  <div className={`result-order-pages ${otherPagesResults.length === 0 ? "hidden" : ""}`}>
+                  <div className={`result-order-pages ${filteredPages.length === 0 ? "hidden" : ""}`}>
                     <div className="container-title-results">
                       <h2 className="title-results split-chars" data-aos>
-                        {searchContent?.otherPagesTitle} <span>{`"${searchTerm}"`}</span>
+                        {searchContent?.otherPagesTitle} <span>{` "${searchTerm}"`}</span>
                       </h2>
                     </div>
                     <ul
                       className="list-order-pages grid-lg-25 grid-md-50"
                       data-aos
                     >
-                      {otherPagesResults?.map((page, index) => {
+                      {filteredPages.map((page, index) => {
+                        const { path, title, description } = page;
                         return (
                           <li key={index} className="grid-item">
-                            <DelayedLink to={page.path} className="link-order-pages">
-                              <h3 className="title-order-pages">{page.title}</h3>
-                              <p className="text-order-pages">
-                                {page.description}
-                              </p>
+                            <DelayedLink
+                              key={index}
+                              to={!page.redirectToRentals ? path : RENTALS_URL + path}
+                              // target={page.redirectToRentals ? "" : "_blank"}
+                              data-menu-close
+                              className="link-order-pages"
+                            >
+                              <h3 className="title-order-pages">{!page.redirectToRentals ? title : "Rentals | " + title}</h3>
+                              <p className="text-order-pages">{description}</p>
                             </DelayedLink>
                           </li>
-                        )
+                        );
                       })}
                     </ul>
                   </div>

@@ -5,11 +5,7 @@ function chat() {
   let btnChat = document.querySelector(".btn-chat");
   if (!chat2 || !btnChat) return;
   btnChat.addEventListener("click", () => {
-    if (chat2.classList.contains("active")) {
-      chat2.removeActive();
-    } else {
-      chat2.addActive();
-    }
+    chat2.classList.toggle("active");
   });
   if (screen.isSafariDesktop) {
     chat2.classList.add("is-safari");

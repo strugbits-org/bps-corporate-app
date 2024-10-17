@@ -1,8 +1,8 @@
+import { AnimationLoaded } from '@/components/common/AnimationLoaded';
 import Portfolio from '@/components/portfolio';
 import { getPageMetaData } from '@/services';
 import { getHomeSectionDetails, getMarketsSectionData, getStudiosSectionData } from '@/services/home';
-import { listPortfolios } from '@/services/listing';
-import { getPortfolioSectionDetails } from '@/services/portfolio';
+import { getPortfolioSectionDetails, listAllPortfolios } from '@/services/portfolio';
 import { logError } from '@/utils/utilityFunctions';
 
 export async function generateMetadata() {
@@ -33,15 +33,18 @@ export default async function Page() {
             marketsSectionData,
             studios,
         ] = await Promise.all([
-            listPortfolios({ pageSize: 8 }),
+            listAllPortfolios(),
             getHomeSectionDetails(),
             getPortfolioSectionDetails(),
             getMarketsSectionData(),
             getStudiosSectionData()
         ]);
-    
+
         return (
-            <Portfolio {...{ portfolios, homeSectionDetails, portfolioSectionDetails, marketsSectionData, studios }} />
+            <>
+                <AnimationLoaded />
+                <Portfolio {...{ portfolios, homeSectionDetails, portfolioSectionDetails, markets: marketsSectionData, studios: studios.filter(x => x.filters) }} />
+            </>
         )
     } catch (error) {
         logError("Error fetching Portfolio page data:", error);

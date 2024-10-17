@@ -11,6 +11,25 @@ export const formatDate = (dateString) => {
   });
 };
 
+export const filterSearchData = (collection, selectedStudios, selectedMarkets) => {
+  let data = collection;
+  if (selectedStudios.length > 0 && selectedMarkets.length > 0) {
+    data = data.filter(item =>
+      item.studios.some(studio => selectedStudios.includes(studio._id)) ||
+      item.markets.some(market => selectedMarkets.includes(market._id))
+    );
+  } else if (selectedStudios.length > 0) {
+    data = data.filter(item =>
+      item.studios.some(studio => selectedStudios.includes(studio._id))
+    );
+  } else if (selectedMarkets.length > 0) {
+    data = data.filter(item =>
+      item.markets.some(market => selectedMarkets.includes(market._id))
+    );
+  }
+  return data;
+}
+
 export const convertToHTML = ({ content = "", class_p = "", class_ul = "", data_aos_p = "" }) => {
   if (typeof content === 'string') return content;
   let html = "";
@@ -152,10 +171,18 @@ export const initAnimations = () => {
   }
 };
 
-export const updatedWatched = () => {
-  if (typeof window !== 'undefined') {
+export const updatedWatched = (refreshScroll = false) => {
+  if (typeof window !== "undefined") {
     setTimeout(() => {
-      document.querySelector(".updateWatchedTrigger").click();
+
+      const customEvent = new Event("customUpdateWatch");
+      const elem = document.querySelector(".updateWatchedTrigger");
+      if (elem) elem.dispatchEvent(customEvent);
+
+      if (refreshScroll) {
+        const scrollRefreshEvent = new Event("refreshScroll");
+        document.querySelector(".scrollRefresh").dispatchEvent(scrollRefreshEvent);
+      }
     }, 200);
   }
 };

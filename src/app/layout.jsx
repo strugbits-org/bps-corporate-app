@@ -7,7 +7,7 @@ import Wrapper from "@/components/common/Wrapper";
 import Cookies from "@/components/common/Cookies";
 import Loading from "@/components/common/Loading";
 import Navbar from "@/components/header/Navbar";
-import { fetchInstaFeed, getDreamBigData, getMarketsSectionData, getSearchSectionDetails, getSocialSectionBlogs, getSocialSectionDetails, getStudiosSectionData } from "@/services/home/index.js";
+import { fetchInstaFeed, getDreamBigData, getMarketsSectionData, getSearchSectionDetails, getSocialSectionDetails, getStudiosSectionData } from "@/services/home/index.js";
 import { getContactData, getFooterData, getFooterNavigationMenu, getSocialLinks } from "@/services/footer";
 import Footer from "@/components/footer/Footer";
 import SocialSection from "@/components/common/SocialSection";
@@ -21,6 +21,10 @@ import DreamBigSection from "@/components/common/DreamBigSection";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from "react";
+import { getAllBlogs } from "@/services/blog";
+import { getChatConfiguration, searchAllPages } from "@/services";
+import { listAllPortfolios } from "@/services/portfolio";
+import Chat from "@/components/common/Chat";
 
 export const metadata = {
   title: "Blueprint Studios",
@@ -29,10 +33,13 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  
   const [
     studios,
     markets,
     searchContent,
+    searchPagesData,
     footerData,
     navigationMenu,
     contactData,
@@ -42,12 +49,15 @@ export default async function RootLayout({ children }) {
     aboutUsSectionDetails,
     dreamBigData,
     socialSectionDetails,
-    socialSectionBlogs,
-    instaFeed
+    blogs,
+    instaFeed,
+    portfolios,
+    chatConfig
   ] = await Promise.all([
     getStudiosSectionData(),
     getMarketsSectionData(),
     getSearchSectionDetails(),
+    searchAllPages(),
     getFooterData(),
     getFooterNavigationMenu(),
     getContactData(),
@@ -57,8 +67,10 @@ export default async function RootLayout({ children }) {
     getAboutUsSectionDetails(),
     getDreamBigData(),
     getSocialSectionDetails(),
-    getSocialSectionBlogs(),
+    getAllBlogs(),
     fetchInstaFeed(),
+    listAllPortfolios(),
+    getChatConfiguration(BASE_URL)
   ]);
 
   return (
@@ -76,7 +88,7 @@ export default async function RootLayout({ children }) {
           <MarketsVideoModal markets={markets} />
 
           <Suspense>
-            <Navbar studios={studios} markets={markets} searchContent={searchContent} />
+            <Navbar studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} blogs={blogs} portfolios={portfolios} />
           </Suspense>
           <Wrapper>
             <main>
@@ -85,9 +97,11 @@ export default async function RootLayout({ children }) {
               <SpeedInsights />
             </main>
             <DreamBigSection data={dreamBigData} />
-            <SocialSection data={socialSectionDetails} posts={socialSectionBlogs} insta_feed={instaFeed} />
+            <SocialSection data={socialSectionDetails} posts={blogs.slice(0, 8)} insta_feed={instaFeed} />
             <Footer menu={navigationMenu} footerData={footerData} contactData={contactData} socialLinks={socialLinks} />
           </Wrapper>
+          <Chat config={chatConfig} />
+
           <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBJ97DL"
             height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>
           <noscript>

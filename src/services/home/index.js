@@ -149,28 +149,6 @@ export const getDreamBigData = async () => {
     }
 }
 
-export const getSocialSectionBlogs = async () => {
-    try {
-        const response = await queryDataItems({
-            "dataCollectionId": "BlogProductData",
-            "includeReferencedItems": ["blogRef", "studios", "markets"],
-            "limit": 4,
-            "ne": [
-                {
-                    "key": "isHidden",
-                    "value": true
-                }
-            ]
-        });
-        if (!response._items) {
-            throw new Error("No data found for BlogProductData");
-        }
-        return response._items.filter(item => item.data.blogRef._id !== undefined).map(item => item.data);
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
-
 export const getSocialSectionDetails = async () => {
     try {
         const response = await queryDataItems({

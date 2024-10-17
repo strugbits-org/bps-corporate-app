@@ -16274,7 +16274,7 @@ var require_app2 = __commonJS({
       }
     });
 
-    document.querySelector(".updateWatchedTrigger").addEventListener("click", () => {
+    document.querySelector(".updateWatchedTrigger").addEventListener("customUpdateWatch", () => {
       initVideo();
       dropdownTags();
       updateWatched();

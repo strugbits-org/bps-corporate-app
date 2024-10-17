@@ -21,15 +21,28 @@ const Blog = ({ blogs, blogSectionDetails, studios, markets }) => {
         setPageLimit((prev) => prev + pageSize);
         updatedWatched(true);
     }
-    const applyFilters = ({ selectedStudios, selectedMarkets }) => {
-        const filteredBlogs = blogs.filter((blog) => {
-            const studioFilter = selectedStudios.length === 0 || selectedStudios.some(studioId => blog.studios.some(studio => studio._id === studioId));
-            const marketFilter = selectedMarkets.length === 0 || selectedMarkets.some(marketId => blog.markets.some(market => market._id === marketId));
-            return studioFilter && marketFilter;
-        });
+    
+    const applyFilters = ({ selectedStudios, selectedMarkets }) => {    
+        let filteredBlogs = blogs;
+    
+        if (selectedStudios.length > 0 && selectedMarkets.length > 0) {
+            filteredBlogs = filteredBlogs.filter(blog =>
+                blog.studios.some(studio => selectedStudios.includes(studio._id)) ||
+                blog.markets.some(market => selectedMarkets.includes(market._id))
+            );
+        } else if (selectedStudios.length > 0) {
+            filteredBlogs = filteredBlogs.filter(blog =>
+                blog.studios.some(studio => selectedStudios.includes(studio._id))
+            );
+        } else if (selectedMarkets.length > 0) {
+            filteredBlogs = filteredBlogs.filter(blog =>
+                blog.markets.some(market => selectedMarkets.includes(market._id))
+            );
+        }
+
         setFilteredBlogs(filteredBlogs);
         updatedWatched(true);
-    }
+    };
 
     const handleStudioFilter = (tag) => {
         setSudiosDropdownActive(false);

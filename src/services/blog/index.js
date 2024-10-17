@@ -16,7 +16,7 @@ export const getAllBlogs = async () => {
     if (!response._items) {
       throw new Error("No data found for BlogProductData");
     }
-    return response._items.map((x) => x.data);
+    return response._items.filter(item => item.data.blogRef._id !== undefined).map(item => item.data);
   } catch (error) {
     throw new Error(error.message);
   }

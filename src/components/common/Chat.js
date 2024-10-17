@@ -1,36 +1,26 @@
+"use client"
 import React from 'react'
 import image1 from "@/assets/svg/btn-chat-1.svg"
 import image2 from "@/assets/svg/btn-chat-2.svg"
 import image3 from "@/assets/svg/btn-chat-3.svg"
 import { useEffect, useState } from 'react';
 import { enableChat } from '@/utils/utilityFunctions';
-import { getChatConfiguration } from '@/services';
 import parse from 'html-react-parser';
 
-const Chat = () => {
+const Chat = ({ config }) => {
   const [chatConfig, setChatConfig] = useState();
   const [chatEnabled, setChatEnabled] = useState(false);
 
-  const getConfig = async () => {
-    try {
-      const currentOrigin = window.location.origin;
-      const config = await getChatConfiguration(currentOrigin);
-      if (config && config.enable) {
-        setChatConfig(config);
-        setChatEnabled(true);
-        enableChat();
-      }
-    } catch (error) {
-      // console.log("err", error);
-    }
-  }
-  useEffect(() => {
-    getConfig();
-  }, [])
 
-  if (!chatEnabled) {
-    return null;
-  }
+  useEffect(() => {
+    if (config && config.enable) {
+      setChatConfig(config);
+      setChatEnabled(true);
+      enableChat();
+    }
+  }, []);
+
+  if (!chatEnabled) return;
 
   return (
     <div className="chat" data-cursor-style="off">
