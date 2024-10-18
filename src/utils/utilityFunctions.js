@@ -2,7 +2,6 @@ import parse from 'html-react-parser';
 
 const isDebugMode = process.env.DEBUG_LOGS === "1";
 
-
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {
@@ -136,6 +135,9 @@ export const closeModals = () => {
     const body = document.body;
     if (body.classList.contains('menu-active')) body.classList.remove('menu-active');
 
+    const chatIsActive = document.querySelector(".chat")?.classList?.contains("active");
+    if (chatIsActive) document.querySelector(".chat")?.classList?.remove("active");
+
     document.querySelectorAll(".player-video").forEach((x) => {
       x.pause();
       setTimeout(() => {
@@ -171,18 +173,12 @@ export const initAnimations = () => {
   }
 };
 
-export const updatedWatched = (refreshScroll = false) => {
+export const updatedWatched = () => {
   if (typeof window !== "undefined") {
     setTimeout(() => {
-
       const customEvent = new Event("customUpdateWatch");
       const elem = document.querySelector(".updateWatchedTrigger");
       if (elem) elem.dispatchEvent(customEvent);
-
-      if (refreshScroll) {
-        const scrollRefreshEvent = new Event("refreshScroll");
-        document.querySelector(".scrollRefresh").dispatchEvent(scrollRefreshEvent);
-      }
     }, 200);
   }
 };
@@ -200,6 +196,7 @@ export const loadPinterest = () => {
     }, 1000);
   }
 };
+
 export const refreshMagazineIframe = () => {
   if (typeof window !== 'undefined') {
     const container = document.querySelector('#trendMagazine:not(.iframe-loaded)');
@@ -247,6 +244,7 @@ export const pageLoadStart = () => {
     document.body.classList.add("page-leave-active");
   }
 }
+
 export const pageLoadEnd = () => {
   if (window && typeof window !== 'undefined') {
     window.scrollTo({ top: 0 });
@@ -257,6 +255,7 @@ export const pageLoadEnd = () => {
     }, 900);
   }
 }
+
 export const renderNode = (node) => {
 
   const HeadingComponent = ({ level, children }) => {

@@ -18,7 +18,7 @@ const PortfolioListing = ({ portfolioSectionDetails, studios, markets, portfolio
 
   const handleAutoSeeMore = () => {
     setPageLimit((prev) => prev + pageSize);
-    updatedWatched(true);
+    updatedWatched();
   }
 
   const applyFilters = ({ selectedStudios, selectedMarkets }) => {
@@ -40,7 +40,7 @@ const PortfolioListing = ({ portfolioSectionDetails, studios, markets, portfolio
     }
 
     setFilteredPortfolios(filteredPortfolios);
-    updatedWatched(true);
+    updatedWatched();
   };
 
   const handleStudioFilter = (tag) => {
