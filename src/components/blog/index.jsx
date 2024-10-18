@@ -19,7 +19,7 @@ const Blog = ({ blogs, blogSectionDetails, studios, markets }) => {
 
     const handleAutoSeeMore = () => {
         setPageLimit((prev) => prev + pageSize);
-        updatedWatched(true);
+        updatedWatched();
     }
     
     const applyFilters = ({ selectedStudios, selectedMarkets }) => {    
@@ -41,7 +41,7 @@ const Blog = ({ blogs, blogSectionDetails, studios, markets }) => {
         }
 
         setFilteredBlogs(filteredBlogs);
-        updatedWatched(true);
+        updatedWatched();
     };
 
     const handleStudioFilter = (tag) => {
