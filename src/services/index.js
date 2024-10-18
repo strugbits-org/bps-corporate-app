@@ -60,15 +60,20 @@ export const getChatConfiguration = async (origin) => {
         {
           "key": "origin",
           "value": origin,
+        },
+        {
+          "key": "enable",
+          "value": true,
         }
-      ]
+      ],
     });
     if (!response._items || !response._items[0]) {
       throw new Error("No data found for ChatbotConfiguration");
     }
     return response._items[0].data;
   } catch (error) {
-    throw new Error(error.message);
+    return {};
+    // throw new Error(error.message);
   }
 };
 export const listProducts = async (term) => {

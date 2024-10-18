@@ -9,18 +9,15 @@ import parse from 'html-react-parser';
 
 const Chat = ({ config }) => {
   const [chatConfig, setChatConfig] = useState();
-  const [chatEnabled, setChatEnabled] = useState(false);
-
 
   useEffect(() => {
-    if (config && config.enable) {
+    if (config) {
       setChatConfig(config);
-      setChatEnabled(true);
       enableChat();
     }
   }, []);
 
-  if (!chatEnabled) return;
+  if (!chatConfig?.widget) return;
 
   return (
     <div className="chat" data-cursor-style="off">
@@ -64,4 +61,4 @@ const Chat = ({ config }) => {
   )
 }
 
-export default Chat
+export default Chat;
