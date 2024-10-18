@@ -1,8 +1,8 @@
 import Blog from '@/components/blog';
+import { AnimationLoaded } from '@/components/common/AnimationLoaded';
 import { getPageMetaData } from '@/services';
-import { getBlogSectionDetails } from '@/services/blog';
+import { getAllBlogs, getBlogSectionDetails } from '@/services/blog';
 import { getMarketsSectionData, getStudiosSectionData } from '@/services/home';
-import { listBlogs } from '@/services/listing';
 import { logError } from '@/utils/utilityFunctions';
 
 export async function generateMetadata() {
@@ -32,14 +32,17 @@ export default async function Page() {
             marketsSectionData,
             studios
         ] = await Promise.all([
-            listBlogs({ pageSize: 8 }),
+            getAllBlogs(),
             getBlogSectionDetails(),
             getMarketsSectionData(),
             getStudiosSectionData()
         ]);
-    
+
         return (
-            <Blog {...{ blogs, blogSectionDetails, marketsSectionData, studios }} />
+            <>
+                <AnimationLoaded />
+                <Blog {...{ blogs, blogSectionDetails, markets: marketsSectionData, studios: studios.filter(x => x.filters) }} />
+            </>
         )
     } catch (error) {
         logError("Error fetching Blogs page data:", error);

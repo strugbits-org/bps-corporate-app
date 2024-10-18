@@ -1,6 +1,6 @@
 import DelayedLink from "./DelayedLink";
 
-export const DynamicLink = ({ data, customClasses = "" }) => {
+export const DynamicLink = ({ data, target, customClasses = "" }) => {
 
     let actionType;
     function isValidUrl(string) {
@@ -27,7 +27,7 @@ export const DynamicLink = ({ data, customClasses = "" }) => {
             <span>{data.label}</span>
         </button>
     ) : (
-        <DelayedLink to={data.action} target={actionType === "external_link" ? "_blank" : undefined} className={customClasses}>
+        <DelayedLink to={data.action} target={actionType === "external_link" && target !== "self" ? "_blank" : undefined} className={customClasses}>
             <span>{data.label}</span>
         </DelayedLink>
     )

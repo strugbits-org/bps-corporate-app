@@ -1,4 +1,3 @@
-import { listPortfolios } from "../listing";
 import queryDataItems from "../queryWixData";
 
 export const getMarketSection = async (slug) => {

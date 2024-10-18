@@ -22,7 +22,7 @@ const HeroSection = ({ data }) => {
                     />)
                     : data.background && data.background.startsWith("wix:image") ?
                         (
-                            <ImageWrapper url={data.background} customClasses={"media"} attributes={{ "data-preload": "", "data-parallax-top": "", "data-translate-y": "50" }} />
+                            <ImageWrapper url={data.background} customClasses={"media"} attributes={{ "data-preload": "", "data-parallax-top": "", "data-translate-y": "50%" }} />
                         )
                         : null}
                 <p className="fs--14 font-2 blue-1">

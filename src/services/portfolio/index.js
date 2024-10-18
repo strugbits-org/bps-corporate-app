@@ -4,6 +4,7 @@ export const listAllPortfolios = async () => {
   try {
     const response = await queryDataItems({
       "dataCollectionId": "PortfolioCollection",
+      "includeReferencedItems": ["portfolioRef", "locationFilteredVariant", "storeProducts", "studios", "markets", "gallery", "media"],
       "ne": [
         {
           "key": "isHidden",

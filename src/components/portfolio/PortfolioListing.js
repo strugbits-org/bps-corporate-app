@@ -1,14 +1,47 @@
+"use client"
 import React, { useState } from "react";
 import { useDetectClickOutside } from 'react-detect-click-outside';
 import DelayedLink from "../common/DelayedLink";
 import { ImageWrapper } from "../common/ImageWrapper";
+import { updatedWatched } from "@/utils/utilityFunctions";
 
-const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
+const PortfolioListing = ({ portfolioSectionDetails, studios, markets, portfolios }) => {
+  const pageSize = 8;
+  const [pageLimit, setPageLimit] = useState(pageSize);
+  const [filteredPortfolios, setFilteredPortfolios] = useState(portfolios);
+  
   const [selectedStudios, setSelectedStudios] = useState([]);
   const [selectedMarkets, setSelectedMarkets] = useState([]);
 
   const [studiosDropdownActive, setSudiosDropdownActive] = useState(false);
   const [marketsDropdownActive, setMarketsDropdownActive] = useState(false);
+
+  const handleAutoSeeMore = () => {
+    setPageLimit((prev) => prev + pageSize);
+    updatedWatched(true);
+  }
+
+  const applyFilters = ({ selectedStudios, selectedMarkets }) => {
+    let filteredPortfolios = portfolios;
+
+    if (selectedStudios.length > 0 && selectedMarkets.length > 0) {
+      filteredPortfolios = filteredPortfolios.filter(blog =>
+        blog.studios.some(studio => selectedStudios.includes(studio._id)) ||
+        blog.markets.some(market => selectedMarkets.includes(market._id))
+      );
+    } else if (selectedStudios.length > 0) {
+      filteredPortfolios = filteredPortfolios.filter(blog =>
+        blog.studios.some(studio => selectedStudios.includes(studio._id))
+      );
+    } else if (selectedMarkets.length > 0) {
+      filteredPortfolios = filteredPortfolios.filter(blog =>
+        blog.markets.some(market => selectedMarkets.includes(market._id))
+      );
+    }
+
+    setFilteredPortfolios(filteredPortfolios);
+    updatedWatched(true);
+  };
 
   const handleStudioFilter = (tag) => {
     if (selectedStudios.includes(tag)) {
@@ -64,7 +97,7 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
         <div className="row">
           <div className="col-12 mb-lg-60 mb-tablet-40 mb-phone-35">
             <h1 className="fs--60 text-center split-words" data-aos="d:loop">
-              {data.portfolioSectionDetails.portfolioTitle}
+              {portfolioSectionDetails.portfolioTitle}
             </h1>
 
             <div
@@ -76,14 +109,14 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
                   onClick={() => { setSudiosDropdownActive(!studiosDropdownActive) }}
                   className={`btn-tag-mobile no-desktop ${studiosDropdownActive ? "active" : ""}`}
                 >
-                  <span>{selectedStudios.length === 0 || data.studios.length === selectedStudios.length ? "All " : ""}Studios</span>
+                  <span>{selectedStudios.length === 0 || studios.length === selectedStudios.length ? "All " : ""}Studios</span>
                   <i className="icon-arrow-down"></i>
                 </button>
                 <div className={`list-dropdown ${studiosDropdownActive ? "active" : ""}`}>
                   <div className="container-wrapper-list">
                     <div className="wrapper-list">
                       <ul
-                        className={`list-portfolio-tags list-dropdown-tags ${data.studios.length === 0 ? "hidden" : ""
+                        className={`list-portfolio-tags list-dropdown-tags ${studios.length === 0 ? "hidden" : ""
                           }`}
                       >
                         <li>
@@ -93,7 +126,7 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
                             <span>All Studios</span>
                           </button>
                         </li>
-                        {data.studios?.map((item, index) => (
+                        {studios?.map((item, index) => (
                           <li key={index}>
                             <button
                               onClick={() => {
@@ -114,13 +147,13 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
                 </div>
               </div>
 
-              <div ref={marketsDropdownref} className={`market-tags ${data?.markets?.length === 0 ? "hidden" : ""}`}
+              <div ref={marketsDropdownref} className={`market-tags ${markets?.length === 0 ? "hidden" : ""}`}
               >
                 <button
                   onClick={() => { setMarketsDropdownActive(!marketsDropdownActive) }}
                   className={`btn-tag-mobile no-desktop ${marketsDropdownActive ? "active" : ""}`}
                 >
-                  <span>{selectedMarkets.length === 0 || data.markets.length === selectedMarkets.length ? "All " : ""}Markets</span>
+                  <span>{selectedMarkets.length === 0 || markets.length === selectedMarkets.length ? "All " : ""}Markets</span>
                   <i className="icon-arrow-down"></i>
                 </button>
                 <div className={`list-dropdown ${marketsDropdownActive ? "active" : ""}`}>
@@ -136,7 +169,7 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
                             <span>All Markets</span>
                           </button>
                         </li>
-                        {data.markets?.map((market, index) => (
+                        {markets?.map((market, index) => (
                           <li key={index}>
                             <button
                               onClick={() => {
@@ -163,10 +196,10 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
         <div className="row row-2">
           <div className="col-lg-12 column-1">
             <ul
-              className={`list-portfolio grid-lg-25 grid-tablet-50 ${data.items?.length === 0 ? "hidden" : ""
+              className={`list-portfolio grid-lg-25 grid-tablet-50 ${filteredPortfolios.length === 0 ? "hidden" : ""
                 }`}
             >
-              {data.items?.map((item) => {
+              {filteredPortfolios.slice(0, pageLimit).map((item) => {
                 return (
                   <li key={item._id} className="grid-item">
                     <DelayedLink
@@ -234,7 +267,7 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
                 );
               })}
             </ul>
-            {data.items.length === 0 && (
+            {filteredPortfolios.length === 0 && (
               <h6
                 className="fs--40 text-center split-words not_found_text"
                 data-aos="d:loop"
@@ -243,17 +276,17 @@ const PortfolioListing = ({ data, seeMore, applyFilters,loading }) => {
               </h6>
             )}
           </div>
-          {data.items.length < data?.totalCount && !loading && (
+          {pageLimit < filteredPortfolios.length && (
             <div
               className="col-lg-2 offset-lg-5 flex-center mt-lg-60 mt-mobile-40"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
               <button
-                onClick={() => seeMore({ selectedStudios, selectedMarkets, disableLoader: true })}
+                onClick={handleAutoSeeMore}
                 className="btn-border-blue"
                 data-cursor-style="off"
               >
-                <span>{data.portfolioSectionDetails.seeMoreButtonText}</span>
+                <span>{portfolioSectionDetails.seeMoreButtonText}</span>
               </button>
             </div>
           )}

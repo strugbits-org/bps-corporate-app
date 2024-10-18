@@ -11,21 +11,14 @@ export default async function Article({ slug, blogProductData }) {
             blogTags
         ] = await Promise.all([
             getBlogSectionDetails(),
-            getBlogPostData({ pageSize: 4, slug }),
-            getBlogTags({ ids: blogProductData.blogRef.tags })
+            getBlogPostData(slug),
+            getBlogTags(blogProductData.blogRef.tags)
         ]);
 
         return (
             <>
-                <PostDetails
-                    data={blogProductData}
-                    blogSectionDetails={blogSectionDetails}
-                    tags={blogTags}
-                />
-                <RecentPosts
-                    posts={blogPostData}
-                    blogSectionDetails={blogSectionDetails}
-                />
+                <PostDetails data={blogProductData} blogSectionDetails={blogSectionDetails} tags={blogTags} />
+                <RecentPosts posts={blogPostData} blogSectionDetails={blogSectionDetails} />
             </>
         )
     } catch (error) {

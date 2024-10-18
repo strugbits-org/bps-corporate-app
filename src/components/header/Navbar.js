@@ -6,7 +6,7 @@ import Search from "./modals/Search";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-const Navbar = ({ studios, markets, searchContent }) => {
+const Navbar = ({ studios, markets, searchContent, searchPagesData, blogs, portfolios }) => {
   const EXTERNAL_SITE_URL = process.env.NEXT_PUBLIC_RENTALS_URL;
   const params = useSearchParams();
 
@@ -211,7 +211,7 @@ const Navbar = ({ studios, markets, searchContent }) => {
               <div className="submenu-market submenu" data-get-submenu="market">
                 <Market data={markets} />
               </div>
-              <Search studios={studios} markets={markets} searchContent={searchContent} />
+              <Search studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} blogs={blogs} portfolios={portfolios} />
             </div>
           </div>
         </div>

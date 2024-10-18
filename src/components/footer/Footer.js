@@ -55,6 +55,7 @@ const Footer = ({ menu, footerData, contactData, socialLinks }) => {
                       <li key={item._id} className="list-item">
                         <DynamicLink
                           customClasses={"link-footer-menu"}
+                          target={item.actionTargetCorporate ? item.actionTargetCorporate : "self"}
                           data={{
                             label: item.title,
                             action: item.action

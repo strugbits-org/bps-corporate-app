@@ -1,19 +1,22 @@
-import { fetchBlogTags, fetchCollection } from "..";
-import { listBlogs } from "../listing";
+import queryDataItems, { queryBlogsTags } from "../queryWixData";
 
 export const getAllBlogs = async () => {
   try {
-    const data = {
-      dataCollectionId: "BlogProductData",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      find: {},
-      contains: null,
-      eq: null,
-      limit: 1000,
-    };
-    const response = await fetchCollection(data);
-    return response._items.map((x) => x.data);
+    const response = await queryDataItems({
+      "dataCollectionId": "BlogProductData",
+      "includeReferencedItems": ["blogRef", "locationFilteredVariant", "storeProducts", "studios", "markets", "gallery", "media", "author"],
+      "limit": "infinite",
+      "ne": [
+        {
+          "key": "isHidden",
+          "value": true
+        },
+      ],
+    });
+    if (!response._items) {
+      throw new Error("No data found for BlogProductData");
+    }
+    return response._items.filter(item => item.data.blogRef._id !== undefined).map(item => item.data);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -21,16 +24,12 @@ export const getAllBlogs = async () => {
 
 export const getBlogSectionDetails = async () => {
   try {
-    const data = {
-      dataCollectionId: "BlogSectionDetails",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      find: {},
-      contains: null,
-      eq: null,
-      limit: null,
-    };
-    const response = await fetchCollection(data);
+    const response = await queryDataItems({
+      "dataCollectionId": "BlogSectionDetails"
+    });
+    if (!response._items || !response._items[0]) {
+      throw new Error("No data found for BlogSectionDetails");
+    }
     return response._items[0].data;
   } catch (error) {
     throw new Error(error.message);
@@ -39,39 +38,46 @@ export const getBlogSectionDetails = async () => {
 
 export const getBlogProductData = async ({ slug }) => {
   try {
-    const data = {
-      dataCollectionId: "BlogProductData",
-      includeReferencedItems: [
-        "blogRef",
-        "author",
-        "tags",
-        "locationFilteredVariant",
-        "storeProducts",
-        "studios",
-        "gallery",
-        "media",
-        "markets",
+    const response = await queryDataItems({
+      "dataCollectionId": "BlogProductData",
+      "includeReferencedItems": ["blogRef", "author", "tags", "locationFilteredVariant", "storeProducts", "studios", "gallery", "media", "markets"],
+      "eq": [{
+        "key": "slug",
+        "value": slug
+      }],
+      "ne": [
+        {
+          "key": "isHidden",
+          "value": true
+        },
       ],
-      returnTotalCount: null,
-      find: {},
-      contains: null,
-      eq: ["slug", slug],
-      limit: null,
-      filterProducts: true,
-    };
-    const response = await fetchCollection(data);
+    });
+    if (!response._items || !response._items[0]) {
+      throw new Error("No data found for BlogProductData");
+    }
     return response._items[0].data;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-export const getBlogPostData = async ({
-  pageSize,
-  slug
-}) => {
+export const getBlogPostData = async (slug) => {
   try {
-    const response = await listBlogs({ pageSize, slug });
+    const response = await queryDataItems({
+      "dataCollectionId": "BlogProductData",
+      "includeReferencedItems": ["blogRef", "locationFilteredVariant", "storeProducts", "studios", "markets", "gallery", "media"],
+      "limit": 4,
+      "ne": [
+        {
+          "key": "slug",
+          "value": slug
+        },
+        {
+          "key": "isHidden",
+          "value": true
+        },
+      ]
+    })
     const data = response._items
       .filter((item) => item.data.blogRef._id !== undefined)
       .map((item) => item.data);
@@ -81,10 +87,12 @@ export const getBlogPostData = async ({
   }
 };
 
-export const getBlogTags = async ({ ids, slug }) => {
+export const getBlogTags = async (ids) => {
   try {
-    const data = { ids: ids, slug };
-    const response = await fetchBlogTags(data);
+    const response = await queryBlogsTags(ids);
+    if (!response._items) {
+      throw new Error("No Tags found");
+    }
     return response._items;
   } catch (error) {
     throw new Error(error.message);
