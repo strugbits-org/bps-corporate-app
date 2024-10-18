@@ -12,20 +12,11 @@ const Wrapper = ({ children }) => {
         if (typeof window !== "undefined") document.body.dataset.pg = `pg-${cleanPath}`;
     }, [cleanPath]);
     return (
-        <>
-            <div className="cursor-wrapper" id="wrapper-cursor">
-                <div>
-                    <span className="view text-wrapper">
-                        <span>view</span>
-                    </span>
-                </div>
+        <div id="main-transition">
+            <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
+                {children}
             </div>
-            <div id="main-transition">
-                <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
-                    {children}
-                </div>
-            </div>
-        </>
+        </div>
     );
 };
 
