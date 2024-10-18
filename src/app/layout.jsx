@@ -91,7 +91,7 @@ export default async function RootLayout({ children }) {
             <Navbar studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} blogs={blogs} portfolios={portfolios} />
           </Suspense>
           <Wrapper>
-            <main>
+            <main className={"min-h-100"}>
               {children}
               <Analytics />
               <SpeedInsights />
@@ -113,3 +113,6 @@ export default async function RootLayout({ children }) {
     </>
   );
 }
+
+const time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME || 86400;
+export const revalidate = time;

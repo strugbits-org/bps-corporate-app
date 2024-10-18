@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import debounce from 'lodash/debounce';
 import DelayedLink from "@/components/common/DelayedLink";
-import { filterSearchData, formatDate, updatedWatched } from "@/utils/utilityFunctions";
+import { filterSearchData, formatDate } from "@/utils/utilityFunctions";
 import { ImageWrapper } from "@/components/common/ImageWrapper";
 import { listProducts } from "@/services";
 
@@ -93,7 +93,6 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
   const handleProductsFilter = async (term = "") => {
     const filteredProductsData = await listProducts(term);
     setFilteredProducts(filteredProductsData);
-    updatedWatched();
   }
 
   useEffect(() => {

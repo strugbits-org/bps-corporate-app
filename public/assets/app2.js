@@ -1,4 +1,5 @@
 import { g as gsapWithCSS$1, S as ScrollTrigger$1, a as gsap$1, C as CSSPlugin, s as screen, P as Power3, b as Power0, B as Back, c as Power2, d as Power1, e as ScrollSmoother } from "./all.js";
+import { chat } from "./chat.js";
 
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __commonJS = (cb, mod) => function __require() {
@@ -15674,7 +15675,7 @@ var require_app2 = __commonJS({
     }
     function accordionGsap(list, toggle = true) {
       let isAnimating = false;
-      
+
       if (!list)
         list = document;
       let toggleItems = list.querySelectorAll(":scope > .accordion-item");
@@ -15705,7 +15706,7 @@ var require_app2 = __commonJS({
           }
           header.addEventListener("click", function () {
             if (isAnimating) return;
-            
+
             let content = element.querySelector(":scope > .accordion-content");
             if (element.classList.contains("active")) {
               element.removeActive();
@@ -16076,6 +16077,8 @@ var require_app2 = __commonJS({
     }
 
     function whenContainerReady() {
+      document.body.classList.add("container-ready");
+      
       if (!screen.isMobile) {
         let smooth = 2;
         if (screen.isSafariDesktop)
@@ -16283,8 +16286,13 @@ var require_app2 = __commonJS({
 
     setTimeout(() => {
       window.scrollTo({ top: 0 });
-    }, 200);
-    // document.addEventListener("pjax:complete", whenContainerReady);
+      const containerLoaded = document.body.classList.contains("container-ready");      
+      if (!containerLoaded) {
+        whenContainerReady();
+        updateWatched();
+        chat();
+      }
+    }, 1000);
   }
 });
 export default require_app2();

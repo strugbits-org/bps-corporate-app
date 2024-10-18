@@ -191,7 +191,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
         </div>
         <div className="row row-2 mt-lg-15 mt-tablet-25 mt-phone-45">
           <div className="col-lg-10 offset-lg-1 column-1">
-            <div className="article-content pb-lg-180 pb-tablet-60 pb-phone-40">
+            <div className="article-content pb-lg-180 pb-tablet-60 pb-phone-40 min-h-100">
               {singleData.length > 0 && singleData[0].type === "cover" && (
                 <div className="article-thumb" data-aos="d:loop">
                   <div className="container-img">
@@ -305,10 +305,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
             {/* Product Cart Slider end */}
           </div>
           {/* social vertical bar start */}
-          <div
-            className="col-lg-1 column-2 no-mobile"
-            data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-          >
+          <div className="col-lg-1 column-2 no-mobile" data-aos="fadeIn .8s ease-in-out .2s, d:loop" >
             <div className="wrapper-share">
               <h3 className="fs--18 text-center d-inline-block mb-25">Share</h3>
               <SocialVerticalBar title={title} />
