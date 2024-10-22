@@ -113,7 +113,7 @@ const SocialSection = ({ data, posts, insta_feed }) => {
                             }}
                           >
                             <div className="container-img">
-                              <ImageWrapper url={item.image} type={"insta"} customClasses={"media"} attributes={{ "data-preload": "" }} alt={item.caption}  q={"100"} timeout={0} key={item.image} min_h={"350"} min_w={"350"} />
+                              <ImageWrapper url={item.image} type={"insta"} customClasses={"media"} q={"100"} timeout={0} key={item.image} alt={item.caption} min_h={"350"} min_w={"350"} fit={"fit"} attributes={{ "data-preload": "" }} />
                             </div>
                           </DelayedLink>
                         </li>
