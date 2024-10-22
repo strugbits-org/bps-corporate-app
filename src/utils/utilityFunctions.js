@@ -242,11 +242,20 @@ export const pageLoadStart = () => {
   if (typeof window !== 'undefined') {
     closeModals();
     document.body.classList.add("page-leave-active");
+
+    setTimeout(() => {
+      const scrollContainer = document.querySelector("[data-scroll-container]");
+      window.scrollTo({ top: 0, behavior: "auto" });
+      if (scrollContainer) scrollContainer.classList.add("wrapper-no-transform");
+    }, 500);
   }
 }
 
 export const pageLoadEnd = () => {
   if (window && typeof window !== 'undefined') {
+    const scrollContainer = document.querySelector("[data-scroll-container]");
+    if (scrollContainer && scrollContainer.classList.contains("wrapper-no-transform")) scrollContainer.classList.remove("wrapper-no-transform");
+
     window.scrollTo({ top: 0 });
     const body = document.body;
     body.classList.replace("page-leave-active", "page-enter-active");
