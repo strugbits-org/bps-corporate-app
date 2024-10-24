@@ -160,7 +160,9 @@ export const changeProgress = (percent) => {
 export const enableChat = () => {
   if (typeof window !== 'undefined') {
     setTimeout(() => {
-      document.querySelector(".activateChat").click();
+      const customEvent = new Event("enableChat");
+      const chat = document.querySelector(".activateChat");
+      if (chat) chat.dispatchEvent(customEvent);
     }, 200);
   }
 };
