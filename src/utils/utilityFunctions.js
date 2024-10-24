@@ -355,3 +355,26 @@ export const renderNode = (node) => {
 export const logError = (...args) => {
   if (isDebugMode) console.error(...args);
 };
+
+export const deletePriceFields = (obj) => {
+  if (!obj) return;
+
+  const deleteIfExists = (field) => {
+    if (obj.hasOwnProperty(field)) {
+      delete obj[field];
+    }
+  };
+
+  const fieldsToDelete = [
+    'currency',
+    'formattedDiscountedPrice',
+    'pricePerUnitData',
+    'pricePerUnit',
+    'formattedPricePerUnit',
+    'formattedPrice',
+    'price',
+    'discountedPrice',
+  ];
+
+  fieldsToDelete.forEach(deleteIfExists);
+};

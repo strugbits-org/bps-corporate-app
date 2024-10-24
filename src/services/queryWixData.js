@@ -1,5 +1,5 @@
 import { createWixClient } from "@/utils/createWixClient";
-import { logError } from "@/utils/utilityFunctions";
+import { deletePriceFields, logError } from "@/utils/utilityFunctions";
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -73,6 +73,28 @@ const queryDataItems = async (payload) => {
         items = [...items, ...data._items];
       }
       data._items = items;
+    }
+
+    const collectionsToEncrypt = ["locationFilteredVariant", "BlogProductData", "PortfolioCollection"];
+    if (data._items.length && collectionsToEncrypt.includes(dataCollectionId)) {
+      data._items = data._items.map(val => {
+        if (dataCollectionId === "locationFilteredVariant" && val.data.variantData) {
+          val.data.variantData = val.data.variantData.map(val2 => {
+            deletePriceFields(val2.variant);
+            return val2;
+          });
+        }
+
+        if ((dataCollectionId === "BlogProductData" || dataCollectionId === "PortfolioCollection") && val.data?.storeProducts?.length) {
+          val.data.storeProducts = val.data?.storeProducts.map(val2 => {
+            deletePriceFields(val2);
+            return val2;
+          });
+        }
+
+        deletePriceFields(val.data.product);
+        return val;
+      });
     }
 
     return data;
