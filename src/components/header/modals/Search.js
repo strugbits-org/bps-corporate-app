@@ -206,7 +206,8 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
                             data-aos
                           >
                             {filteredProducts.map((data, index) => {
-                              const { product, variantData } = data;
+                              const { product, variantData, defaultVariant } = data;
+                              const { variant, sku } = variantData.find(x => x.sku === defaultVariant) || variantData[0];
                               return (
                                 <div
                                   key={index}
@@ -223,7 +224,7 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
                                       </h3>
                                       <div className="wrapper-img">
                                         <div className="container-img">
-                                          <ImageWrapper timeout={0} key={product.mainMedia} defaultDimensions={{ width: 350, height: 350 }} url={product.mainMedia} />
+                                          <ImageWrapper timeout={0} key={sku} url={variant.imageSrc} defaultDimensions={{ width: 350, height: 350 }} />
                                         </div>
                                       </div>
                                       <div className="container-bottom">

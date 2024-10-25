@@ -1393,10 +1393,8 @@ modal-group[name="modal-about-magazine"] iframe body {
     width: 34px;
 }
 
-@media only screen and (min-width: 1025px) {
-    .min-h-100 {
-        min-height: 100vh !important;
-    }
+.min-h-100 {
+    min-height: 100vh !important;
 }
 
 .wrapper-no-transform {
