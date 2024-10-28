@@ -7195,16 +7195,18 @@ var require_app2 = __commonJS({
     }
     const pageName$8 = "home";
     function main$8() {
+      const videoUrl = "assets/home-animation-min.mp4";
+      const videoUrlMobile = "https://video.wixstatic.com/video/0e0ac5_4d3569d323334543ba5defaac6a58640/1080p/mp4/file.mp4";
       sliderTestimony();
       sliderBanner();
       if (screen.isMobile) {
         if (screen.isIphone) {
-          scrollVideoToCanvas(".home-from-concept-to-reality", ".container-frame-by-frame", "assets/home-animation-min-mobile.mp4");
+          scrollVideoToCanvas(".home-from-concept-to-reality", ".container-frame-by-frame", videoUrlMobile);
         } else {
-          scrollVideo(".home-from-concept-to-reality", ".container-frame-by-frame", "assets/home-animation-min-mobile.mp4");
+          scrollVideo(".home-from-concept-to-reality", ".container-frame-by-frame", videoUrlMobile);
         }
       } else {
-        scrollVideo(".home-from-concept-to-reality", ".container-frame-by-frame", "assets/home-animation-min.mp4");
+        scrollVideo(".home-from-concept-to-reality", ".container-frame-by-frame", videoUrl);
       }
     }
     const pgHome = new Page({
