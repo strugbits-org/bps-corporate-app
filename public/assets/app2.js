@@ -7196,7 +7196,8 @@ var require_app2 = __commonJS({
     const pageName$8 = "home";
     function main$8() {
       const videoUrl = "assets/home-animation-min.mp4";
-      const videoUrlMobile = "https://video.wixstatic.com/video/0e0ac5_4d3569d323334543ba5defaac6a58640/1080p/mp4/file.mp4";
+      // const videoUrlMobile = "https://video.wixstatic.com/video/0e0ac5_4d3569d323334543ba5defaac6a58640/1080p/mp4/file.mp4";
+      const videoUrlMobile = "https://video.wixstatic.com/video/0e0ac5_274d16679fa74687b045944ce84187a9/720p/mp4/file.mp4";
       sliderTestimony();
       sliderBanner();
       if (screen.isMobile) {
