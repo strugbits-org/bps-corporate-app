@@ -13,7 +13,7 @@ export const CustomScripts = () => {
         <>
             <link rel="canonical" href={canonicalUrl} />
 
-            {/* <Script src={`https://www.googletagmanager.com/gtag/js?id=G-WBJ97DL`} strategy="afterInteractive" />
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=G-WBJ97DL`} strategy="afterInteractive" />
             <Script src='//fw-cdn.com/11846215/4437905.js' chat='false' strategy="afterInteractive" />
 
             <Script id="pinterest-tags" strategy="afterInteractive">
@@ -27,7 +27,7 @@ export const CustomScripts = () => {
           pintrk('load', '2613816880133');
           pintrk('page');
           `}
-            </Script> */}
+            </Script>
 
             <Script rel="modulepreload" href="/assets/app2.js" />
             <Script rel="modulepreload" href="/assets/all.js" />
