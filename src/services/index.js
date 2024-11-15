@@ -1,3 +1,4 @@
+import { logError } from "@/utils/utilityFunctions";
 import queryDataItems from "./queryWixData";
 
 const base_url = process.env.NEXT_PUBLIC_BASE_URL;
@@ -74,6 +75,17 @@ export const getChatConfiguration = async (origin) => {
   } catch (error) {
     return {};
     // throw new Error(error.message);
+  }
+};
+export const getChatTriggerEvents = async () => {
+  try {
+    const response = await queryDataItems({ "dataCollectionId": "ChatWidgetTrigger" });
+    if (!response._items || !response._items) {
+      throw new Error("No data found for ChatWidgetTrigger");
+    }
+    return response._items.map((x) => x.data);
+  } catch (error) {
+    logError("Error getting chat trigger events", error);
   }
 };
 export const listProducts = async (term) => {
