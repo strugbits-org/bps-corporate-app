@@ -22,7 +22,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from "react";
 import { getAllBlogs } from "@/services/blog";
-import { getChatConfiguration, searchAllPages } from "@/services";
+import { getChatConfiguration, getChatTriggerEvents, searchAllPages } from "@/services";
 import { listAllPortfolios } from "@/services/portfolio";
 import Chat from "@/components/common/Chat";
 
@@ -52,7 +52,8 @@ export default async function RootLayout({ children }) {
     blogs,
     instaFeed,
     portfolios,
-    chatConfig
+    chatConfig,
+    chatTriggerEvents
   ] = await Promise.all([
     getStudiosSectionData(),
     getMarketsSectionData(),
@@ -70,7 +71,8 @@ export default async function RootLayout({ children }) {
     getAllBlogs(),
     fetchInstaFeed(),
     listAllPortfolios(),
-    getChatConfiguration(BASE_URL)
+    getChatConfiguration(BASE_URL),
+    getChatTriggerEvents()
   ]);
 
   return (
@@ -100,7 +102,7 @@ export default async function RootLayout({ children }) {
             <SocialSection data={socialSectionDetails} posts={blogs.slice(0, 8)} insta_feed={instaFeed} />
             <Footer menu={navigationMenu} footerData={footerData} contactData={contactData} socialLinks={socialLinks} />
           </Wrapper>
-          <Chat config={chatConfig} />
+          <Chat config={chatConfig} triggerEvents={chatTriggerEvents} />
 
           <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBJ97DL"
             height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe></noscript>
