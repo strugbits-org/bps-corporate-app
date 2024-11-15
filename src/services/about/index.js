@@ -33,7 +33,8 @@ export const getAboutUsIntroSection = async () => {
 export const getAboutUsDreamTeamSection = async () => {
     try {
         const response = await queryDataItems({
-            "dataCollectionId": "AboutUsDreamTeamSection"
+            "dataCollectionId": "AboutUsDreamTeamSection",
+            "limit": "infinite"
         });
         if (!response._items) {
             throw new Error("No data found for AboutUsDreamTeamSection");
