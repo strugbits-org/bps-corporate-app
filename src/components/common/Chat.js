@@ -7,20 +7,28 @@ import image1 from "@/assets/svg/btn-chat-1.svg";
 import image2 from "@/assets/svg/btn-chat-2.svg";
 import image3 from "@/assets/svg/btn-chat-3.svg";
 import { enableChat } from "@/utils/utilityFunctions";
-import { useDetectClickOutside } from 'react-detect-click-outside';
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 const Chat = ({ config, triggerEvents }) => {
   const [chatConfig, setChatConfig] = useState();
   const path = usePathname();
   const chatRef = useRef(null);
+  const loadTimeoutRef = useRef(null);
+  const inactivityTimeoutRef = useRef(null);
 
   const wrapperRef = useDetectClickOutside({
-    onTriggered: () => {
-      const chat = chatRef.current;
-      if (chat) chat.classList.remove("active");
-    }
+    onTriggered: () => deactivateChat(),
   });
 
+  const activateChat = useCallback(() => {
+    const chat = chatRef.current;
+    if (chat) chat.classList.add("active");
+  }, []);
+
+  const deactivateChat = () => {
+    const chat = chatRef.current;
+    if (chat) chat.classList.remove("active");
+  };
 
   useEffect(() => {
     if (config) {
@@ -29,18 +37,11 @@ const Chat = ({ config, triggerEvents }) => {
     }
   }, [config]);
 
-  const activateChat = useCallback(() => {
-    const chat = chatRef.current;
-    if (chat) chat.classList.add("active");
-  }, []);
-
   const setupInactivityTrigger = useCallback(
     (timeout) => {
-      let inactivityTimeout;
-
       const resetTimer = () => {
-        clearTimeout(inactivityTimeout);
-        inactivityTimeout = setTimeout(() => {
+        clearTimeout(inactivityTimeoutRef.current);
+        inactivityTimeoutRef.current = setTimeout(() => {
           activateChat();
         }, timeout * 1000);
       };
@@ -51,7 +52,7 @@ const Chat = ({ config, triggerEvents }) => {
       resetTimer();
 
       return () => {
-        clearTimeout(inactivityTimeout);
+        clearTimeout(inactivityTimeoutRef.current);
         window.removeEventListener("mousemove", resetTimer);
         window.removeEventListener("keydown", resetTimer);
       };
@@ -77,15 +78,17 @@ const Chat = ({ config, triggerEvents }) => {
 
   useEffect(() => {
     const slug = "/" + path.split("/")[1].trim();
-
     const triggerEvent = triggerEvents.find((event) => event.slug === slug);
+
     if (!triggerEvent) return;
 
     const { trigger, value } = triggerEvent;
 
+    clearTimeout(loadTimeoutRef.current);
+
     switch (trigger) {
       case "onLoad":
-        setTimeout(() => {
+        loadTimeoutRef.current = setTimeout(() => {
           activateChat();
         }, value * 1000);
         break;
@@ -99,6 +102,11 @@ const Chat = ({ config, triggerEvents }) => {
       default:
         break;
     }
+
+    return () => {
+      clearTimeout(loadTimeoutRef.current);
+      clearTimeout(inactivityTimeoutRef.current);
+    };
   }, [path, triggerEvents, activateChat, setupInactivityTrigger, setupScrollTrigger]);
 
   if (!chatConfig?.widget) return;
@@ -110,30 +118,15 @@ const Chat = ({ config, triggerEvents }) => {
           <div className="btn-wrapper">
             <span>Hello?</span>
             <div className="container-img btn-top">
-              <img
-                src={image1.src}
-                data-preload
-                className="media"
-                alt=""
-              />
+              <img src={image1.src} data-preload className="media" alt="Chat Button Top" />
             </div>
             <div className="bg-1"></div>
             <div className="container-img btn-middle">
-              <img
-                src={image2.src}
-                data-preload
-                className="media"
-                alt=""
-              />
+              <img src={image2.src} data-preload className="media" alt="Chat Button Middle" />
             </div>
             <div className="bg-2"></div>
             <div className="container-img btn-bottom">
-              <img
-                src={image3.src}
-                data-preload
-                className="media"
-                alt=""
-              />
+              <img src={image3.src} data-preload className="media" alt="Chat Button Bottom" />
             </div>
           </div>
         </button>
