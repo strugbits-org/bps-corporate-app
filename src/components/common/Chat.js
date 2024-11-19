@@ -15,14 +15,20 @@ const Chat = ({ config, triggerEvents }) => {
   const chatRef = useRef(null);
   const loadTimeoutRef = useRef(null);
   const inactivityTimeoutRef = useRef(null);
+  const chatActivatedRef = useRef(false); // Ref to track activation without causing re-renders
 
   const wrapperRef = useDetectClickOutside({
     onTriggered: () => deactivateChat(),
   });
 
   const activateChat = useCallback(() => {
+    if (chatActivatedRef.current) return;
     const chat = chatRef.current;
-    if (chat) chat.classList.add("active");
+
+    if (chat && !chat.classList.contains("active")) {
+      chat.classList.add("active");
+      chatActivatedRef.current = true;
+    }
   }, []);
 
   const deactivateChat = () => {
@@ -85,6 +91,7 @@ const Chat = ({ config, triggerEvents }) => {
     const { trigger, value } = triggerEvent;
 
     clearTimeout(loadTimeoutRef.current);
+console.log("value", value);
 
     switch (trigger) {
       case "onLoad":
@@ -107,7 +114,7 @@ const Chat = ({ config, triggerEvents }) => {
       clearTimeout(loadTimeoutRef.current);
       clearTimeout(inactivityTimeoutRef.current);
     };
-  }, []);
+  }, [path, triggerEvents, activateChat, setupInactivityTrigger, setupScrollTrigger]);
 
   if (!chatConfig?.widget) return;
 
