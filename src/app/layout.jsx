@@ -34,7 +34,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  
+
   const [
     studios,
     markets,
