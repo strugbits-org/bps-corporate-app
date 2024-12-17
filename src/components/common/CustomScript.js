@@ -14,6 +14,15 @@ export const CustomScripts = () => {
             <link rel="canonical" href={canonicalUrl} />
 
             <Script src={`https://www.googletagmanager.com/gtag/js?id=G-WBJ97DL`} strategy="afterInteractive" />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-WBJ97DL');
+          `}
+            </Script>
+
             <Script src='//fw-cdn.com/11846215/4437905.js' chat='false' strategy="afterInteractive" />
 
             <Script id="pinterest-tags" strategy="afterInteractive">
