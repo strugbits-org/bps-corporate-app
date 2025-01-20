@@ -91,7 +91,6 @@ const Chat = ({ config, triggerEvents }) => {
     const { trigger, value } = triggerEvent;
 
     clearTimeout(loadTimeoutRef.current);
-console.log("value", value);
 
     switch (trigger) {
       case "onLoad":
