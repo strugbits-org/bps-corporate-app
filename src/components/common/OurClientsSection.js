@@ -4,7 +4,7 @@ import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
 
 const OurClientsSection = ({ data }) => {
-  const animation = { duration: 10000, easing: (t) => t }
+  const animation = { duration: 13000, easing: (t) => t }
 
   const [sliderRef, _instanceRef] = useKeenSlider(
     {
