@@ -11,17 +11,17 @@ const OurClientsSection = ({ data }) => {
       loop: true,
       renderMode: "performance",
       drag: false,
-      slides: {
-        perView: 5,
-        spacing: 15,
-      },
       breakpoints: {
-        "(max-width: 600px)": {
-          slides: { perView: 3, spacing: 5 },
+        "(min-width: 768px)": {
+          slides: { perView: 3, spacing: 15 },
         },
-        "(max-width: 700px)": {
-          slides: { perView: 4, spacing: 10 },
+        "(min-width: 1025px)": {
+          slides: { perView: 5, spacing: 15 },
         },
+      },
+      slides: {
+        perView: 2,
+        spacing: 15,
       },
       created(s) {
         s.moveToIdx(5, true, animation)
