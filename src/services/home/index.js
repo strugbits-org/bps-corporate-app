@@ -93,6 +93,20 @@ export const getPeopleReviewSliderData = async () => {
     }
 }
 
+export const getOurClientsSectionData = async () => {
+    try {
+        const response = await queryDataItems({
+            "dataCollectionId": "OurClientsSection"
+        });
+        if (!response._items) {
+            throw new Error("No data found for OurClientsSection");
+        }
+        return response._items.map((x) => x.data).sort((a, b) => a.order - b.order);
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
 export const getMarketsSectionData = async () => {
     try {
         const response = await queryDataItems({

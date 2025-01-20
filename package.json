@@ -17,6 +17,7 @@
     "@wix/forms": "^1.0.151",
     "@wix/sdk": "^1.14.1",
     "html-react-parser": "^5.1.16",
+    "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
     "next": "14.2.13",
     "react": "^18",

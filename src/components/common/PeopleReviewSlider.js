@@ -5,7 +5,7 @@ const PeopleReviewSLider = ({ data, homeSectionDetails, actionButton = true }) =
 
   return (
 
-    <section className={`section-heres-what-people-are-saying pt-lg-300 pt-tablet-105 pt-phone-145 pb-lg-130 pb-tablet-100 pb-phone-145 pos-relative ${data.length === 0 ? "hidden" : ""}`}>
+    <section className={`section-heres-what-people-are-saying pt-lg-150 pt-tablet-105 pt-phone-145 pb-lg-130 pb-tablet-100 pb-phone-145 pos-relative ${data.length === 0 ? "hidden" : ""}`}>
       <div className="container-fluid pos-relative z-3">
         <div className="row">
           <div className="col-lg-6 offset-lg-3 column-1">
