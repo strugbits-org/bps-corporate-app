@@ -115,7 +115,7 @@ export const getMarketsSectionData = async () => {
         if (!response._items) {
             throw new Error("No data found for MarketSection");
         }
-        return response._items.map((x) => x.data).sort((a, b) => a.orderNumber - b.orderNumber);
+        return response._items.map((x) => x.data);
     } catch (error) {
         throw new Error(error.message);
     }

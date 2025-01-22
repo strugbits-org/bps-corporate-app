@@ -37,11 +37,11 @@ const processTextNodes = (nodes) => {
       );
 
       let text = node.textData.text;
-      
+
       if (boldDecoration) {
         text = `<b>${text}</b>`;
       }
-      
+
       if (linkDecoration) {
         const link = linkDecoration.linkData.link.url;
         finalText += ` <a href="${link}">${text}</a>`;
@@ -50,8 +50,7 @@ const processTextNodes = (nodes) => {
       }
     }
   });
-  console.log("finalText", finalText);
-  
+
   return finalText;
 };
 
@@ -67,8 +66,6 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
   useEffect(() => {
     const processContent = (nodes) => {
       let blogData = [];
-      console.log("nodes", nodes);
-
 
       // Add cover image if exists
       if (data?.blogRef?.coverImage) {
@@ -229,12 +226,14 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
         );
       case "image":
         return (
-          <ImageWrapper
-            key={item.image}
-            url={item.image}
-            type="blogImage"
-            defaultDimensions={{ width: 960, height: 540 }}
-          />
+          <div key={index} className="container-img">
+            <ImageWrapper
+              key={item.image}
+              url={item.image}
+              type="blogImage"
+              defaultDimensions={{ width: 960, height: 540 }}
+            />
+          </div>
         );
       case "bulleted-list":
         return (

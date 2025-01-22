@@ -8,7 +8,7 @@ import OurProjectSection from '@/components/home/OurProjectSection';
 import RentalStoreSection from '@/components/home/RentalStoreSection';
 import { getHeroSectionData, getHomeSectionDetails, getMarketsSectionData, getOurClientsSectionData, getPeopleReviewSliderData, getPortfolioCollection, getRentalStoreData, getRentalStoreFancyTitle, getStudiosSectionData, getTouchSectionData } from '@/services/home';
 import { logError } from '@/utils/utilityFunctions';
-import OurClientsSection from '../common/OurClientsSection';
+import OurClientsSection from '@/components/home/OurClientsSection';
 
 export default async function Home() {
   try {
@@ -25,6 +25,8 @@ export default async function Home() {
       getRentalStoreFancyTitle(),
     ]);
 
+    const clientsGallery = ourClientsSectionData.find(x => x.slug === "/")?.images || [];
+
     return (
       <>
         <HeroSection data={heroSectionData} />
@@ -32,7 +34,7 @@ export default async function Home() {
         <GetTouchSection data={getInTouchData} />
         <StudioSection studioData={studiosSectionData} homeSectionDetails={homeSectionDetails} />
         <OurProjectSection portfolioCollection={portfolioCollection} homeSectionDetails={homeSectionDetails} />
-        <OurClientsSection data={ourClientsSectionData} homeSectionDetails={homeSectionDetails} />
+        <OurClientsSection data={clientsGallery} homeSectionDetails={homeSectionDetails} />
         <PeopleReviewSLider data={peopleReviewSliderData} homeSectionDetails={homeSectionDetails} />
         <MarketSection data={marketsSectionData} homeSectionDetails={homeSectionDetails} />
         <RentalStoreSection data={rentalStoreData} homeSectionDetails={homeSectionDetails} rentalStoreSubtitle={rentalStoreFancyTitle} />
