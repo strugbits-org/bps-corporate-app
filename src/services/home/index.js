@@ -96,7 +96,8 @@ export const getPeopleReviewSliderData = async () => {
 export const getOurClientsSectionData = async () => {
     try {
         const response = await queryDataItems({
-            "dataCollectionId": "OurClientsSection"
+            "dataCollectionId": "OurClientsSection",
+            "ne": [{ "key": "rentals", "value": true }]
         });
         if (!response._items) {
             throw new Error("No data found for OurClientsSection");
