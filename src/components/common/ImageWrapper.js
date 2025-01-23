@@ -11,6 +11,8 @@ export const ImageWrapper = ({
     q = "90",
     min_w,
     min_h,
+    max_w,
+    max_h,
     customClasses = "",
     alt = "",
     attributes,
@@ -82,7 +84,7 @@ export const ImageWrapper = ({
             src={src}
             className={customClasses}
             alt={alt}
-            style={{ minWidth: min_w ? min_w : null }}
+            style={{ minWidth: min_w ? min_w : null, minHeight: min_h ? min_h : null, maxWidth: max_w ? max_w : null, maxHeight: max_h ? max_h : null }}
             {...attributes}
         />
     );

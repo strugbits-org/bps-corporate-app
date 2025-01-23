@@ -8,7 +8,7 @@ import OurProjectSection from '@/components/home/OurProjectSection';
 import RentalStoreSection from '@/components/home/RentalStoreSection';
 import { getHeroSectionData, getHomeSectionDetails, getMarketsSectionData, getOurClientsSectionData, getPeopleReviewSliderData, getPortfolioCollection, getRentalStoreData, getRentalStoreFancyTitle, getStudiosSectionData, getTouchSectionData } from '@/services/home';
 import { logError } from '@/utils/utilityFunctions';
-import OurClientsSection from '@/components/home/OurClientsSection';
+// import OurClientsSection from '@/components/home/OurClientsSection';
 
 export default async function Home() {
   try {
@@ -33,8 +33,8 @@ export default async function Home() {
         <FormConcept data={heroSectionData} />
         <GetTouchSection data={getInTouchData} />
         <StudioSection studioData={studiosSectionData} homeSectionDetails={homeSectionDetails} />
-        <OurProjectSection portfolioCollection={portfolioCollection} homeSectionDetails={homeSectionDetails} />
-        <OurClientsSection data={clientsGallery} homeSectionDetails={homeSectionDetails} />
+        <OurProjectSection clientsGallery={clientsGallery} portfolioCollection={portfolioCollection} homeSectionDetails={homeSectionDetails} />
+        {/* <OurClientsSection data={clientsGallery} homeSectionDetails={homeSectionDetails} /> */}
         <PeopleReviewSLider data={peopleReviewSliderData} homeSectionDetails={homeSectionDetails} />
         <MarketSection data={marketsSectionData} homeSectionDetails={homeSectionDetails} />
         <RentalStoreSection data={rentalStoreData} homeSectionDetails={homeSectionDetails} rentalStoreSubtitle={rentalStoreFancyTitle} />

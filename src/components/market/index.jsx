@@ -7,7 +7,7 @@ import HowWeDoSection from './HowWeDoSection';
 import ExplorePortfolio from './ExplorePortfolio';
 import { getMarketsPostPageSectionDetails } from '@/services/market';
 import { logError } from '@/utils/utilityFunctions';
-import OurClientsSection from '../home/OurClientsSection';
+// import OurClientsSection from '../home/OurClientsSection';
 
 export default async function Market({ slug, marketSection, portfolioData }) {
     try {
@@ -37,11 +37,12 @@ export default async function Market({ slug, marketSection, portfolioData }) {
                     marketSectionDetails={marketsPostPageSectionDetails}
                 />
                 <ExplorePortfolio
+                    clientsGallery={clientsGallery}
                     marketSectionDetails={marketsPostPageSectionDetails}
                     portfolioCollection={portfolioData}
                     slug={slug}
                 />
-                <OurClientsSection data={clientsGallery} homeSectionDetails={homeSectionDetails} />
+                {/* <OurClientsSection data={clientsGallery} homeSectionDetails={homeSectionDetails} /> */}
                 <PeopleReviewSLider
                     data={peopleReviewSliderData}
                     homeSectionDetails={homeSectionDetails}

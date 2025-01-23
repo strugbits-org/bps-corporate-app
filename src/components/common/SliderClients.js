@@ -45,7 +45,7 @@ const SliderClients = ({ data }) => {
                         className="keen-slider__slide"
                     >
                         <div className="container-img">
-                            <ImageWrapper url={data?.src} customClasses={"media"} fit="fit" defaultDimensions={{ width: "300", height: "300" }} attributes={{ "data-preload": "" }} />
+                            <ImageWrapper url={data?.src} customClasses={"media"} fit="fit" defaultDimensions={{ width: "300", height: "300" }} max_h={"150px"} attributes={{ "data-preload": "" }} />
                         </div>
                     </li>
                 );
