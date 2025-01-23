@@ -1,8 +1,9 @@
 import DelayedLink from "../common/DelayedLink";
 import { DefaultButton } from "../common/DefaultButton";
 import { ImageWrapper } from "../common/ImageWrapper";
+import SliderClients from "../common/SliderClients";
 
-const OurProjectSection = ({ portfolioCollection, homeSectionDetails }) => {
+const OurProjectSection = ({ clientsGallery, portfolioCollection, homeSectionDetails }) => {
   return (
     <section
       className={`home-some-of-our-projects pt-lg-250 pt-mobile-130 pb-135 ${portfolioCollection.length === 0 ? "hidden" : ""
@@ -57,6 +58,11 @@ const OurProjectSection = ({ portfolioCollection, homeSectionDetails }) => {
               </div>
             </div>
           </div>
+
+          <div className={`section-clients mt-lg-60 mt-mobile-40 col-12 ${clientsGallery.length === 0 ? "hidden" : ""}`}>
+            <SliderClients data={clientsGallery} />
+          </div>
+
           <div className="col-lg-4 offset-lg-4 mt-lg-60 mt-mobile-40 flex-center">
             <DefaultButton
               data={{

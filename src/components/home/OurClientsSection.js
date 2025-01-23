@@ -1,5 +1,3 @@
-"use client";
-import 'keen-slider/keen-slider.min.css'
 import SliderClients from '../common/SliderClients';
 
 const OurClientsSection = ({ data }) => {

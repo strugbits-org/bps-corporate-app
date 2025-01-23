@@ -1,8 +1,9 @@
 import DelayedLink from "../common/DelayedLink";
 import { DefaultButton } from "../common/DefaultButton";
 import { ImageWrapper } from "../common/ImageWrapper";
+import SliderClients from "../common/SliderClients";
 
-const ExplorePortfolio = ({ marketSectionDetails, portfolioCollection }) => {
+const ExplorePortfolio = ({ clientsGallery, marketSectionDetails, portfolioCollection }) => {
   if (!portfolioCollection) return;
   return (
     <section className="market-explore-portfolio overflow-hidden pt-lg-270 pb-lg-220 py-tablet-100 pt-phone-145 pb-phone-190">
@@ -44,6 +45,9 @@ const ExplorePortfolio = ({ marketSectionDetails, portfolioCollection }) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className={`section-clients mt-lg-60 mt-mobile-40 col-12 ${clientsGallery.length === 0 ? "hidden" : ""}`}>
+            <SliderClients data={clientsGallery} />
           </div>
           <div className="col-lg-2 offset-lg-5 flex-center mt-50 column-btn">
             <DefaultButton

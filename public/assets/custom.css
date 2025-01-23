@@ -1401,7 +1401,8 @@ modal-group[name="modal-about-magazine"] iframe body {
     transform: none !important;
 }
 
-.editor .container-img {
+.editor .container-img,
+.editor>img {
     margin: 0rem;
     border-radius: 2rem;
 }
