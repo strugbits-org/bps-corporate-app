@@ -1,3 +1,4 @@
+"use server"
 import { logError } from "@/utils/utilityFunctions";
 import queryDataItems from "./queryWixData";
 
