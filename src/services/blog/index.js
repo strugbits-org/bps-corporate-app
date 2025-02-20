@@ -65,7 +65,7 @@ export const getBlogPostData = async (slug) => {
   try {
     const response = await queryDataItems({
       "dataCollectionId": "BlogProductData",
-      "includeReferencedItems": ["blogRef", "locationFilteredVariant", "storeProducts", "studios", "markets", "gallery", "media"],
+      "includeReferencedItems": ["blogRef", "locationFilteredVariant", "storeProducts", "studios", "markets", "gallery", "media", "author"],
       "limit": 4,
       "ne": [
         {
