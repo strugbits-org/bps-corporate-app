@@ -194,7 +194,7 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
                           {searchContent?.rentalTitle} <span>{` "${searchTerm}"`}</span>
                         </h2>
                         <DelayedLink
-                          to={`/search/${searchTerm}`}
+                          to={`${RENTALS_URL}/search/${searchTerm}`}
                           data-menu-close
                           className="btn-border-blue"
                         >
