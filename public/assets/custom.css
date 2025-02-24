@@ -1406,3 +1406,7 @@ modal-group[name="modal-about-magazine"] iframe body {
     margin: 0rem;
     border-radius: 2rem;
 }
+
+.menu-search .wrapper-search .container-results .btn-border-blue {
+    opacity: 1;
+}
