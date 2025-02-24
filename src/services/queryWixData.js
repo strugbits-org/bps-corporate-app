@@ -62,7 +62,7 @@ const queryDataItems = async (payload) => {
       const words = search[1].split(/\s+/).filter(Boolean);
       dataQuery = dataQuery.contains(search[0], words[0]);
       for (let i = 1; i < words.length; i++) {
-        dataQuery = dataQuery.or(dataQuery.contains(search[0], words[i]));
+        dataQuery = dataQuery.and(dataQuery.contains(search[0], words[i]));
       }
     };
 
