@@ -36,6 +36,7 @@ const queryDataItems = async (payload) => {
       ne,
       hasSome,
       skip,
+      search,
       log
     } = payload;
 
@@ -56,6 +57,14 @@ const queryDataItems = async (payload) => {
     if (skip) dataQuery = dataQuery.skip(skip);
     if (limit && limit !== "infinite") dataQuery = dataQuery.limit(limit);
     if (ne && ne.length > 0) ne.forEach(filter => dataQuery = dataQuery.ne(filter.key, filter.value));
+
+    if (search?.length === 2) {
+      const words = search[1].split(/\s+/).filter(Boolean);
+      dataQuery = dataQuery.contains(search[0], words[0]);
+      for (let i = 1; i < words.length; i++) {
+        dataQuery = dataQuery.and(dataQuery.contains(search[0], words[i]));
+      }
+    };
 
     // Increase limit if "infinite"
     if (limit === "infinite") {
