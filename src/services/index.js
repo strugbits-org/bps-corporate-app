@@ -94,7 +94,7 @@ export const listProducts = async (term) => {
     const response = await queryDataItems({
       "dataCollectionId": "locationFilteredVariant",
       "includeReferencedItems": ["product"],
-      "contains": ['search', term],
+      "search": ["search", term],
       "ne": [
         {
           "key": "hidden",
