@@ -89,32 +89,39 @@ export const getChatTriggerEvents = async () => {
     logError("Error getting chat trigger events", error);
   }
 };
+
 export const listProducts = async (term) => {
   try {
-    const response = await queryDataItems({
-      "dataCollectionId": "locationFilteredVariant",
-      "includeReferencedItems": ["product"],
-      "search": ["search", term],
-      "ne": [
-        {
-          "key": "hidden",
-          "value": true,
-        },
-        {
-          "key": "isF1Exclusive",
-          "value": true,
-        },
-      ],
-      "limit": 3
-    });
-    if (!response._items) {
-      throw new Error("No products found");
+    const basePayload = {
+      dataCollectionId: "locationFilteredVariant",
+      includeReferencedItems: ["product"],
+      limit: 3,
+    };
+
+    const fetchProducts = async (searchKey, limit, ne) => {
+      const response = await queryDataItems({ ...basePayload, search: [searchKey, term], ne, limit });
+      return response._items?.filter(item => typeof item.data.product !== "string").map(item => item.data) || [];
+    };
+
+    const notEqual = [
+      { key: "hidden", value: true },
+      { key: "isF1Exclusive", value: true },
+    ];
+
+    let items = await fetchProducts("title", 3, notEqual);
+
+    if (items.length < 3) {
+      notEqual.push(...items.map(({ product }) => ({ key: "product", value: product?._id })));
+      const additionalItems = await fetchProducts("search", 3 - items.length, notEqual);
+      items = items.concat(additionalItems);
     }
-    return response._items.filter(x => x.data.product).map((x) => x.data);
+
+    return items;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error?.message || "An error occurred while fetching products");
   }
-}
+};
+
 export const searchAllPages = async () => {
   try {
     const response = await queryDataItems({
