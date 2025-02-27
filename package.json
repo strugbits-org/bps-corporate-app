@@ -16,6 +16,7 @@
     "@wix/data": "^1.0.159",
     "@wix/forms": "^1.0.151",
     "@wix/sdk": "^1.14.1",
+    "fuse.js": "^7.1.0",
     "html-react-parser": "^5.1.16",
     "keen-slider": "^6.8.6",
     "lodash": "^4.17.21",
