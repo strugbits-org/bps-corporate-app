@@ -26,7 +26,7 @@ async function retryAsyncOperation(operation, retries = 3, delayMs = 1000) {
 }
 
 const correctSearchTerm = async (searchTerm, keywords) => {
-  const fuse = new Fuse(keywords, { threshold: 0.5 });
+  const fuse = new Fuse(keywords, { threshold: 0.4 });
   const result = fuse.search(searchTerm);
   return result.length ? result[0].item : searchTerm;
 };
@@ -72,19 +72,12 @@ const queryDataItems = async (payload) => {
       if (correctionEnabled) {
         const productKeywordsData = await queryDataItems({ "dataCollectionId": "ProductKeywords" });
         const productKeywords = productKeywordsData._items[0]?.data?.keywords || [];
-
         words = await Promise.all(words.map(word => correctSearchTerm(word, productKeywords)));
-        dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
-        for (let i = 1; i < words.length; i++) {
-          dataQuery = dataQuery.or(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
-        }
-      } else {
-        dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
-        for (let i = 1; i < words.length; i++) {
-          dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
-        }
       }
-
+      dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
+      for (let i = 1; i < words.length; i++) {
+        dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+      }
     };
 
     // Increase limit if "infinite"
