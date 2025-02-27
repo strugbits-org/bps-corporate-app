@@ -1,5 +1,6 @@
 import { createWixClient } from "@/utils/createWixClient";
 import { deletePriceFields, logError } from "@/utils/utilityFunctions";
+import Fuse from 'fuse.js'
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -24,6 +25,12 @@ async function retryAsyncOperation(operation, retries = 3, delayMs = 1000) {
   }
 }
 
+const correctSearchTerm = async (searchTerm, keywords) => {
+  const fuse = new Fuse(keywords, { threshold: 0.5 });
+  const result = fuse.search(searchTerm);
+  return result.length ? result[0].item : searchTerm;
+};
+
 const queryDataItems = async (payload) => {
   try {
     const {
@@ -38,6 +45,7 @@ const queryDataItems = async (payload) => {
       skip,
       search,
       searchPrefix,
+      correctionEnabled,
       log
     } = payload;
 
@@ -60,11 +68,23 @@ const queryDataItems = async (payload) => {
     if (ne && ne.length > 0) ne.forEach(filter => dataQuery = dataQuery.ne(filter.key, filter.value));
 
     if (search?.length === 2) {
-      const words = search[1].split(/\s+/).filter(Boolean);
-      dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
-      for (let i = 1; i < words.length; i++) {
-        dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+      let words = search[1].split(/\s+/).filter(Boolean);
+      if (correctionEnabled) {
+        const productKeywordsData = await queryDataItems({ "dataCollectionId": "ProductKeywords" });
+        const productKeywords = productKeywordsData._items[0]?.data?.keywords || [];
+
+        words = await Promise.all(words.map(word => correctSearchTerm(word, productKeywords)));
+        dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
+        for (let i = 1; i < words.length; i++) {
+          dataQuery = dataQuery.or(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+        }
+      } else {
+        dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
+        for (let i = 1; i < words.length; i++) {
+          dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+        }
       }
+
     };
 
     // Increase limit if "infinite"
