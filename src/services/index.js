@@ -123,12 +123,11 @@ export const listProducts = async (term) => {
     if (items.length === 3) return items;
 
     excludeIds = items.map(({ product }) => product?._id);
-    items = items.concat(await fetchProducts("search", 3 - items.length, excludeIds, ""));
+    items = items.concat(await fetchProducts("title", 3 - items.length, excludeIds, "", "correctionEnabled"));
     if (items.length === 3) return items;
 
     excludeIds = items.map(({ product }) => product?._id);
-    items = items.concat(await fetchProducts("title", 3 - items.length, excludeIds, "", "correctionEnabled"));
-
+    items = items.concat(await fetchProducts("search", 3 - items.length, excludeIds, ""));    
     return items;
   } catch (error) {
     throw new Error(error?.message || "An error occurred while fetching products");
