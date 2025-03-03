@@ -27,6 +27,8 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
   const [filteredPortfolios, setFilteredPortfolios] = useState([]);
   const [filteredPages, setFilteredPages] = useState([]);
 
+  const [productsLoading, setProductsLoading] = useState(false);
+
   const handleSearchFilter = (value) => {
     const term = (value ?? searchTerm).trim().toLowerCase();
     if (!term) {
@@ -91,8 +93,15 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
   }, [BlogsResult, portfoliosResult]);
 
   const handleProductsFilter = async (term = "") => {
-    const filteredProductsData = await listProducts(term);
-    setFilteredProducts(filteredProductsData);
+    try {
+      setProductsLoading(true);
+      const filteredProductsData = await listProducts(term);
+      setFilteredProducts(filteredProductsData);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setProductsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -196,7 +205,7 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
                         <DelayedLink
                           to={`${RENTALS_URL}/search?query=${searchTerm}`}
                           data-menu-close
-                          className="btn-border-blue"
+                          className={`btn-border-blue ${filteredProducts.length < 3 || productsLoading ? "hidden" : ""}`}
                         >
                           <span>See more</span>
                           <i className="icon-arrow-right"></i>
@@ -208,7 +217,7 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
                             className="swiper-wrapper list-result-rental list-slider-phone grid-md-33"
                             data-aos
                           >
-                            {filteredProducts.map((data, index) => {
+                            {!productsLoading && filteredProducts.map((data, index) => {
                               const { product, variantData, defaultVariant } = data;
                               const { variant, sku } = variantData.find(x => x.sku === defaultVariant) || variantData[0];
                               return (
@@ -266,6 +275,7 @@ const Search = ({ searchContent, studios, markets, blogs, portfolios, searchPage
                               );
                             })}
                           </div>
+                          {productsLoading && <h6 style={{ width: "100%" }} className="mt-3-cs fs--30">Searching results for "{searchTerm}"</h6>}
                         </div>
                       </div>
                     </div>
