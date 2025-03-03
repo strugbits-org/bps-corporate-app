@@ -46,6 +46,8 @@ const queryDataItems = async (payload) => {
       search,
       searchPrefix,
       correctionEnabled,
+      startsWith,
+      searchType,
       log
     } = payload;
 
@@ -63,6 +65,7 @@ const queryDataItems = async (payload) => {
     if (contains?.length === 2) dataQuery = dataQuery.contains(contains[0], contains[1]);
     if (eq && eq.length > 0) eq.forEach(filter => dataQuery = dataQuery.eq(filter.key, filter.value));
     if (hasSome && hasSome.length > 0) hasSome.forEach(filter => dataQuery = dataQuery.hasSome(filter.key, filter.values));
+    if (startsWith && startsWith.length > 0) startsWith.forEach(filter => dataQuery = dataQuery.startsWith(filter.key, filter.value));
     if (skip) dataQuery = dataQuery.skip(skip);
     if (limit && limit !== "infinite") dataQuery = dataQuery.limit(limit);
     if (ne && ne.length > 0) ne.forEach(filter => dataQuery = dataQuery.ne(filter.key, filter.value));
@@ -76,9 +79,25 @@ const queryDataItems = async (payload) => {
       }
       dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
       for (let i = 1; i < words.length; i++) {
-        dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+        if (searchType === "or") {
+          dataQuery = dataQuery.or(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+        } else{
+          dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+        }
       }
     };
+    // if (search?.length === 2) {
+    //   let words = search[1].split(/\s+/).filter(Boolean);
+    //   if (correctionEnabled) {
+    //     const productKeywordsData = await queryDataItems({ "dataCollectionId": "ProductKeywords" });
+    //     const productKeywords = productKeywordsData._items[0]?.data?.keywords || [];
+    //     words = await Promise.all(words.map(word => correctSearchTerm(word, productKeywords)));
+    //   }
+    //   dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
+    //   for (let i = 1; i < words.length; i++) {
+    //     dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
+    //   }
+    // };
 
     // Increase limit if "infinite"
     if (limit === "infinite") {
