@@ -92,6 +92,7 @@ export const getChatTriggerEvents = async () => {
 
 export const listProducts = async (term) => {
   try {
+    const pageLimit = 3;
     const baseFilters = {
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: ["product"],
@@ -99,35 +100,64 @@ export const listProducts = async (term) => {
         { key: "hidden", value: true },
         { key: "isF1Exclusive", value: true },
       ],
-      limit: 3,
+      limit: pageLimit,
     };
 
-    const fetchProducts = async (searchKey, limit, excludeIds = [], searchPrefix = " ", correctionEnabled = null) => {
+    let items = [];
+
+    const response = await queryDataItems({
+      ...baseFilters,
+      startsWith: [{ key: "title", value: term }]
+    });
+
+    const data = response._items?.filter(item => typeof item.data.product !== "string").map(item => item.data) || [];
+    items = items.concat(data);
+    if (items.length >= pageLimit) return items;
+
+    const fetchProducts = async ({ searchKey, limit, excludeIds = [], searchPrefix = " ", correctionEnabled = false, searchType = "and" }) => {
       const response = await queryDataItems({
         ...baseFilters,
         search: [searchKey, term],
         limit,
         searchPrefix,
         ne: [...baseFilters.ne, ...excludeIds.map(id => ({ key: "product", value: id }))],
-        correctionEnabled
+        correctionEnabled,
+        searchType
       });
-
       return response._items?.filter(item => typeof item.data.product !== "string").map(item => item.data) || [];
     };
 
-    let items = await fetchProducts("title", 3);
-    if (items.length === 3) return items;
+    // Define search strategies in order of preference
+    const searchStrategies = [
+      { searchKey: "title", searchPrefix: " ", correctionEnabled: false, searchType: "and" },
+      { searchKey: "title", searchPrefix: "", correctionEnabled: false, searchType: "and" },
+      { searchKey: "title", searchPrefix: " ", correctionEnabled: false, searchType: "or" },
+      { searchKey: "title", searchPrefix: "", correctionEnabled: false, searchType: "or" },
+      { searchKey: "title", searchPrefix: " ", correctionEnabled: true, searchType: "and" },
+      { searchKey: "title", searchPrefix: "", correctionEnabled: true, searchType: "and" },
+      { searchKey: "title", searchPrefix: " ", correctionEnabled: true, searchType: "or" },
+      { searchKey: "title", searchPrefix: "", correctionEnabled: true, searchType: "or" },
+      { searchKey: "search", searchPrefix: "", correctionEnabled: false, searchType: "and" },
+      { searchKey: "search", searchPrefix: "", correctionEnabled: false, searchType: "or" }
+    ];
 
-    let excludeIds = items.map(({ product }) => product?._id);
-    items = items.concat(await fetchProducts("title", 3 - items.length, excludeIds, ""));
-    if (items.length === 3) return items;
+    // Execute strategies in sequence until we have 3 items
+    for (const strategy of searchStrategies) {
+      if (items.length >= pageLimit) break;
 
-    excludeIds = items.map(({ product }) => product?._id);
-    items = items.concat(await fetchProducts("title", 3 - items.length, excludeIds, "", "correctionEnabled"));
-    if (items.length === 3) return items;
+      const excludeIds = items.map(({ product }) => product?._id);
+      const newLimit = pageLimit - items.length;
+      const newItems = await fetchProducts({
+        ...strategy,
+        limit: newLimit,
+        excludeIds
+      });
 
-    excludeIds = items.map(({ product }) => product?._id);
-    items = items.concat(await fetchProducts("search", 3 - items.length, excludeIds, ""));    
+      items = items.concat(newItems);
+
+      if (items.length >= pageLimit) break;
+    }
+
     return items;
   } catch (error) {
     throw new Error(error?.message || "An error occurred while fetching products");
