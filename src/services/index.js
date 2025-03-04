@@ -101,6 +101,8 @@ export const listProducts = async (term) => {
         { key: "isF1Exclusive", value: true },
       ],
       limit: pageLimit,
+      sortOrder: "asc",
+      sortKey: "title"
     };
 
     let items = [];
