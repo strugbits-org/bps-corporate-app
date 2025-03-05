@@ -102,7 +102,7 @@ export const listProducts = async (term) => {
       ],
       limit: pageLimit,
       sortOrder: "asc",
-      sortKey: "title"
+      sortKey: "_id"
     };
 
     let items = [];
