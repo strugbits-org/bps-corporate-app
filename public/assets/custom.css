@@ -1428,12 +1428,11 @@ modal-group[name="modal-about-magazine"] iframe body {
     }
 }
 
-
 /* ---------- */
 .category-menu-fixed .category-menu-wrapper .category-menu-list li a {
     line-height: 1.2em;
     letter-spacing: 0;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 @media only screen and (min-width: 1025.1px) {
@@ -1453,13 +1452,6 @@ modal-group[name="modal-about-magazine"] iframe body {
         font-size: 1.6rem;
     }
 }
-
-.category-menu-fixed .category-menu-wrapper .category-menu-list li a {
-    font-weight: 600;
-}
-
-
-
 
 .category-menu-fixed {
     display: flex;
