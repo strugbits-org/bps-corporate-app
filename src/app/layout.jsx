@@ -25,6 +25,7 @@ import { getAllBlogs } from "@/services/blog";
 import { getChatConfiguration, getChatTriggerEvents, searchAllPages } from "@/services";
 import { listAllPortfolios } from "@/services/portfolio";
 import Chat from "@/components/common/Chat";
+import StudiosFixedMenu from "@/components/common/StudiosFixedMenu";
 
 export const metadata = {
   title: "Blueprint Studios",
@@ -102,6 +103,7 @@ export default async function RootLayout({ children }) {
             <SocialSection data={socialSectionDetails} posts={blogs.slice(0, 8)} insta_feed={instaFeed} />
             <Footer menu={navigationMenu} footerData={footerData} contactData={contactData} socialLinks={socialLinks} />
           </Wrapper>
+          <StudiosFixedMenu data={studios} />
           <Chat config={chatConfig} triggerEvents={chatTriggerEvents} />
 
           <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBJ97DL"
