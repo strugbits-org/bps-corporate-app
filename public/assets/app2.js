@@ -12805,6 +12805,25 @@ var require_app2 = __commonJS({
         });
       });
     }
+    function categoryMenu() {
+      let menuFixed = document.querySelectorAll(
+        ".category-menu-fixed:not(.js-running)"
+      );
+      menuFixed.forEach((element) => {
+        element.classList.add("js-running");
+        let btn = element.querySelector(".btn-close-category-menu");
+        let section = element.querySelector(".category-menu-wrapper");
+        element.addEventListener("click", function () {
+          if (section.classList.contains("active")) {
+            btn.removeActive();
+            section.removeActive();
+          } else {
+            btn.addActive();
+            section.addActive();
+          }
+        });
+      });
+    }
     function accordion(elements, options) {
       let {
         removeActiveOptions = {},
@@ -16146,6 +16165,7 @@ var require_app2 = __commonJS({
       initVideo();
       scrollTo("", "");
       Parallax();
+      categoryMenu();
       splitWords();
       splitChars();
       sliderContentMobile();
