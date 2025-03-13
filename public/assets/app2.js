@@ -7339,7 +7339,8 @@ var require_app2 = __commonJS({
       }
       handleEvent(ev) {
         if (ev.type === "keydown") {
-          if (ev.key === "Escape" || ev.key === "Backspace")
+          // if (ev.key === "Escape" || ev.key === "Backspace")
+          if (ev.key === "Escape")
             this.close();
         }
       }
