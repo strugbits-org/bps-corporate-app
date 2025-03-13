@@ -90,18 +90,6 @@ const queryDataItems = async (payload) => {
         dataQuery = searchType === "or" ? dataQuery.or(newQuery) : dataQuery.and(newQuery);
       }      
     };
-    // if (search?.length === 2) {
-    //   let words = search[1].split(/\s+/).filter(Boolean);
-    //   if (correctionEnabled) {
-    //     const productKeywordsData = await queryDataItems({ "dataCollectionId": "ProductKeywords" });
-    //     const productKeywords = productKeywordsData._items[0]?.data?.keywords || [];
-    //     words = await Promise.all(words.map(word => correctSearchTerm(word, productKeywords)));
-    //   }
-    //   dataQuery = dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[0] : words[0] || "");
-    //   for (let i = 1; i < words.length; i++) {
-    //     dataQuery = dataQuery.and(dataQuery.contains(search[0], searchPrefix ? searchPrefix + words[i] : words[i] || ""));
-    //   }
-    // };
 
     // Increase limit if "infinite"
     if (limit === "infinite") {
