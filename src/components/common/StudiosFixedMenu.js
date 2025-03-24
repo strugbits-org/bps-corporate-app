@@ -1,4 +1,4 @@
-import DelayedLink from "./DelayedLink";
+import { DefaultButton } from "./DefaultButton";
 
 const StudiosFixedMenu = ({ data }) => {
   return (
@@ -7,15 +7,16 @@ const StudiosFixedMenu = ({ data }) => {
         <div className="category-menu">
           <ul className="category-menu-list">
             {data.map((data, index) => {
-              const { slug, cardName } = data;
+              const { slug, cardName, link } = data;
 
               return (
                 <li key={index}>
-                  <DelayedLink
-                    to={`/services/${slug}`}
-                    className="btn-underline-white">
-                    <span>{cardName}</span>
-                  </DelayedLink>
+                  <DefaultButton
+                    data={{ label: cardName, action: link }}
+                    customClasses={"btn-underline-white"}
+                    showArrow={false}
+                  >
+                  </DefaultButton>
                 </li>
               );
             })}
@@ -25,7 +26,7 @@ const StudiosFixedMenu = ({ data }) => {
           <i className="icon-plus"></i>
         </button>
       </div>
-    </div>
+    </div >
   );
 };
 
