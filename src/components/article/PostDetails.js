@@ -135,6 +135,26 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
             }
             break;
 
+          case "ORDERED_LIST":
+            if (item.nodes?.length > 0) {
+              const items = item.nodes
+                .filter(node => node.type === "LIST_ITEM")
+                .map(node => {
+                  const paragraph = node.nodes?.find(n => n.type === "PARAGRAPH");
+                  return paragraph?.nodes?.length > 0
+                    ? processTextNodes(paragraph.nodes)
+                    : "";
+                })
+                .filter(Boolean);
+
+              blogData.push({
+                type: "ordered-list",
+                items,
+                sq: index + 1,
+              });
+            }
+            break;
+
           case "GALLERY":
             const gallery = item?.galleryData?.items
               ?.filter(galleryItem => galleryItem.image?.media?.src)
@@ -185,8 +205,15 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
         return <h2 key={index}>{item.text}</h2>;
       case "video":
         return (
-          <div key={index} style={{ padding: "50px" }}>
+          <div key={index} className="container-video">
             <ReactPlayer
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "2rem",
+                border: "1px solid #efefef",
+                overflow: "hidden",
+              }}
               url={item.video}
               width="100%"
               height="500px"
@@ -245,6 +272,17 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
               />
             ))}
           </ul>
+        );
+      case "ordered-list":
+        return (
+          <ol key={index} className="ordered-list">
+            {item.items.map((listItem, listIndex) => (
+              <li
+                key={listIndex}
+                dangerouslySetInnerHTML={{ __html: listItem }}
+              />
+            ))}
+          </ol>
         );
       default:
         return null;
