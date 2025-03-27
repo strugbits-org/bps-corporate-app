@@ -2,30 +2,30 @@
 import React, { useEffect, useState } from "react";
 
 const ContentComponent = ({ content, title, maxWords }) => {
-  // const demo = `The Mega Bash addressed these cultural integration challenges by creating experiences that mirrored the values of both VMware and Broadcom. From the storytelling bracelet activity to collaborative spaces, from high energy blender bike tournaments to our door large scale games ,  that encouraged mingling and dialogue, the event was a step forward in knitting together the fabric of both organizations into a unified entity.
 
-  // The event's atmosphere was charged with excitement, showcasing the potential of the newly united workforce.`;
   const [showAll, setShowAll] = useState(false);
   const [isReadMore, setIsReadMore] = useState(false);
-  const [paragraphs, setParagraphs] = useState([]);
+  const [wordCount, setWordCount] = useState(maxWords);
+  const [words, setWords] = useState([]);
 
   useEffect(() => {
     const words = content.split(" ");
     setIsReadMore(words.length > maxWords);
+    setWords(words);
+    setWordCount(maxWords);
+  }, [content]);
 
-    const paragraphsArray = [];
-    let currentParagraph = "";
-    words.forEach((word, index) => {
-      currentParagraph += (currentParagraph ? " " : "") + word;
-      if ((index + 1) % maxWords === 0 || index === words.length - 1) {
-        paragraphsArray.push(currentParagraph);
-        currentParagraph = "";
-      }
-    });
+  useEffect(() => {
+    if (showAll) {
+      setWordCount(words.length);
+    } else {
+      setWordCount(maxWords);
+    }
+  }, [showAll]);
 
-    setParagraphs(paragraphsArray);
-
-  }, [content, maxWords]);
+  const handleReadMore = () => {
+    setShowAll(!showAll);
+  }
 
   return (
     <div className={`container-text ${isReadMore ? "container-read-more" : ""}`}>
@@ -33,13 +33,10 @@ const ContentComponent = ({ content, title, maxWords }) => {
         {title}
       </h2>
       <div className={`wrapper-text ${showAll ? "active" : ""}`}>
-        <p>{paragraphs[0]}</p>
-        <div className={"readmore-paragraphs text"}>
-          {paragraphs.slice(1).map((paragraph, index) => <React.Fragment key={index}><br /><p>{paragraph}</p></React.Fragment>)}
-        </div>
+        <p>{words.slice(0, wordCount).join(" ")}</p>
       </div>
       {isReadMore && (
-        <button onClick={() => setShowAll(!showAll)} className="btn-read-more">
+        <button onClick={handleReadMore} className="btn-read-more">
           <div className="btn-text">
             <span className="read-more">Read More</span>
             <span className="to-go-back">To go back</span>
