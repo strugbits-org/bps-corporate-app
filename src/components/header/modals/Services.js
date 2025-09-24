@@ -1,7 +1,7 @@
 import DelayedLink from "@/components/common/DelayedLink";
 import { ImageWrapper } from "@/components/common/ImageWrapper";
 
-const Services = ({data}) => {
+const Services = ({ data }) => {
   return (
     <div className="wrapper-submenu-services wrapper-submenu">
       <div className="container-title-mobile">

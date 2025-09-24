@@ -7,25 +7,22 @@ import Wrapper from "@/components/common/Wrapper";
 import Cookies from "@/components/common/Cookies";
 import Loading from "@/components/common/Loading";
 import Navbar from "@/components/header/Navbar";
-import { fetchInstaFeed, getDreamBigData, getMarketsSectionData, getSearchSectionDetails, getSocialSectionDetails, getStudiosSectionData } from "@/services/home/index.js";
-import { getContactData, getFooterData, getFooterNavigationMenu, getSocialLinks } from "@/services/footer";
 import Footer from "@/components/footer/Footer";
-import SocialSection from "@/components/common/SocialSection";
-import ContactUsModal from "@/components/Lightbox/modalComponents/ContactUsModal";
-import AboutUsVideoModal from "@/components/Lightbox/modalComponents/AboutUsVideoModal";
-import AboutUsMagazineModal from "@/components/Lightbox/modalComponents/AboutUsMagazineModal";
-import MarketsVideoModal from "@/components/Lightbox/modalComponents/MarketsVideoModal";
-import { getContactUsContent } from "@/services/contact";
-import { getAboutUsIntroSection, getAboutUsSectionDetails } from "@/services/about";
-import DreamBigSection from "@/components/common/DreamBigSection";
+
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from "react";
-import { getAllBlogs } from "@/services/blog";
-import { getChatConfiguration, getChatTriggerEvents, searchAllPages } from "@/services";
-import { listAllPortfolios } from "@/services/portfolio";
-import Chat from "@/components/common/Chat";
-import StudiosFixedMenu from "@/components/common/StudiosFixedMenu";
+import { fetchLayoutData } from "@/services/layoutFetcher";
+import dynamic from 'next/dynamic';
+
+const ContactUsModal = dynamic(() => import("@/components/Lightbox/modalComponents/ContactUsModal"), { ssr: false });
+const AboutUsVideoModal = dynamic(() => import("@/components/Lightbox/modalComponents/AboutUsVideoModal"), { ssr: false });
+const AboutUsMagazineModal = dynamic(() => import("@/components/Lightbox/modalComponents/AboutUsMagazineModal"), { ssr: false });
+const MarketsVideoModal = dynamic(() => import("@/components/Lightbox/modalComponents/MarketsVideoModal"), { ssr: false });
+const DreamBigSection = dynamic(() => import("@/components/common/DreamBigSection"));
+const Chat = dynamic(() => import("@/components/common/Chat"), { ssr: false });
+const StudiosFixedMenu = dynamic(() => import("@/components/common/StudiosFixedMenu"));
+const SocialSection = dynamic(() => import("@/components/common/SocialSection"));
 
 export const metadata = {
   title: "Blueprint Studios",
@@ -36,9 +33,10 @@ export default async function RootLayout({ children }) {
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const [
+  const {
     studios,
     markets,
+    socialSectionBlogs,
     searchContent,
     searchPagesData,
     footerData,
@@ -50,31 +48,10 @@ export default async function RootLayout({ children }) {
     aboutUsSectionDetails,
     dreamBigData,
     socialSectionDetails,
-    blogs,
     instaFeed,
-    portfolios,
     chatConfig,
     chatTriggerEvents
-  ] = await Promise.all([
-    getStudiosSectionData(),
-    getMarketsSectionData(),
-    getSearchSectionDetails(),
-    searchAllPages(),
-    getFooterData(),
-    getFooterNavigationMenu(),
-    getContactData(),
-    getSocialLinks(),
-    getContactUsContent(),
-    getAboutUsIntroSection(),
-    getAboutUsSectionDetails(),
-    getDreamBigData(),
-    getSocialSectionDetails(),
-    getAllBlogs(),
-    fetchInstaFeed(),
-    listAllPortfolios(),
-    getChatConfiguration(BASE_URL),
-    getChatTriggerEvents()
-  ]);
+  } = await fetchLayoutData(BASE_URL);
 
   return (
     <>
@@ -91,7 +68,7 @@ export default async function RootLayout({ children }) {
           <MarketsVideoModal markets={markets} />
 
           <Suspense>
-            <Navbar studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} blogs={blogs} portfolios={portfolios} />
+            <Navbar studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} />
           </Suspense>
           <Wrapper>
             <main className={"min-h-100"}>
@@ -100,7 +77,7 @@ export default async function RootLayout({ children }) {
               <SpeedInsights />
             </main>
             <DreamBigSection data={dreamBigData} />
-            <SocialSection data={socialSectionDetails} posts={blogs.slice(0, 8)} insta_feed={instaFeed} />
+            <SocialSection data={socialSectionDetails} posts={socialSectionBlogs} insta_feed={instaFeed} />
             <Footer menu={navigationMenu} footerData={footerData} contactData={contactData} socialLinks={socialLinks} />
           </Wrapper>
           <StudiosFixedMenu data={studios} />

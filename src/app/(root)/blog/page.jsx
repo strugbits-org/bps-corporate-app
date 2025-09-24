@@ -38,10 +38,44 @@ export default async function Page() {
             getStudiosSectionData()
         ]);
 
+        // Trim payload: keep only fields used by the Blog list UI
+        const trimmedBlogs = (blogs || []).map((item) => ({
+            _id: item?._id,
+            slug: item?.slug,
+            blogRef: item?.blogRef ? {
+                coverImage: item.blogRef.coverImage,
+                title: item.blogRef.title,
+                excerpt: item.blogRef.excerpt,
+                lastPublishedDate: item.blogRef.lastPublishedDate,
+            } : undefined,
+            author: item?.author ? {
+                nickname: item.author.nickname,
+            } : undefined,
+            studios: Array.isArray(item?.studios) ? item.studios.map((s) => ({
+                _id: s?._id,
+                cardName: s?.cardName,
+            })) : [],
+            markets: Array.isArray(item?.markets) ? item.markets.map((m) => ({
+                _id: m?._id,
+                cardname: m?.cardname,
+            })) : [],
+        }));
+
+        const trimmedMarkets = Array.isArray(marketsSectionData) ? marketsSectionData.map((m) => ({
+            _id: m?._id,
+            cardname: m?.cardname,
+        })) : [];
+
+        const trimmedStudios = Array.isArray(studios)
+            ? studios
+                .filter((x) => x?.filters)
+                .map((s) => ({ _id: s?._id, cardName: s?.cardName, filters: true }))
+            : [];
+
         return (
             <>
                 <AnimationLoaded />
-                <Blog {...{ blogs, blogSectionDetails, markets: marketsSectionData, studios: studios.filter(x => x.filters) }} />
+                <Blog {...{ blogs: trimmedBlogs, blogSectionDetails, markets: trimmedMarkets, studios: trimmedStudios }} />
             </>
         )
     } catch (error) {

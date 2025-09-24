@@ -40,10 +40,54 @@ export default async function Page() {
             getStudiosSectionData()
         ]);
 
+        // Trim payloads to only what UI needs
+        const trimmedPortfolios = (portfolios || []).map((item) => ({
+            _id: item?._id,
+            slug: item?.slug,
+            portfolioRef: item?.portfolioRef ? {
+                title: item.portfolioRef.title,
+                coverImage: {
+                    imageInfo: item?.portfolioRef?.coverImage?.imageInfo,
+                }
+            } : undefined,
+            studios: Array.isArray(item?.studios) ? item.studios.map((s) => ({
+                _id: s?._id,
+                cardName: s?.cardName,
+            })) : [],
+            markets: Array.isArray(item?.markets) ? item.markets.map((m) => ({
+                _id: m?._id,
+                cardname: m?.cardname,
+            })) : [],
+        }));
+
+        const trimmedMarkets = Array.isArray(marketsSectionData) ? marketsSectionData.map((m) => ({
+            _id: m?._id,               // for filters in PortfolioListing
+            slug: m?.slug,             // for MarketSection links
+            image: m?.image,           // for MarketSection image
+            cardname: m?.cardname,     // for both UI components
+            marketTags: m?.marketTags, // for MarketSection tags
+        })) : [];
+
+        const trimmedStudios = Array.isArray(studios)
+            ? studios
+                .filter((x) => x?.filters)
+                .map((s) => ({ _id: s?._id, cardName: s?.cardName, filters: true }))
+            : [];
+
+        const trimmedHomeSectionDetails = homeSectionDetails ? {
+            marketTitle: homeSectionDetails.marketTitle,
+        } : undefined;
+
         return (
             <>
                 <AnimationLoaded />
-                <Portfolio {...{ portfolios, homeSectionDetails, portfolioSectionDetails, markets: marketsSectionData, studios: studios.filter(x => x.filters) }} />
+                <Portfolio {...{
+                    portfolios: trimmedPortfolios,
+                    homeSectionDetails: trimmedHomeSectionDetails,
+                    portfolioSectionDetails,
+                    markets: trimmedMarkets,
+                    studios: trimmedStudios,
+                }} />
             </>
         )
     } catch (error) {

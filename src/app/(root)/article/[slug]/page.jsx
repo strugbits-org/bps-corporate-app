@@ -55,9 +55,48 @@ export default async function Page({ params }) {
         if (!blogProductData) {
             throw new Error("Not found");
         }
+
+        // Trim to only fields used by Article -> PostDetails/ProductCartSlider
+        const trimmedBlogProductData = {
+            blogRef: blogProductData?.blogRef ? {
+                title: blogProductData.blogRef.title,
+                lastPublishedDate: blogProductData.blogRef.lastPublishedDate,
+                coverImage: blogProductData.blogRef.coverImage,
+                // content consumed client-side to render
+                richContent: {
+                    nodes: blogProductData?.blogRef?.richContent?.nodes
+                },
+                // needed to fetch tag labels
+                tags: blogProductData.blogRef.tags,
+            } : undefined,
+            author: blogProductData?.author ? {
+                profilePhoto: blogProductData.author.profilePhoto,
+                nickname: blogProductData.author.nickname,
+            } : undefined,
+            storeProducts: Array.isArray(blogProductData?.storeProducts)
+                ? blogProductData.storeProducts
+                    .filter((x) => x && x._id)
+                    .map((p) => ({
+                        _id: p._id,
+                        slug: p.slug,
+                        name: p.name,
+                        mainMedia: p.mainMedia,
+                        productOptions: p.productOptions
+                            ? {
+                                ...(p.productOptions.Color
+                                    ? { Color: { choices: (p.productOptions.Color.choices || []).map((c) => ({ mainMedia: c?.mainMedia })) } }
+                                    : {}),
+                                ...(p.productOptions["Color "]
+                                    ? { ["Color "]: { choices: (p.productOptions["Color "]?.choices || []).map((c) => ({ mainMedia: c?.mainMedia })) } }
+                                    : {}),
+                            }
+                            : undefined,
+                    }))
+                : [],
+        };
         return (
             <>
-                <Article slug={slug} blogProductData={blogProductData} />
+                <Article slug={slug} blogProductData={trimmedBlogProductData} />
                 <AnimationLoaded />
             </>
         );

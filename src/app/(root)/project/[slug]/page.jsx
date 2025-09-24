@@ -55,9 +55,51 @@ export default async function Page({ params }) {
             throw new Error("Not found");
         }
 
+        // Trim to only fields used by Project -> PortfolioIntoSection/GallerySection/ProductCartSlider
+        const trimmedSinglePortfolio = {
+            portfolioRef: singlePortfolio?.portfolioRef ? {
+                title: singlePortfolio.portfolioRef.title,
+                description: singlePortfolio.portfolioRef.description,
+                coverImage: {
+                    imageInfo: singlePortfolio?.portfolioRef?.coverImage?.imageInfo,
+                },
+                // keep only details sections used in UI
+                details: Array.isArray(singlePortfolio?.portfolioRef?.details)
+                    ? singlePortfolio.portfolioRef.details
+                        .filter((d) => ["INSIGHTS", "HIGHLIGHTS", "CHALLENGES", "SOLUTIONS"].includes(d?.label))
+                        .map((d) => ({ label: d?.label, text: d?.text }))
+                    : undefined,
+            } : undefined,
+            markets: Array.isArray(singlePortfolio?.markets) ? singlePortfolio.markets.map((m) => ({
+                cardname: m?.cardname,
+                marketTags: m?.marketTags,
+            })) : [],
+            // gallery images consumed directly as URLs
+            galleryImages: singlePortfolio?.galleryImages || [],
+            storeProducts: Array.isArray(singlePortfolio?.storeProducts)
+                ? singlePortfolio.storeProducts
+                    .filter((x) => x && x._id)
+                    .map((p) => ({
+                        _id: p._id,
+                        slug: p.slug,
+                        name: p.name,
+                        mainMedia: p.mainMedia,
+                        productOptions: p.productOptions
+                            ? {
+                                ...(p.productOptions.Color
+                                    ? { Color: { choices: (p.productOptions.Color.choices || []).map((c) => ({ mainMedia: c?.mainMedia })) } }
+                                    : {}),
+                                ...(p.productOptions["Color "]
+                                    ? { ["Color "]: { choices: (p.productOptions["Color "]?.choices || []).map((c) => ({ mainMedia: c?.mainMedia })) } }
+                                    : {}),
+                            }
+                            : undefined,
+                    }))
+                : [],
+        };
         return (
             <>
-                <Project slug={slug} singlePortfolio={singlePortfolio} />
+                <Project slug={slug} singlePortfolio={trimmedSinglePortfolio} />
                 <AnimationLoaded />
             </>
         );

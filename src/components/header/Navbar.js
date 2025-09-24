@@ -3,12 +3,17 @@ import DelayedLink from "@/components/common/DelayedLink";
 import Services from "./modals/Services";
 import Market from "./modals/Market";
 import Search from "./modals/Search";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { logError } from "@/utils/utilityFunctions";
+import { fetchBlogsDataClient, fetchPortfoliosDataClient } from "@/services/layoutFetcher";
 
-const Navbar = ({ studios, markets, searchContent, searchPagesData, blogs, portfolios }) => {
+const Navbar = ({ studios, markets, searchContent, searchPagesData }) => {
   const EXTERNAL_SITE_URL = process.env.NEXT_PUBLIC_RENTALS_URL;
   const params = useSearchParams();
+
+  const [portfoliosData, setPortfoliosData] = useState([]);
+  const [blogsData, setBlogsData] = useState([]);
 
   useEffect(() => {
     if (params.has("modal")) {
@@ -18,6 +23,34 @@ const Navbar = ({ studios, markets, searchContent, searchPagesData, blogs, portf
         if (menu) menu.classList.add("active");
       }, 1000);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchPortfolios = async () => {
+      try {
+        const data = await fetchPortfoliosDataClient();
+        setPortfoliosData(data);
+      } catch (error) {
+        logError("Failed to fetch portfolios data:", error);
+        setPortfoliosData([]);
+      }
+    };
+
+    fetchPortfolios();
+  }, []);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const data = await fetchBlogsDataClient();
+        setBlogsData(data);
+      } catch (error) {
+        logError("Failed to fetch blogs data:", error);
+        setBlogsData([]);
+      }
+    };
+
+    fetchBlogs();
   }, []);
 
   return (
@@ -211,7 +244,7 @@ const Navbar = ({ studios, markets, searchContent, searchPagesData, blogs, portf
               <div className="submenu-market submenu" data-get-submenu="market">
                 <Market data={markets} />
               </div>
-              <Search studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} blogs={blogs} portfolios={portfolios} />
+              <Search studios={studios} markets={markets} searchContent={searchContent} searchPagesData={searchPagesData} blogs={blogsData} portfolios={portfoliosData} />
             </div>
           </div>
         </div>
