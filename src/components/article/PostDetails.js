@@ -109,8 +109,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
               type: "video",
               video: item.videoData.video.src.url ||
                 `https://video.wixstatic.com/${item.videoData.video.src.id}`,
-              thumbnail: item.videoData.thumbnail.src.url ||
-                `https://static.wixstatic.com/${item.videoData.thumbnail.src.id}`,
+              thumbnail: (item.videoData?.thumbnail?.src?.url || `https://static.wixstatic.com/${item.videoData?.thumbnail?.src?.id}`) || null,
               sq: index + 1,
             });
             break;
@@ -213,6 +212,7 @@ const PostDetails = ({ data, blogSectionDetails, tags }) => {
                 borderRadius: "2rem",
                 border: "1px solid #efefef",
                 overflow: "hidden",
+                backgroundColor: "rgb(104 104 104)",
               }}
               url={item.video}
               width="100%"

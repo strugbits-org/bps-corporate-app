@@ -13,16 +13,14 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Suspense } from "react";
 import { fetchLayoutData } from "@/services/layoutFetcher";
-import dynamic from 'next/dynamic';
-
-const ContactUsModal = dynamic(() => import("@/components/Lightbox/modalComponents/ContactUsModal"), { ssr: false });
-const AboutUsVideoModal = dynamic(() => import("@/components/Lightbox/modalComponents/AboutUsVideoModal"), { ssr: false });
-const AboutUsMagazineModal = dynamic(() => import("@/components/Lightbox/modalComponents/AboutUsMagazineModal"), { ssr: false });
-const MarketsVideoModal = dynamic(() => import("@/components/Lightbox/modalComponents/MarketsVideoModal"), { ssr: false });
-const DreamBigSection = dynamic(() => import("@/components/common/DreamBigSection"));
-const Chat = dynamic(() => import("@/components/common/Chat"), { ssr: false });
-const StudiosFixedMenu = dynamic(() => import("@/components/common/StudiosFixedMenu"));
-const SocialSection = dynamic(() => import("@/components/common/SocialSection"));
+import SocialSection from "@/components/common/SocialSection";
+import StudiosFixedMenu from "@/components/common/StudiosFixedMenu";
+import Chat from "@/components/common/Chat";
+import DreamBigSection from "@/components/common/DreamBigSection";
+import MarketsVideoModal from "@/components/Lightbox/modalComponents/MarketsVideoModal";
+import AboutUsMagazineModal from "@/components/Lightbox/modalComponents/AboutUsMagazineModal";
+import AboutUsVideoModal from "@/components/Lightbox/modalComponents/AboutUsVideoModal";
+import ContactUsModal from "@/components/Lightbox/modalComponents/ContactUsModal";
 
 export const metadata = {
   title: "Blueprint Studios",
