@@ -27,7 +27,7 @@ const Newsletter = ({ data }) => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await postForm("newsletter", data);      
+      await postForm("newsletter", data);
       setFeedback("success");
     } catch (error) {
       logError("Error submitting form:", error);
@@ -64,6 +64,17 @@ const Newsletter = ({ data }) => {
       <div className="container-newsletter mt-mobile-25">
         <form className="form-newsletter" onSubmit={handleSubmit(onSubmit)}>
           <input type="hidden" name="assunto" value="[newsletter]" />
+          <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+            <label htmlFor="website_url">Website</label>
+            <input
+              type="text"
+              id="website_url"
+              name="website_url"
+              tabIndex={-1}
+              autoComplete="off"
+              {...register("website_url")}
+            />
+          </div>
           <div className="container-input">
             <label htmlFor="newsletter-email">
               {data?.newsletterPlaceholder}
