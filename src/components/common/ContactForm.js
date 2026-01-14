@@ -55,6 +55,18 @@ const ContactForm = ({ data }) => {
       </h2>
       <div className={`container-contact mt-lg-140 mt-tablet-65 ${feedback === "success" ? "form-success" : ""} ${feedback === "error" ? "formError" : ""}`}>
         <form className="form-contact" onSubmit={handleSubmit(onSubmit)}>
+          {/* Honeypot field for spam protection - hidden from users, bots will fill it */}
+          <div style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+            <label htmlFor="website_url">Website</label>
+            <input
+              type="text"
+              id="website_url"
+              name="website_url"
+              tabIndex={-1}
+              autoComplete="off"
+              {...register("website_url")}
+            />
+          </div>
           <div className="container-input col-md-6">
             <label htmlFor="contact-first-name">
               {data?.firstNamePlaceholder}
